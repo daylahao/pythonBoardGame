@@ -14,44 +14,63 @@ class SceneSetting extends Scene{
     }
     LoadStatusSound(){
         if(soundManager.GetStatusMusic()){
-            this._Buttons.Add("Speak",new ButtonIcon(gameUIManager.GetIconImage('speakerOn'),"","Âm nhạc","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2,300,50,"white","black",()=>{
+            this._Buttons.Add("Speak",new ButtonIcon(gameUIManager.GetIconImage('speakerOn'),gameUIManager.GetIconImage('speakerOnHover'),"Âm nhạc","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2,300,50,"white","black",()=>{
                 if(soundManager.GetStatusMusic()){
                     gameUIManager.GetButtonName('Speak').iconImage[0] = gameUIManager.GetIconImage('speakerOff');
+                    gameUIManager.GetButtonName('Speak').iconImage[1] = gameUIManager.GetIconImage('speakerOffHover');
                 }else{
                     gameUIManager.GetButtonName('Speak').iconImage[0] = gameUIManager.GetIconImage('speakerOn');
+                    gameUIManager.GetButtonName('Speak').iconImage[1] = gameUIManager.GetIconImage('speakerOnHover');
                 }
                 soundManager.SetStatusMusic(!soundManager.GetStatusMusic());
             }));
         }else{
-            this._Buttons.Add("Speak",new ButtonIcon(gameUIManager.GetIconImage('speakerOff'),"","Âm nhạc","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2,300,50,"white","black",()=>{
+            this._Buttons.Add("Speak",new ButtonIcon(gameUIManager.GetIconImage('speakerOff'),gameUIManager.GetIconImage('speakerOffHover'),"Âm nhạc","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2,300,50,"white","black",()=>{
                 if(soundManager.GetStatusMusic()){
                     gameUIManager.GetButtonName('Speak').iconImage[0] = gameUIManager.GetIconImage('speakerOff');
+                    gameUIManager.GetButtonName('Speak').iconImage[1] = gameUIManager.GetIconImage('speakerOffHover');
                 }else{
                     gameUIManager.GetButtonName('Speak').iconImage[0] = gameUIManager.GetIconImage('speakerOn');
+                    gameUIManager.GetButtonName('Speak').iconImage[1] = gameUIManager.GetIconImage('speakerOnHover');
                 }
                 soundManager.SetStatusMusic(!soundManager.GetStatusMusic());
             }));
         }
         if(soundManager.GetStatusSFX()){
-            this._Buttons.Add("SpeakSFX",new ButtonIcon(gameUIManager.GetIconImage('speakerOn'),"","SFX","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2+50+20,300,50,"white","black",()=>{
-                if(soundManager.GetStatusSFX())
+            this._Buttons.Add("SpeakSFX",new ButtonIcon(gameUIManager.GetIconImage('speakerOn'),gameUIManager.GetIconImage('speakerOnHover'),"SFX","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2+50+20,300,50,"white","black",()=>{
+                if(soundManager.GetStatusSFX()){
                     gameUIManager.GetButtonName('SpeakSFX').iconImage[0] = gameUIManager.GetIconImage('speakerOff');
-                else
+                    gameUIManager.GetButtonName('SpeakSFX').iconImage[1] = gameUIManager.GetIconImage('speakerOffHover');
+                }else{
                     gameUIManager.GetButtonName('SpeakSFX').iconImage[0] = gameUIManager.GetIconImage('speakerOn');
-                soundManager.SetStatusSFX(!soundManager.GetStatusSFX());
+                    gameUIManager.GetButtonName('SpeakSFX').iconImage[1] = gameUIManager.GetIconImage('speakerOnHover');
+                }soundManager.SetStatusSFX(!soundManager.GetStatusSFX());
                 }));
         }
         else{
             this._Buttons.Add("SpeakSFX",new ButtonIcon(gameUIManager.GetIconImage('speakerOff'),"","SFX","left",this.CANVAS_WIDTH/2-300/2,this.CANVAS_HEIGHT/2+50+20,300,50,"white","black",()=>{
                 if(soundManager.GetStatusSFX())
+                {
                     gameUIManager.GetButtonName('SpeakSFX').iconImage[0] = gameUIManager.GetIconImage('speakerOff');
+                    gameUIManager.GetButtonName('SpeakSFX').iconImage[1] = gameUIManager.GetIconImage('speakerOffHover');
+                }
                 else
+                {
                     gameUIManager.GetButtonName('SpeakSFX').iconImage[0] = gameUIManager.GetIconImage('speakerOn');
+                    gameUIManager.GetButtonName('SpeakSFX').iconImage[1] = gameUIManager.GetIconImage('speakerOnHover');
+                }
                 soundManager.SetStatusSFX(!soundManager.GetStatusSFX());
                 }));
         }
     }
     Draw(){
+        this.context.beginPath();
+        this.context.roundRect(this.CANVAS_WIDTH/2-200,this.CANVAS_HEIGHT/2-100,400,400,10);
+        this.context.fillStyle = '#FFFFF08F';
+        this.context.fill();
+        this.context.lineWidth = 2;
+        this.context.strokeStyle = '#000000';
+        this.context.stroke();
         this._Buttons.Draw();
         this.context.textAlign = "center";
         this.context.textBaseline = 'middle';

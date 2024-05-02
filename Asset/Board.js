@@ -85,10 +85,6 @@ class Board{
             count_temp++;
         }
     }
-    Resize(){
-        this.canvas = gameManager.GetCanvas();
-        this.context = this.canvas.getContext("2d");
-    }
     Draw(){
         this.context.beginPath();
         this.context.save();

@@ -94,7 +94,7 @@ class Player{
                     if(this.size.w<Distance)
                     {this.size.w+=10;
                     this.size.h+=10;}
-                    else if(this.size.w>Distance)  {
+                    else if(this.size.w>Distance/2)  {
                         this.size.w-=10;
                         this.size.h-=10;
                         if(this.size.w<20){
@@ -120,6 +120,9 @@ class Player{
         this.gameframe++;
         this.context.fillStyle = this.colorPlayer;
         this.context.fill();
+    }
+    DrawUI(){
+        
     }
 }
 export {Player,ListPlayer}

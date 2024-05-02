@@ -3,7 +3,7 @@ import gameManager from "./GameManager.js";
 let instance;
 class GameUIManager{
     static instance = null;
-    static ImageIcon={'speakerOn':'Image\\Icon\\speaker_on.png','speakerOff':'Image\\Icon\\speaker_off.png','backDefault':'Image\\Icon\\IconBack.png','backHover':'Image\\Icon\\IconBackHover.png',}
+    static ImageIcon={'speakerOn':'Image\\Icon\\speaker_on.png','speakerOnHover':'Image\\Icon\\speaker_on_hover.png','speakerOff':'Image\\Icon\\speaker_off.png','speakerOffHover':'Image\\Icon\\speaker_off_hover.png','backDefault':'Image\\Icon\\IconBack.png','backHover':'Image\\Icon\\IconBackHover.png',}
     static getInstance() {
       if (!GameUIManager.instance) {
         GameUIManager.instance = new Singleton();

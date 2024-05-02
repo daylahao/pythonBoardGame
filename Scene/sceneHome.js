@@ -16,7 +16,7 @@ class SceneHome extends Scene{
 
     }
     Draw(){
-        console.log("Draw ScenHome")
+        // console.log("Draw ScenHome")
         this._Buttons.Draw();
             this.logo.width=this.canvas.width/2
             this.logo.height=this.canvas.width/2
