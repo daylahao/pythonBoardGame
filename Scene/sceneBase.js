@@ -1,6 +1,6 @@
 import { Button,Buttons } from "../Asset/Button.js";
 import gameManager from "../Asset/GameManager.js";
-let listScene = Array();
+import gameUIManager from "../Asset/GameUIManager.js";
 class Scene{
     constructor(){
         this.canvas = gameManager.GetCanvas();
@@ -8,7 +8,7 @@ class Scene{
         this.CANVAS_WIDTH = this.canvas.width = this.canvas.offsetWidth;
         this.CANVAS_HEIGHT = this.canvas.height = this.canvas.offsetHeight;
         this._Buttons = new Buttons();
-        listScene.push(this);
+        gameUIManager.SetButtonScene(this._Buttons.listButton);
     }
     GetListButton(){
         return this._Buttons.listButton;
@@ -22,8 +22,5 @@ class Scene{
     Draw(){
 
     }
-    Destroy(){
-        delete listScene.this;
-    }
 }
-export {Scene,listScene};
+export {Scene};

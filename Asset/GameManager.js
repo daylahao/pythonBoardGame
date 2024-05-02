@@ -1,9 +1,10 @@
-import { listScene } from "../Scene/scenebase.js";
 import gameUIManager from "./GameUIManager.js";
 import {listCard} from "./Card.js";
 import { ListPlayer } from "../Player/Player.js";
 import Board from "./Board.js";
-
+import SceneGame from "../Scene/scenGame.js";
+import SceneHome from "../Scene/sceneHome.js";
+import SceneSetting from "../Scene/sceneSetting.js"
 let instance;
 class GameManager{
     static instance = null;
@@ -24,13 +25,11 @@ class GameManager{
       if (GameManager.instance) {
         throw new Error("This class is a Singleton!");
       }
-      GameManager.sceneCurrent=0;
       GameManager.canvas = document.getElementById('app');
       // Initialize the class properties here
     }
     Resize(){
       GameManager.canvas = document.getElementById('app');
-      Board.Resize();
     }
     GetCanvas(){
       return GameManager.canvas;
@@ -45,9 +44,15 @@ class GameManager{
     GetListPlayer(){
       return GameManager.listplayer;
     }
-    SetSceneCurrent(i){
-      gameUIManager.SetButtonScene(listScene[i].GetListButton());
-      GameManager.sceneCurrent=i;
+    StartSceneGame(){
+      GameManager.sceneCurrent = new SceneGame();
+      // gameUIManager.SetButtonScene(GameManager.sceneCurrent.GetButtons());
+    }
+    StartSceneHome(){
+      GameManager.sceneCurrent = new SceneHome();
+    }
+    StartSceenSetting(){
+      GameManager.sceneCurrent = new SceneSetting();
     }
     Roll_Dice(){
       gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton();

@@ -11,7 +11,7 @@ class Card{
         this.content = contenttext;
         this.link = LinkApi;
         this.open=true;
-        this.level=3;
+        this.level=0;
         this.positioncard =""
         this.position = {x:0,y:0};
         this.size = {w:0,h:0};
@@ -61,11 +61,11 @@ class Card{
         else if(this.positioncard=='right')
             this.context.rect(x+padding/2,y+padding/2,w/5,h-padding);
         if(this.level==0)
-            this.context.fillStyle ='green';
+            this.context.fillStyle ='#00D2008f';
         else if(this.level==1)
-            this.context.fillStyle ='yellow';
+            this.context.fillStyle ='#f3c60066';
         else if(this.level>1)
-            this.context.fillStyle ='red';
+            this.context.fillStyle ='#F100008f';
         this.context.fill();
     }
 }

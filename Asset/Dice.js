@@ -1,5 +1,6 @@
 import { Button,Buttons } from "./Button.js";
 import gameManager from "./GameManager.js";
+import soundManager from "./SoundManager.js";
 class Dice{
     constructor(context_,px,py,width_,height_,oncallbak){
         this.audio = new Audio('./Sound/roll_ball.wav');
@@ -33,7 +34,7 @@ class Dice{
             this.diceimg1.src = './Image/Dice/'+gameManager.GetDiceNumber()[0]+'.png';
             this.diceimg2.src = './Image/Dice/'+gameManager.GetDiceNumber()[1]+'.png';
         }else{
-            if(this.audio.paused)
+            if(this.audio.paused && soundManager.GetStatusSFX())
             {  this.audio.play();}
             if(this.frame%2==0){
             this.frame=0;

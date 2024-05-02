@@ -1,6 +1,7 @@
 import { listCard } from "../Asset/Card.js";
 import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
+import soundManager from "../Asset/SoundManager.js";
 class ListPlayer{
     members = 0;
     Maxmembers = 4;
@@ -29,6 +30,7 @@ class ListPlayer{
 }
 class Player{
     constructor(name='Player',px,py,color_='red'){
+        this.audio = new Audio('./Sound/move.mp3');
         this.canvas = gameManager.GetCanvas();
         this.context = this.canvas.getContext("2d");
         this.CANVAS_WIDTH = this.canvas.width = this.canvas.offsetWidth;
@@ -76,8 +78,8 @@ class Player{
                 if(Distance<10){
                     this.position = {...listCard[this.stepcurrent].position};
                     this.next = true;
-                    var audio = new Audio('./Sound/move.mp3');
-                    audio.play();
+                    if(soundManager.GetStatusSFX)
+                        this.audio.play();
                 }else{
                     if(this.position.x<listCard[this.stepcurrent].position.x){
                         this.position.x+=10;
@@ -89,13 +91,21 @@ class Player{
                     }else  if(this.position.y>listCard[this.stepcurrent].position.y){
                         this.position.y-=10 ;
                     }
-                    this.size.w=20+Distance/3;
-                    this.size.h=20+Distance/3;  
+                    if(this.size.w<Distance)
+                    {this.size.w+=10;
+                    this.size.h+=10;}
+                    else if(this.size.w>Distance)  {
+                        this.size.w-=10;
+                        this.size.h-=10;
+                        if(this.size.w<20){
+                            this.size.w=20;
+                            this.size.h=20;
+                        }
+                    }
 
                 }
                 if((this.step-this.stepcurrent)==0 && this.next==true){
                     this.runanimation = false;
-                        console.log("ex");
                         this.runanimation = false;
                         gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
                 }

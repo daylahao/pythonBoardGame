@@ -17,14 +17,14 @@ function FakeCard(count){
                       {name:'modulo()',link:''},
                       {name:'Giaithua()',link:''}]
     for(var i=0;i<count;i++){
-        // if(i==0){
-        //     new Card(i,"Facebook",'Start');
-        // }
-        // else{
-        //     var id = Math.round(Math.random() * (ListTask.length-1 - 0) + 0)
-        //     new Card(i,"Facebook",ListTask[id].name);
-        // }
-        new Card(i,"Facebook",i);
+        if(i==0){
+            new Card(i,"Facebook",'Start');
+        }
+        else{
+            var id = Math.round(Math.random() * (ListTask.length-1 - 0) + 0)
+            new Card(i,"Facebook",ListTask[id].name);
+        }
+        // new Card(i,"Facebook",i);
     }
 }
 class Board{
