@@ -44,6 +44,8 @@ canvas.addEventListener('click', function(event) {
        Button_['button'].onClickCallback();
     }
   });
-
+window.addEventListener('resize', () => {
+  gameManager.Resize();
+})
 Apprun();
 

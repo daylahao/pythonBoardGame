@@ -164,6 +164,7 @@ class ButtonIcon extends Button{
     },false);
   }
   Draw(){
+
     super.Draw();
     if(this.rect.width<this.rect.height){
     this.icon.width=this.rect.width/2;
