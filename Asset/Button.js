@@ -165,11 +165,32 @@ class ButtonIcon extends Button{
   }
   Draw(){
     super.Draw();
+    if(this.rect.width<this.rect.height){
     this.icon.width=this.rect.width/2;
     this.icon.height=this.rect.width/2;
-    this.context.drawImage(this.icon,this.rect.x+this.rect.width/2-this.icon.width/2, this.rect.y+this.rect.height/2-this.icon.height/2,this.icon.width,this.icon.height);
-    this.context.globalCompositeOperation = "source-over";
+    }
+    else{
+      this.icon.width=this.rect.height;
+      this.icon.height=this.rect.height;
+    }
+    if(this.content.length>=1){
+      if(this.align=='left')
+      this.context.drawImage(this.icon,this.rect.x + this.rect.width-this.icon.width-10, this.rect.y,this.icon.width,this.icon.height);
+      if(this.align=='right')
+      this.context.drawImage(this.icon,this.rect.x + this.icon.width, this.rect.y,this.icon.width,this.icon.height);
+    }else{
+      this.context.drawImage(this.icon,this.rect.x+this.rect.width/2-this.icon.width/2, this.rect.y,this.icon.width,this.icon.height);
+      // this.context.drawImage(this.icon,50,50,this.icon.width,this.icon.height);
+    }
 
   }
 }
-export {Button,Buttons,ButtonIcon};
+function addText(content=String,x,y){
+  const ctx = canvas.getContext("2d");
+  ctx.font = "15px Play";
+  ctx.textAlign = "center";
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'white';
+  ctx.fillText(content,x,y);
+}
+export {Button,Buttons,ButtonIcon,addText};

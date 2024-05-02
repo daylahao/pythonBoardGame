@@ -7,8 +7,8 @@ class SceneHome extends Scene{
         this.logo = new Image();
         this.logo.src = './Image/Icon/Logo.png';
         this._Buttons.Add('PlayGame',new Button("Bắt Đầu","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100,150,40,'white','black',()=>{gameManager.SetSceneCurrent(1)}));
-        this._Buttons.Add('Setting',new Button("Cài Đặt","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+60+100,150,40,'white','black',()=>{gameManager.SetSceneCurrent(2)}));        
-        }
+        this._Buttons.Add('Setting',new Button("Cài Đặt","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+60+100,150,40,'white','black',()=>{gameManager.SetSceneCurrent(2)}));    
+    }
     Start(){
 
     }

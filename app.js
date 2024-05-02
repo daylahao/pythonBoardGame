@@ -21,7 +21,7 @@ function Apprun(){
     listScene[gameManager.GetSceneCurrent()].Draw();
     requestAnimationFrame(Apprun);
 };
-
+console.log("Start Game");
 gameUIManager.Start();
 
 canvas.addEventListener('mousemove', (event) => {

@@ -4,7 +4,7 @@ import gameManager from "./GameManager.js";
 let instance;
 class GameUIManager{
     static instance = null;
-
+    static ImageIcon={'speakerOn':'Image\\Icon\\speaker_on.png','speakerOff':'Image\\Icon\\speaker_off.png','backDefault':'Image\\Icon\\IconBack.png','backHover':'Image\\Icon\\IconBackHover.png',}
     static getInstance() {
       if (!GameUIManager.instance) {
         GameUIManager.instance = new Singleton();
@@ -31,6 +31,12 @@ class GameUIManager{
     GetButtons(){
       GameUIManager._Buttons.listButton = GameUIManager.listbuttons;  
       return  GameUIManager._Buttons;
+    }
+    GetIconImage(name){
+      return GameUIManager.ImageIcon[name];
+    }
+    GetButtonName(name_){
+      return this.GetButtons().listButton.find(({ name }) => name === name_)['button'];
     }
 }
 const gameUIManager = Object.freeze(new GameUIManager());

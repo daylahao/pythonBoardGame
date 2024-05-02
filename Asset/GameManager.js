@@ -1,5 +1,6 @@
 import { listScene } from "../Scene/scenebase.js";
 import gameUIManager from "./GameUIManager.js";
+import {listCard} from "./Card.js";
 
 let instance;
 class GameManager{
@@ -15,6 +16,7 @@ class GameManager{
     static sceneCurrent;
     static canvas;
     static DiceNumber = [1,5];
+    static stepcurrent = 0;
     constructor() {
       if (GameManager.instance) {
         throw new Error("This class is a Singleton!");
@@ -41,7 +43,11 @@ class GameManager{
       setTimeout(()=>{
         GameManager.DiceNumber = [this.Dice_Left,this.Dice_right];
         gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
-        console.log(GameManager.DiceNumber[0]+GameManager.DiceNumber[1]);  
+        console.log(GameManager.DiceNumber[0]+GameManager.DiceNumber[1]);
+        var i = GameManager.stepcurrent +( GameManager.DiceNumber[0]+GameManager.DiceNumber[1]);
+        console.log(i);
+        listCard[i].Open(true);
+        GameManager.stepcurrent =i;  
       },5000);
     }
     GetDiceNumber(){
