@@ -25,6 +25,9 @@ class Dice{
             dice_rand = Math.round(Math.random() * (6 - 1) + 1);
             this.diceimg2.src = './Image/Dice/'+dice_rand+'.png';
     }
+    ResetDice(){
+        this.audio.pause();
+    }
     Draw(){
         if(gameManager.GetDiceNumber().length!=0){
             if(!this.audio.paused){

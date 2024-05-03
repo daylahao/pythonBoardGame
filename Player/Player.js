@@ -29,7 +29,8 @@ class ListPlayer{
     }
 }
 class Player{
-    constructor(name='Player',px,py,color_='red'){
+    constructor(id,name='Player',px,py,color_='red'){
+        this.id = id;
         this.audio = new Audio('./Sound/move.mp3');
         this.canvas = gameManager.GetCanvas();
         this.context = this.canvas.getContext("2d");
@@ -64,7 +65,6 @@ class Player{
     }
     AnimationRun(){
         if(this.gameframe%this.frame==0){
-            console.log(this.step-this.stepcurrent);
             if((this.step-this.stepcurrent)>=0){
                 if(this.next){
                     this.stepcurrent++;
@@ -74,21 +74,21 @@ class Player{
                     }
                     this.next = false;
                 }
-                var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].position.x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].position.y - this.position.y, 2));
+                var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.id].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.id].y - this.position.y, 2));
                 if(Distance<10){
-                    this.position = {...listCard[this.stepcurrent].position};
+                    this.position = {...listCard[this.stepcurrent].playerslot[this.id]};
                     this.next = true;
                     if(soundManager.GetStatusSFX()){
                         this.audio.play();}
                 }else{
-                    if(this.position.x<listCard[this.stepcurrent].position.x){
+                    if(this.position.x<listCard[this.stepcurrent].playerslot[this.id].x){
                         this.position.x+=10;
-                    }else if(this.position.x>listCard[this.stepcurrent].position.x){
+                    }else if(this.position.x>listCard[this.stepcurrent].playerslot[this.id].x){
                             this.position.x-=10;
                     }   
-                    if(this.position.y<listCard[this.stepcurrent].position.y){
+                    if(this.position.y<listCard[this.stepcurrent].playerslot[this.id].y){
                         this.position.y+=10 ;
-                    }else  if(this.position.y>listCard[this.stepcurrent].position.y){
+                    }else  if(this.position.y>listCard[this.stepcurrent].playerslot[this.id].y){
                         this.position.y-=10 ;
                     }
                     if(this.size.w<Distance)

@@ -1,5 +1,6 @@
 import { Buttons } from "./Button.js";
 import gameManager from "./GameManager.js";
+import soundManager from "./SoundManager.js";
 let instance;
 class GameUIManager{
     static instance = null;
@@ -14,6 +15,8 @@ class GameUIManager{
     static listbuttons = [];
     static _Buttons;
     static DiceStatus = true;
+    static stateDialog = false;
+    static dialogForm;
     constructor() {
       if (GameUIManager.instance) {
         throw new Error("This class is a Singleton!");
@@ -37,6 +40,32 @@ class GameUIManager{
     GetButtonName(name_){
       return this.GetButtons().listButton.find(({ name }) => name === name_)['button'];
     }
+    ShowDialog(dialog){
+      GameUIManager.dialogForm = new dialog;
+      GameUIManager.dialogForm.Show();
+    }
+    DestroyDialog(){
+      GameUIManager.dialogForm = document.getElementById('ShowDialog');
+      GameUIManager.dialogForm.remove();
+    }
+    // Opendialog(content){
+    //   GameUIManager.dialogForm  = document.createElement("div");
+    //   GameUIManager.dialogForm.id = "ShowDialog";
+    //   // GameUIManager.dialogForm = document.getElementById('ShowDialog')
+    //   document.body.appendChild(GameUIManager.dialogForm);
+    //   GameUIManager.dialogForm.style.display ='flex';
+    //   GameUIManager.dialogForm.innerHTML = content;
+    // }
+    // Closedialog(){
+    //   soundManager.PlaySFX('ButtonClick');
+    //   GameUIManager.dialogForm.remove();
+    // }
+    // Enterdialog(){
+    //   soundManager.PlaySFX('ButtonClick');
+    //   // gameManager.SetIdRoom(GameUIManager.dialogForm.querySelector("#RoomId").value);
+    //   GameUIManager.dialogForm.remove();
+    // }
 }
+
 const gameUIManager = Object.freeze(new GameUIManager());
 export default gameUIManager;

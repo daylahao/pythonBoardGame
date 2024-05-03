@@ -15,6 +15,10 @@ class Card{
         this.positioncard =""
         this.position = {x:0,y:0};
         this.size = {w:0,h:0};
+        this.playerslot=[{'x':this.position.x,'y':this.position.y},
+                         {'x':this.position.x+this.size.w,'y':this.position.y},
+                         {'x':this.position.x,'y':this.position.y+this.size.h},
+                         {'x':this.position.x+this.size.w,'y':this.position.y+this.size.h},]
         listCard.push(this);
     }
     Open(toogle){
@@ -26,6 +30,10 @@ class Card{
     SetPosition(x,y,width,height){
         this.position = {x:x,y:y};
         this.size = {w:width,h:height};
+        this.playerslot=[{'x':this.position.x,'y':this.position.y},
+        {'x':this.position.x+this.size.w-20,'y':this.position.y},
+        {'x':this.position.x,'y':this.position.y+this.size.h-20},
+        {'x':this.position.x+this.size.w-20,'y':this.position.y+this.size.h-20},]
     }
     SetText(Content){
         this.content = Content;

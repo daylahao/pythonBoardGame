@@ -20,6 +20,7 @@ function Apprun(){
 };
 // console.log("Start Game");
 gameUIManager.Start();
+
 soundManager.PlayLoopMusic('BG');
 canvas.addEventListener('mousemove', (event) => {
     const rect = canvas.getBoundingClientRect();
@@ -31,7 +32,6 @@ canvas.addEventListener('mousemove', (event) => {
         canvas.style.cursor = 'default';
     }
   });
-
 canvas.addEventListener('click', function(event) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
@@ -44,8 +44,5 @@ canvas.addEventListener('click', function(event) {
   window.addEventListener("DOMContentLoaded", event => {
     soundManager.PlayLoopMusic('BG');
   });
-window.addEventListener('resize', () => {
-  gameManager.Resize();
-})
 Apprun();
 

@@ -1,13 +1,19 @@
 import {Scene} from "./scenebase.js";
 import {Button} from "../Asset/Button.js"
 import gameManager from "../Asset/GameManager.js";
+import gameUIManager from "../Asset/GameUIManager.js";
+import InputIdRoom from '../Asset/Dialog/Input_IdRoom.js';
+
 class SceneHome extends Scene{
     constructor(){
         super();
         this.logo = new Image();
         this.logo.src = './Image/Icon/Logo.png';
-        this._Buttons.Add('PlayGame',new Button("Bắt Đầu","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100,150,40,'white','black',()=>{gameManager.StartSceneGame()}));
+        this._Buttons.Add('PlayGame',new Button("Bắt Đầu","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100,150,40,'white','black',this.ClickStartGame));
         this._Buttons.Add('Setting',new Button("Cài Đặt","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+60+100,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));    
+    }
+    ClickStartGame(){
+        gameUIManager.ShowDialog(InputIdRoom);
     }
     Start(){
 

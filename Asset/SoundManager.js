@@ -32,13 +32,13 @@ class SoundManager{
         SoundManager.musicSound = status;
         if(!status){
            SoundManager.AudioMusic.volume = 0;
-           SoundManager.AudioSFX.volume = 0;
+           SoundManager.AudioSFX.muted = true;
         }
         else{
             if(SoundManager.AudioMusic.paused){
                 this.PlayLoopMusic('BG');
             }
-            SoundManager.AudioMusic.volume = 1;
+            SoundManager.AudioSFX.muted = false;
             SoundManager.AudioMusic.volume = 0.5;
         }
     }
@@ -54,8 +54,14 @@ class SoundManager{
         SoundManager.AudioMusic.play();
     }
     PlaySFX(name){
+        if(SoundManager.sfxSound){
         SoundManager.AudioSFX.src = ListMusic_[name];
         SoundManager.AudioSFX.play();
+        }
+    }
+    StopSFX(){
+        SoundManager.AudioSFX.pause();
+        SoundManager.AudioSFX.currentTime = 0;
     }
     CheckPlayBG(){
         if(SoundManager.AudioMusic.paused){
