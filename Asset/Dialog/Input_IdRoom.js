@@ -34,6 +34,20 @@ class InputIdRoom extends Dialog{
         else{
             gameManager.SetIdRoom(id);
             super.DestroyDialog();
+            // Create a new WebSocket connection
+            const socket = new WebSocket('ws://localhost:9090');
+
+            // When the connection is open, send a message to the server
+            socket.onopen = () => {
+                // The message we want to send
+                const message = {
+                    method: 'create',
+                    roomId: id
+                };
+
+                // Send the message as a string
+                socket.send(JSON.stringify(message));
+            };
         }
     }
 }
