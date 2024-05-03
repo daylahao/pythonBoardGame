@@ -7,6 +7,7 @@ import { Buttons } from './Asset/Button.js';
 import SceneHome from './Scene/sceneHome.js';
 import SceneGame from './Scene/scenGame.js';
 import SceneSetting from './Scene/sceneSetting.js';
+import soundManager from './Asset/SoundManager.js';
 const canvas = document.getElementById('app');
 const ctx = canvas.getContext("2d");
 var CANVAS_WIDTH = canvas.width = canvas.offsetWidth;
@@ -19,7 +20,7 @@ function Apprun(){
 };
 // console.log("Start Game");
 gameUIManager.Start();
-
+soundManager.PlayLoopMusic('BG');
 canvas.addEventListener('mousemove', (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
@@ -39,6 +40,9 @@ canvas.addEventListener('click', function(event) {
     if (Button_!=false) {
        Button_['button'].onClickCallback();
     }
+  });
+  window.addEventListener("DOMContentLoaded", event => {
+    soundManager.PlayLoopMusic('BG');
   });
 window.addEventListener('resize', () => {
   gameManager.Resize();

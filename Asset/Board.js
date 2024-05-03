@@ -21,8 +21,9 @@ function FakeCard(count){
             new Card(i,"Facebook",'Start');
         }
         else{
-            var id = Math.round(Math.random() * (ListTask.length-1 - 0) + 0)
-            new Card(i,"Facebook",ListTask[id].name);
+            var id = Math.round(Math.random() * (ListTask.length-1 - 0) + 0);
+            var C = new Card(i,"Facebook",ListTask[id].name);
+            C.level = Math.round(Math.random() * (2 - 0) + 0);
         }
         // new Card(i,"Facebook",i);
     }

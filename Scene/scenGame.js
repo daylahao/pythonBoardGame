@@ -18,7 +18,7 @@ class SceneGame extends Scene{
         super()
         this._Buttons.Add("Back",new ButtonIcon(gameUIManager.GetIconImage('backDefault'),gameUIManager.GetIconImage('backHover'),"","center",50,50,80,50,'white','black',()=>{gameManager.StartSceneHome()}));
         this.board_= new Board(8*4);
-        this.diceDialog = new Dice(this.context,this.board_.rectBoardPosx,this.board_.rectBoardPosy,this.board_.rectBoardGame.width,this.board_.rectBoardGame.height,this.toggleDice);
+        this.diceDialog = new Dice(this.context,this.board_.rectBoardPosx-this.board_.tileWidth/2,this.board_.rectBoardPosy,this.board_.rectBoardGame.width,this.board_.rectBoardGame.height,this.toggleDice);
         this.diceDialog.show=true;
         this._Buttons.Add('btnDice',this.diceDialog.btnRoll);
         gameManager.CreateListPlayer();

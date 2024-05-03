@@ -78,8 +78,8 @@ class Player{
                 if(Distance<10){
                     this.position = {...listCard[this.stepcurrent].position};
                     this.next = true;
-                    if(soundManager.GetStatusSFX)
-                        this.audio.play();
+                    if(soundManager.GetStatusSFX()){
+                        this.audio.play();}
                 }else{
                     if(this.position.x<listCard[this.stepcurrent].position.x){
                         this.position.x+=10;

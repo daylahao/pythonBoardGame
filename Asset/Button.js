@@ -1,4 +1,5 @@
 import gameUIManager from "./GameUIManager.js";
+import soundManager from "./SoundManager.js";
 function isInside(pos, rect) {
   return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y
 }
@@ -20,12 +21,18 @@ class Buttons{
       ctx.beginPath();
       ctx.rect(button.rect.x, button.rect.y, button.rect.width, button.rect.height);
       if (ctx.isPointInPath(x, y)) {
+        button.HoverHandle(true);
         return true;
+      }else{
+        button.HoverHandle(false);
+
       }}
     }
     return false;
   }
   checkClickButton(x, y){
+    this.audioclick = new Audio("Sound\\button_Click.mp3");
+
     for (let i = 0; i < this.listButton.length; i++) {
       const button = this.listButton[i]['button'];
       if(button.visible){
@@ -33,6 +40,10 @@ class Buttons{
         ctx.beginPath();
         ctx.rect(button.rect.x, button.rect.y, button.rect.width, button.rect.height);
         if (ctx.isPointInPath(x, y)) {
+          if(soundManager.GetStatusSFX()){
+            this.audioclick.play();
+            button.HoverHandle(false);
+          }
           // console.log(this.listButton[i]);
           return  this.listButton[i];
         }
@@ -52,6 +63,7 @@ class Buttons{
 }
 class Button{
   constructor(contentString,alignStyle="center",PosX,PosY,_width=0,_heigh=0,colorBackground="white",colorText='black',onClickCallback,zIndex=null){
+    this.hover = false;
     this.visible = true;
     this.onClickCallback=onClickCallback;  
     this.align = alignStyle;
@@ -85,28 +97,21 @@ class Button{
       this.visible = true;
     }
     ClickHandle(){
+      this.hover = false;
       return this.onClickCallback;
     };
-    HoverHandle(){
-      const self = this; // Lưu giá trị của 'this' vào biến 'self'
-      this.canvas.addEventListener('mousemove',function(evt){
-        var _rect = this.getBoundingClientRect();
-        var mousePos={
-          x: evt.clientX - _rect.left,
-          y: evt.clientY - _rect.top,
-        };
-        if (isInside(mousePos, self.rect)) {
-          self.colorfill=self.colorbgHover;
-          self.colortextroot=self.colortextHover;
+    HoverHandle(hoverflag){
+      this.hover = hoverflag;
+        if (this.hover){
+          this.colorfill=this.colorbgHover;
+          this.colortextroot=this.colortextHover;
         }else{
-          self.colorfill=self.colorbg
-          self.colortextroot=self.colortext;
+          this.colorfill=this.colorbg
+          this.colortextroot=this.colortext;
         }
-      },false);
     }
     Draw() {
       if(this.visible){
-        this.HoverHandle();
         this.context.beginPath();
         this.context.roundRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height,10);
         this.context.fillStyle =this.colorfill;
@@ -144,27 +149,19 @@ class ButtonIcon extends Button{
     this.icon.src=this.iconImage[0];
     // console.log(this.icon.src);
   }
-  HoverHandle(){
-    const self = this; // Lưu giá trị của 'this' vào biến 'self'
-    this.canvas.addEventListener('mousemove',function(evt){
-      var _rect = this.getBoundingClientRect();
-      var mousePos={
-        x: evt.clientX - _rect.left,
-        y: evt.clientY - _rect.top,
-      };
-      if (isInside(mousePos, self.rect)) {
-        self.colorfill=self.colorbgHover;
-        self.colortextroot=self.colortextHover;
-        self.icon.src = self.iconImage[1];
+  HoverHandle(hoverflag){
+    this.hover = hoverflag;
+      if (this.hover) {
+        this.colorfill=this.colorbgHover;
+        this.colortextroot=this.colortextHover;
+        this.icon.src = this.iconImage[1];
       }else{
-        self.colorfill=self.colorbg
-        self.colortextroot=self.colortext;
-        self.icon.src = self.iconImage[0];
+        this.colorfill=this.colorbg
+        this.colortextroot=this.colortext;
+        this.icon.src = this.iconImage[0];
       }
-    },false);
   }
   Draw(){
-
     super.Draw();
     if(this.rect.width<this.rect.height){
     this.icon.width=this.rect.width/2;

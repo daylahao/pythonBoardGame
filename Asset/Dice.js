@@ -8,8 +8,8 @@ class Dice{
         this.paddingoffset=20;
         this.width = width_;
         this.height = height_;
-        this.dicesize ={width:width_/4,
-                        height:height_/4}
+        this.dicesize ={width:width_/5,
+                        height:height_/5}
         this.position = {x:px+width_/2,y:py+this.dicesize.height};
         this.diceimg1 = new Image();
         this.diceimg2 = new Image();
@@ -17,7 +17,7 @@ class Dice{
         this.diceimg2.src = './Image/Dice/1.png';
         this.show = false;
         this.btnRoll = new Button("Thả","center",this.position.x-this.dicesize.width/4,this.position.y+this.dicesize.height+this.paddingoffset,150,50,'white','black',gameManager.Roll_Dice);
-        this.frame = 25;
+        this.frame = 3;
     }
     AnimationRoll(){
             let dice_rand = Math.round(Math.random() * (6 - 1) + 1);
