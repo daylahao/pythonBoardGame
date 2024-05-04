@@ -10,7 +10,18 @@ httpServer.listen(9090, () => console.log("Listening.. on 9090"))
 //hashmap clients
 const clients = {};
 const games = {};
-
+const db = require('./Config/index.db');
+const room = require('./Model/Room');
+db.connect()
+//api server
+app.get('/api/rooms', (req, res) => {
+    room.find({})
+    .then(room =>{
+        res.json(room)
+    }).catch(err => {
+        res.status(500).send(err)
+    })
+});
 const wsServer = new websocketServer({
     "httpServer": httpServer
 })
@@ -21,19 +32,27 @@ wsServer.on("request", request => {
     connection.on("close", () => console.log("closed!"))
     connection.on("message", message => {
         const result = JSON.parse(message.utf8Data)
+        console.log('Received message:', result);
         // Check if the message is a 'create' or 'join' request
         if(result.method === "create") {
             const gameId = guid();
             games[gameId] = {
                 "id": gameId,
+                "name": result.name,
                 "clients": []
             }
-
+        
+            games[gameId].clients.push(clientId);
+            
             const payLoad = {
                 "method": "create",
-                "game": games[gameId]
+                "game": games[gameId],
+                "clientId": clientId
             }
-
+            const Room = new room({ roomId: gameId, name: result.name, players: [clientId] });
+            Room.save()
+                .then(() => console.log('Room saved to database'))
+                .catch(err => console.error('Error saving room to database:', err));
             connection.send(JSON.stringify(payLoad))
             console.log(JSON.stringify(payLoad))
 
