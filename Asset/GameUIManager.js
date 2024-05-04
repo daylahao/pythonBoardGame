@@ -44,6 +44,9 @@ class GameUIManager{
       GameUIManager.dialogForm = new dialog;
       GameUIManager.dialogForm.Show();
     }
+    GetDialog(){
+      return GameUIManager.dialogForm;
+    }
     DestroyDialog(){
       GameUIManager.dialogForm = document.getElementById('ShowDialog');
       GameUIManager.dialogForm.remove();

@@ -8,13 +8,10 @@ import SceneHome from './Scene/sceneHome.js';
 import SceneGame from './Scene/scenGame.js';
 import SceneSetting from './Scene/sceneSetting.js';
 import soundManager from './Asset/SoundManager.js';
-const canvas = document.getElementById('app');
-const ctx = canvas.getContext("2d");
-var CANVAS_WIDTH = canvas.width = canvas.offsetWidth;
-var CANVAS_HEIGHT = canvas.height = canvas.offsetHeight;
 gameManager.StartSceneHome();
+let appstart = false;
 function Apprun(){
-    ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+  gameManager.GetCanvas().getContext("2d").clearRect(0,0,gameManager.GetCanvas().width,gameManager.GetCanvas().height);
     gameManager.GetSceneCurrent().Draw();
     requestAnimationFrame(Apprun);
 };
@@ -22,18 +19,18 @@ function Apprun(){
 gameUIManager.Start();
 
 soundManager.PlayLoopMusic('BG');
-canvas.addEventListener('mousemove', (event) => {
-    const rect = canvas.getBoundingClientRect();
+gameManager.GetCanvas().addEventListener('mousemove', (event) => {
+    const rect = gameManager.GetCanvas().getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
     if (gameUIManager.GetButtons().checkButtons(mouseX, mouseY)) {
-        canvas.style.cursor = 'pointer';
+        gameManager.GetCanvas().style.cursor = 'pointer';
     } else {
-        canvas.style.cursor = 'default';
+        gameManager.GetCanvas().style.cursor = 'default';
     }
   });
-canvas.addEventListener('click', function(event) {
-    const rect = canvas.getBoundingClientRect();
+gameManager.GetCanvas().addEventListener('click', function(event) {
+    const rect = gameManager.GetCanvas().getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
     let Button_ = gameUIManager.GetButtons().checkClickButton(mouseX, mouseY);

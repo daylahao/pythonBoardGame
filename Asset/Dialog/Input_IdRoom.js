@@ -6,8 +6,8 @@ class InputIdRoom extends Dialog{
     constructor(){
         super()
         this.content = `<form id="dialog-form" action="" class="col-12 col-md-4 p-3">
-        <h2 id="titleDialog">Nhập số phòng</h2>
-        <input id="RoomId" type="text" autocomplete=off class="col-12 p-2 my-2">
+        <h2 id="titleDialog">Tạo phòng</h2>
+        <input id="RoomId" type="text" autocomplete=off class="col-12 p-2 my-2" placeholder="Nhập tên phòng">
         <div class="d-flex justify-content-around col-12 col-lg-8">
         <button id="CloseDialog" type="button" class="btn btn-dark row-6 row-md-4">Đóng</button>
         <button id="EnterRoom" type="button" class="btn btn-dark row-6 row-md-4">Xác nhận</button>

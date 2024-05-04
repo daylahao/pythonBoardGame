@@ -36,6 +36,8 @@ class GameManager{
       GameManager.canvas = document.getElementById('app');
     }
     GetCanvas(){
+      GameManager.canvas.width  = window.innerWidth;
+      GameManager.canvas.height = window.innerHeight;
       return GameManager.canvas;
     }
     GetSceneCurrent(){
@@ -95,6 +97,19 @@ class GameManager{
     SetIdRoom(id){
       GameManager.idRoom = id;
       this.StartSceneGame();
+    }
+    GetDataRoom(){
+      var Rooms=[];
+      //Fake Data Room
+      for(var i=0;i<5;i++){
+          var room = {'id':'Room'+i,'member':Math.round(Math.round(Math.random() * (4 - 1) + 1))};
+          Rooms.push(room);
+      }
+      return Rooms;
+    }
+    ChangeData(id){
+      // alert(id);
+      // gameUIManager.GetDialog().UpdateList();
     }
 }
 const gameManager = Object.freeze(new GameManager());

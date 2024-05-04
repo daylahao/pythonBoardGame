@@ -23,7 +23,7 @@ class Dialog{
             return true;
     }
     FindElement(name){
-        console.log(this.Container);
+        // console.log(this.Container);
         return this.Container.querySelector(name);
     }
     ButtonCloseDialog(){
