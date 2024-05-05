@@ -45,13 +45,13 @@ class Player{
         this.scorce = 0;
         this.position = {x:px,y:py};
         this.sprite=Sprites[this.id];
-        this.image.src = this.sprite.idle.path;
+        this.image.src = this.sprite.path;
         this.colorPlayer= color_;
         this.turn = false;
         this.stepcurrent = 0;
         this.spriteAnimations = [];
         this.gameframe = 0;
-        this.frame = 5;
+        this.frame = 4;
         this.runanimation =false;
         this.next = false;
         this.size={
@@ -73,21 +73,21 @@ class Player{
     }
     GetPositionLocalAnimation(){
         var frames={loc:[],};
-        for(let j=0;j<this.sprite.idle.frame;j++){
+        for(let j=0;j<this.sprite.frame.idle;j++){
             let positionx=j*this.sprite.size.w;
-            let positiony = this.sprite.size.h;
+            let positiony = 0*this.sprite.size.h;
             frames.loc.push({x:positionx,y:positiony});
         }
         this.spriteAnimations['idle'] = {...frames};
         console.log(this.spriteAnimations['idle']);
         frames={loc:[],};
-        for(let j=0;j<this.sprite.run.frame;j++){
+        for(let j=0;j<this.sprite.frame.run;j++){
             let positionx=j*this.sprite.size.w;
-            let positiony = this.sprite.size.h;
+            let positiony = 1*this.sprite.size.h;
             frames.loc.push({x:positionx,y:positiony});
         }
         this.spriteAnimations['run'] = {...frames};
-        console.log(this.spriteAnimations['idle']);
+        console.log(this.spriteAnimations['run']);
     }
     AnimationRun(){
         if(this.gameframe%this.frame==0){
@@ -132,10 +132,9 @@ class Player{
                 }
                 if((this.step-this.stepcurrent)==0 && this.next==true){
                     this.runanimation = false;
-                        this.runanimation = false;
+                    this.runanimation = false;
                     this.state = 'idle';
-                    this.image.src = this.sprite['idle'].path;
-                        gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
+                    gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
                 }
             }
     }}
@@ -144,14 +143,14 @@ class Player{
         if(this.runanimation){
             if(this.state!='run'){
                 this.state = 'run';
-                this.image.src = this.sprite['run'].path;
             }
             this.AnimationRun();
         }
-        this.position_ = Math.floor(this.gameframe/this.frame)%this.spriteAnimations[this.state].loc.length;
-        this.framex = this.sprite.size.w*this.position_;
+        var position_ = Math.floor(this.gameframe/this.frame)%this.spriteAnimations[this.state].loc.length;
+        var framex = this.sprite.size.w*position_;
+        var framey = this.spriteAnimations[this.state].loc[position_].y;
         // this.context.roundRect(this.position.x,this.position.y,this.size.w,this.size.h,100);
-        this.context.drawImage(this.image,this.framex,0,this.sprite.size.w,this.sprite.size.h,this.position.x,this.position.y,this.sprite.size.w,this.sprite.size.h);
+        this.context.drawImage(this.image,framex,framey,this.sprite.size.w,this.sprite.size.h,this.position.x,this.position.y,this.sprite.size.w*1.2,this.sprite.size.h*1.2);
         this.gameframe++;
         this.context.fillStyle = this.colorPlayer;
         this.context.fill();

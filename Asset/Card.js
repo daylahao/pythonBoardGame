@@ -1,7 +1,7 @@
 import gameManager from "./GameManager.js";
 import { addText } from "./Button.js";
 let listCard = Array();
-const paddingposition = 40;
+const paddingposition = 50;
 const ImageLink = ['Image/Icon/cardFront.png','Image/Icon/card.png']
 class Card{
     constructor(number,LinkApi,contenttext){
