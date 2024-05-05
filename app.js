@@ -8,6 +8,8 @@ import SceneHome from './Scene/sceneHome.js';
 import SceneGame from './Scene/scenGame.js';
 import SceneSetting from './Scene/sceneSetting.js';
 import soundManager from './Asset/SoundManager.js';
+import getWebSocket from "../../Config/websocket.js";
+var ws = new getWebSocket();
 gameManager.StartSceneHome();
 let appstart = false;
 function Apprun(){
@@ -43,3 +45,4 @@ gameManager.GetCanvas().addEventListener('click', function(event) {
   });
 Apprun();
 
+export default ws;

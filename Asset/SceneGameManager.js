@@ -6,10 +6,10 @@ class SceneGameManager{
       if (!SceneGameManager.instance) {
         SceneGameManager.instance = new Singleton();
       }
-      return GameManager.instance;
+      return gameManager.instance;
     }
       constructor() {
-        if (GameManager.instance) {
+        if (gameManager.instance) {
           throw new Error("This class is a Singleton!");
         }
     }

@@ -10,6 +10,7 @@ httpServer.listen(9090, () => console.log("Listening.. on 9090"))
 //hashmap clients
 const clients = {};
 const games = {};
+let game = {}
 const db = require('./Config/index.db');
 const room = require('./Model/Room');
 db.connect()
@@ -47,33 +48,46 @@ wsServer.on("request", request => {
             const payLoad = {
                 "method": "create",
                 "game": games[gameId],
-                "clientId": clientId
+                // "clientId": clientId
             }
             const Room = new room({ roomId: gameId, name: result.name, players: [clientId] });
             Room.save()
                 .then(() => console.log('Room saved to database'))
                 .catch(err => console.error('Error saving room to database:', err));
-            connection.send(JSON.stringify(payLoad))
-            console.log(JSON.stringify(payLoad))
+            clients[clientId].connection.send(JSON.stringify(payLoad));
+            // console.log(JSON.stringify(payLoad))
 
         } else if(result.method === "join") {
-            const clientId = result.clientId;
+            // const clientId = result.clientId;
             const gameId = result.gameId;
-            const game = games[gameId];
-
-            if(game) {
-                // Add the client to the game
-                game.clients.push(clients[clientId]);
-
-                const payLoad = {
-                    "method": "join",
-                    "game": game
-                }
-
-                // Inform the client that they joined the game
-                clients[clientId].connection.send(JSON.stringify(payLoad));
+            room.findOne({"roomId": gameId})
+                .then(room => {
+                    if(room.players.length < 4 ){
+                        room.players.push(clientId);
+                        room.save()
+                            .then(() => console.log('player joined'))
+                            .catch(err => console.error('Error saving room to database:', err));
+                        const payLoad = {
+                            "method": "join",
+                            "game": room
+                        }
+                            clients[clientId].connection.send(JSON.stringify(payLoad));
+                            // console.log(JSON.stringify(payLoad))
+                    } else {
+                        const payLoad = {
+                            "method": "full",
+                            "game": room
+                        }
+                            clients[clientId].connection.send(JSON.stringify(payLoad));
+                        // console.log(JSON.stringify(payLoad))
+                    }
+            })
+                .catch(err => console.error('Error finding room:', err));
+                
+            //     clients[clientId].connection.send(JSON.stringify(payLoad));
+            //     console.log(JSON.stringify(payLoad))
+            } else if(result.method === "play") {
             }
-        }
     });
 
     
@@ -98,6 +112,5 @@ wsServer.on("request", request => {
 function S4() {
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
 }
- 
 // then to call it, plus stitch in '4' in the third group
 const guid = () => (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();

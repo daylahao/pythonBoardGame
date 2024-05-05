@@ -3,6 +3,7 @@ import Dialog from "./DialogBase.js";
 import soundManager from "../SoundManager.js";
 import gameUIManager from "../GameUIManager.js";
 import getWebSocket from "../../Config/websocket.js";
+import ws from "../../app.js"
 class ListRoomDialog extends Dialog {
   constructor() {
     super();
@@ -74,20 +75,22 @@ class ItemRoom {
         return this.item;
     }
     Click(){
-        console.log('Clicked room name:', this.name);
+        
         soundManager.PlaySFX('ButtonClick');
         gameManager.ChangeData(this.id);
+        gameManager.SetIdRoom(this.name);
         gameUIManager.DestroyDialog();
-        const socket = getWebSocket();
-        socket.onopen = ()=>{
+        // const socket = getWebSocket();
+        // socket.onopen = ()=>{
           const message = {
               method: 'join',
-              roomId: this.id,
+              gameId: this.id,
               name: this.name,
+              
           };
-          socket.send(JSON.stringify(message));
+          ws.send(JSON.stringify(message));
           console.log(JSON.stringify(message));
-        }
-    }
+      }
+    
 }
 export default ListRoomDialog;

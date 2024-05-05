@@ -54,6 +54,9 @@ class Player{
     start(){
         
     }
+    setColor(color) {
+        this.colorPlayer = color;
+    }
     update(){
 
     }
