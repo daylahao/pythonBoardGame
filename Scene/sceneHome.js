@@ -4,7 +4,7 @@ import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
 import InputIdRoom from '../Asset/Dialog/Input_IdRoom.js';
 import ListRoomDialog from '../Asset/Dialog/ListRoom_Dialog.js';
-
+import LoginForm from '../Asset/Dialog/LoginForm.js';
 class SceneHome extends Scene{
     constructor(){
         super();
@@ -12,8 +12,11 @@ class SceneHome extends Scene{
         this.logo.src = './Image/Icon/Logo.png';
         this._Buttons.Add('CreateRoom',new Button("Tạo phòng","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100,150,40,'white','black',this.ClickStartGame));
         this._Buttons.Add('JoinRoom',new Button("Vào phòng","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100+60,150,40,'white','black',this.ClickShowListGame));
-        this._Buttons.Add('Setting',new Button("Cài Đặt","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+120+100,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));    
+        this._Buttons.Add('Setting',new Button("Cài Đặt","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+120+100,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));  
+        this.loginForm = new LoginForm();  
+        this.Start()
     }
+
     ClickStartGame(){
         gameUIManager.ShowDialog(InputIdRoom);
     }
@@ -21,12 +24,13 @@ class SceneHome extends Scene{
         gameUIManager.ShowDialog(ListRoomDialog);
     }
     Start(){
-
+        gameUIManager.ShowDialog(LoginForm);
     }
     Update(){
 
     }
     Draw(){
+        
         // console.log("Draw ScenHome")
         this._Buttons.Draw();
             this.logo.width=this.canvas.width/2
