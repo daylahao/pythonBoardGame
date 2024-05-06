@@ -104,6 +104,8 @@ class Player{
                 var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.id].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.id].y - this.position.y, 2));
                 if(this.stepcurrent>16){
                     this.flip = !this.sprite.flip;
+                }else{
+                    this.flip = this.sprite.flip;
                 }
                 if(Distance<10){
                     this.position = {...listCard[this.stepcurrent].playerslot[this.id]};
@@ -139,7 +141,7 @@ class Player{
                     this.runanimation = false;
                     this.state = 'idle';
                     this.flip = this.sprite.flip;
-                    gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
+                    gameManager.SetTimeAnswer();
                 }
             }
     }}
