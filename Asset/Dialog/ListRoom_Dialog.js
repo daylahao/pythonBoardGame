@@ -2,6 +2,7 @@ import gameManager from "../GameManager.js";
 import Dialog from "./DialogBase.js";
 import soundManager from "../SoundManager.js";
 import gameUIManager from "../GameUIManager.js";
+import socket from "../../Config/websocket.js"
 class ListRoomDialog extends Dialog {
   constructor() {
     super();
@@ -36,20 +37,15 @@ class ListRoomDialog extends Dialog {
     console.log(id);
   }
   UpdateList() {
-    fetch('/api/rooms')
-    .then(response => response.json())
-    .then(data => {
-        // Check if data is not undefined and is an array
-        if (data && Array.isArray(data)) {
-            data.forEach(room => {
-                let itemRoom = new ItemRoom(room.roomId, room.players.length, room.name);
-                this.listroom.appendChild(itemRoom);
-            });
-        } else {
-            console.error('Data from API is undefined or not an array:', data);
-        }
-    })
-    .catch(error => console.error('Error:', error));
+    socket.emit('get_rooms');
+    socket.on('rooms', (rooms) => {
+    rooms.forEach(room => {
+      console.log(room.room_id, room.users, room.room_name);
+        let itemRoom = new ItemRoom(room.room_id, room.users.length, room.room_name);
+        this.listroom.appendChild(itemRoom);
+    });
+});
+                
 }
 }
 class ItemRoom {
@@ -77,16 +73,7 @@ class ItemRoom {
         soundManager.PlaySFX('ButtonClick');
         gameManager.ChangeData(this.id);
         gameUIManager.DestroyDialog();
-        const socket = getWebSocket();
-        socket.onopen = ()=>{
-          const message = {
-              method: 'join',
-              roomId: this.id,
-              name: this.name,
-          };
-          socket.send(JSON.stringify(message));
-          console.log(JSON.stringify(message));
-        }
+        
     }
 }
 export default ListRoomDialog;
