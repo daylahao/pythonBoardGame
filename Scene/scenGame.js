@@ -39,6 +39,7 @@ class SceneGame extends Scene{
         gameManager.GetListPlayer().Draw();
         this._Buttons.Draw();
         this.diceDialog.Draw();
+        gameManager.GetListPlayer().DrawUI();
         // addText(this.canvas,'SceneGame',this.CANVAS_WIDTH/2,this.CANVAS_HEIGHT/2);
     }
 }

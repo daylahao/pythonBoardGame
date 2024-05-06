@@ -183,12 +183,15 @@ class ButtonIcon extends Button{
 
   }
 }
-function addText(content=String,x,y){
+function addText(content=String,x,y,fontsize="15px",color='white',align='center'){
+  fontsize = (typeof fontsize !== 'undefined') ? fontsize : "15px";
+  align = (typeof align !== 'undefined') ? align : 'center';
+
   const ctx = canvas.getContext("2d");
-  ctx.font = "15px Play";
-  ctx.textAlign = "center";
+  ctx.font = fontsize+' Play';
+  ctx.textAlign = align;
   ctx.textBaseline = 'middle';
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = color;
   ctx.fillText(content,x,y);
 }
 export {Button,Buttons,ButtonIcon,addText};

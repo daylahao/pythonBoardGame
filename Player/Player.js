@@ -3,6 +3,7 @@ import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
 import soundManager from "../Asset/SoundManager.js";
 import Sprites from "./SpritesConfig.js";
+import { addText } from "../Asset/Button.js";
 class ListPlayer{
     members = 0;
     Maxmembers = 4;
@@ -26,6 +27,11 @@ class ListPlayer{
     Draw(){
         for (let i = 0; i < this.list_.length; i++) {
             this.list_[i].Draw();
+        }
+    }
+    DrawUI(){
+        for (let i = 0; i < this.list_.length; i++) {
+        this.list_[i].DrawUI();
         }
     }
 }
@@ -172,7 +178,67 @@ class Player{
 
     }
     DrawUI(){
-        
+        var tagnameimage = new Image();
+        tagnameimage.src = 'Image/Icon/imageTagname.png'
+        this.context.beginPath();
+        this.sizeUI  = {w:this.CANVAS_WIDTH/7,h:50};
+        var margin_bottom = 100,padding=10,margintag =80;
+        this.positionUI = {x:30,y:100+margintag*(this.id+1)};
+        this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-(this.sizeUI.w/100),this.sizeUI.h,0);
+        this.context.fillStyle = '#808080';
+        this.context.fill();
+        this.context.beginPath();
+        this.context.fillStyle = '#808080';
+        if(gameManager.GetTurn()==this.id){
+            if(gameManager.GetTimeAnswer()>5/2){
+                this.context.fillStyle = 'green';
+            }
+            else if(gameManager.GetTimeAnswer()>5/4){
+                this.context.fillStyle = 'yellow';
+            }else{
+                this.context.fillStyle = 'red';
+            }
+            this.context.roundRect(this.positionUI.x,this.positionUI.y+2,((100/5)*gameManager.GetTimeAnswer())*(this.sizeUI.w/100),this.sizeUI.h,0);
+        }
+        else
+            this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-((this.sizeUI.w/100)),this.sizeUI.h,0);
+        this.context.fill();
+        this.context.drawImage(tagnameimage,this.positionUI.x-20,this.positionUI.y-10,this.sizeUI.w*1.2,this.sizeUI.h*1.5);
+        var avatar  ={x:this.positionUI.x+padding*2,
+                    y:this.positionUI.y+padding,
+                    w:this.sizeUI.h-padding*2,
+                    h:this.sizeUI.h-padding*2};
+        this.context.save();
+        this.context.closePath();
+        this.context.beginPath();
+        // this.context.roundRect(avatar.x,avatar.y,avatar.w,avatar.h,100);
+        this.context.lineWidth = 1;
+        this.context.strokeStyle = "black";
+        this.context.stroke();
+        if(gameManager.GetTurn()==this.id)
+            this.context.fillStyle = '#00FF00';
+        else
+            this.context.fillStyle = '#FFFFFF';
+        this.context.fill();
+        // addText(this.HandleNameUI(),avatar.x+avatar.w+padding,avatar.y+avatar.h*2/9,'15px','black','left');//Tên player
+        // addText(this.HandleScoreUI(),avatar.x+avatar.w+padding,avatar.y+avatar.h*8/9,'15px','black','left');//Điểm
+        addText(this.HandleNameUI(),avatar.x,avatar.y+avatar.h*2/10,'15px','black','left');//Tên player
+        addText(this.HandleScoreUI(),avatar.x,avatar.y+avatar.h*9/10,'15px','black','left');//Điểm
+        this.context.closePath();
+    }
+    HandleNameUI(){
+        if(this.name.length>8){
+            return this.name.substring(0, 8)+'...';
+        }else{
+            return this.name
+        }
+    }
+    HandleScoreUI(){
+        if(this.scorce.toString().length>8){
+            return this.scorce.toString().substring(0, 8)+'...';
+        }else{
+            return this.scorce;
+        }
     }
 }
 export {Player,ListPlayer}

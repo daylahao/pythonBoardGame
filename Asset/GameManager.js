@@ -127,6 +127,12 @@ class GameManager{
         gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
       }},1000);
     }
+    GetTurn(){
+      return GameManager.turn;
+    }
+    GetTimeAnswer(){
+      return GameManager.timeanswer;
+    }
 }
 const gameManager = Object.freeze(new GameManager());
 export default gameManager;
