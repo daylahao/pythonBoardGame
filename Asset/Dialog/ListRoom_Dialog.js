@@ -2,7 +2,6 @@ import gameManager from "../GameManager.js";
 import Dialog from "./DialogBase.js";
 import soundManager from "../SoundManager.js";
 import gameUIManager from "../GameUIManager.js";
-import getWebSocket from "../../Config/websocket.js";
 class ListRoomDialog extends Dialog {
   constructor() {
     super();

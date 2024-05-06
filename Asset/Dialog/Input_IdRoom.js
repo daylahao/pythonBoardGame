@@ -1,7 +1,7 @@
 import gameManager from "../GameManager.js";
 import gameUIManager from "../GameUIManager.js";
 import Dialog from "./DialogBase.js";
-import getWebSocket from "../../Config/websocket.js";
+
 class InputIdRoom extends Dialog{
     constructor(){
         super()
