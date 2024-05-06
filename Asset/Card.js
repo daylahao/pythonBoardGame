@@ -1,6 +1,7 @@
 import gameManager from "./GameManager.js";
 import { addText } from "./Button.js";
 let listCard = Array();
+const paddingposition = 50;
 const ImageLink = ['Image/Icon/cardFront.png','Image/Icon/card.png']
 class Card{
     constructor(number,LinkApi,contenttext){
@@ -30,10 +31,10 @@ class Card{
     SetPosition(x,y,width,height){
         this.position = {x:x,y:y};
         this.size = {w:width,h:height};
-        this.playerslot=[{'x':this.position.x,'y':this.position.y},
-        {'x':this.position.x+this.size.w-20,'y':this.position.y},
-        {'x':this.position.x,'y':this.position.y+this.size.h-20},
-        {'x':this.position.x+this.size.w-20,'y':this.position.y+this.size.h-20},]
+        this.playerslot=[{'x':this.position.x,'y':this.position.y-paddingposition/2},
+        {'x':this.position.x+this.size.w-paddingposition,'y':this.position.y-paddingposition/2},
+        {'x':this.position.x,'y':this.position.y+this.size.h-paddingposition},
+        {'x':this.position.x+this.size.w-paddingposition,'y':this.position.y+this.size.h-paddingposition},]
     }
     SetText(Content){
         this.content = Content;
