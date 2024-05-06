@@ -1,12 +1,14 @@
 import Dialog from "./DialogBase.js";
 import gameManager from "../GameManager.js";
-// import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+import socket from "../../Config/websocket.js"
+import gameUIManager from "../GameUIManager.js";
+import LoginForm from "./LoginForm.js";
 
 class RegisterForm extends Dialog {
     constructor() {
         super();
         this.content = `<form id="dialog-form" action="" class="col-12 col-md-4 p-3">
-        <h2 id="titleDialog">Đăng nhập</h2>
+        <h2 id="titleDialog">Đăng ký</h2>
         <input id="Username" type="text" autocomplete=off class="col-12 p-2 my-2" placeholder="Nhập tên đăng nhập">
         <input id="Name" type="text" autocomplete=off class="col-12 p-2 my-2" placeholder="Nhập tên">
         <input id="Password" type="password" autocomplete=off class="col-12 p-2 my-2" placeholder="Nhập mật khẩu">
@@ -26,7 +28,8 @@ class RegisterForm extends Dialog {
         this.Container = document.getElementById('ShowDialog');
     }
     ButtonLoginForm(){
-        
+        super.DestroyDialog()
+        gameUIManager.ShowDialog(LoginForm);
     }
     ButtonCloseDialog() {
         super.ButtonCloseDialog();
@@ -35,17 +38,26 @@ class RegisterForm extends Dialog {
     ButtonRegister() {
         super.ButtonEnterDialog();
         var username = this.offsetParent.querySelector("#Username").value;
-        var username = this.offsetParent.querySelector("#Name").value;
+        var fullName = this.offsetParent.querySelector("#Name").value;
         var password = this.offsetParent.querySelector("#Password").value;
         if(username.length < 1 || password.length < 1) {
             return 0;
         } else {
             super.DestroyDialog();
-            // const socket = io('http://localhost:8000');
-            // socket.emit('login', JSON.stringify({
-            //     username: username,
-            //     password: password
-            // }))
+            socket.emit("register", JSON.stringify({
+                username: username,
+                fullName: fullName,
+                password: password
+        }))
+            socket.on("res_register", (data) => {
+                console.log(data.success)
+                if(data.success){
+                    alert(data.message)
+                    super.DestroyDialog();
+                }else{
+                    alert(data.message)
+                }
+            })
         }
     }
 }
