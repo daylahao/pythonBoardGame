@@ -51,12 +51,13 @@ class Player{
         this.stepcurrent = 0;
         this.spriteAnimations = [];
         this.gameframe = 0;
-        this.frame = 4;
+        this.frame = 3;
         this.runanimation =false;
         this.next = false;
         this.size={
             w:20,h:20
         }
+        this.flip = this.sprite.flip;
         this.GetPositionLocalAnimation();
     }
     start(){
@@ -101,6 +102,9 @@ class Player{
                     this.next = false;
                 }
                 var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.id].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.id].y - this.position.y, 2));
+                if(this.stepcurrent>16){
+                    this.flip = !this.sprite.flip;
+                }
                 if(Distance<10){
                     this.position = {...listCard[this.stepcurrent].playerslot[this.id]};
                     this.next = true;
@@ -134,6 +138,7 @@ class Player{
                     this.runanimation = false;
                     this.runanimation = false;
                     this.state = 'idle';
+                    this.flip = this.sprite.flip;
                     gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
                 }
             }
@@ -149,11 +154,20 @@ class Player{
         var position_ = Math.floor(this.gameframe/this.frame)%this.spriteAnimations[this.state].loc.length;
         var framex = this.sprite.size.w*position_;
         var framey = this.spriteAnimations[this.state].loc[position_].y;
-        // this.context.roundRect(this.position.x,this.position.y,this.size.w,this.size.h,100);
-        this.context.drawImage(this.image,framex,framey,this.sprite.size.w,this.sprite.size.h,this.position.x,this.position.y,this.sprite.size.w*1.2,this.sprite.size.h*1.2);
+        this.context.roundRect(this.position.x,this.position.y,this.size.w,this.size.h,100);
+        if(this.flip){
+            this.context.save();
+            this.context.translate(this.position.x+this.sprite.size.w/2,this.position.y+this.position.y/2);
+            this.context.scale(-1,1);
+            this.context.drawImage(this.image,framex,framey,this.sprite.size.w,this.sprite.size.h,20,-this.position.y/2+this.sprite.size.h/8,-this.sprite.size.w*1.2,this.sprite.size.h*1.2);
+            this.context.restore();
+        }
+        else
+        this.context.drawImage(this.image,framex,framey,this.sprite.size.w,this.sprite.size.h,this.position.x,this.position.y-this.sprite.size.h/8,this.sprite.size.w*1.2,this.sprite.size.h*1.2);
         this.gameframe++;
-        this.context.fillStyle = this.colorPlayer;
-        this.context.fill();
+        // this.context.fillStyle = this.colorPlayer;
+        // this.context.fill();
+
     }
     DrawUI(){
         

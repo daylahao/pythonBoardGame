@@ -35,7 +35,7 @@ class Card{
         {'x':this.position.x+this.size.w-paddingposition,'y':this.position.y-paddingposition/2},
         {'x':this.position.x,'y':this.position.y+this.size.h-paddingposition},
         {'x':this.position.x+this.size.w-paddingposition,'y':this.position.y+this.size.h-paddingposition},]
-    }
+    }   
     SetText(Content){
         this.content = Content;
     }
