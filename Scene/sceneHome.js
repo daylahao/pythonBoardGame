@@ -13,10 +13,10 @@ class SceneHome extends Scene{
         this._Buttons.Add('CreateRoom',new Button("Tạo phòng","center",240,this.CANVAS_HEIGHT/2+10,150,40,'white','black',this.ClickStartGame));
         // this._Buttons.Add('JoinRoom',new Button("Vào phòng","left",240,this.CANVAS_HEIGHT/2+80,150,40,'white','black',this.ClickShowListGame));
         this._Buttons.Add('Setting',new Button("Cài Đặt","center",240,this.CANVAS_HEIGHT/2+80,150,40,'white','black',()=>{
-            gameUIManager.DestroyDialogListRoom();
+            // gameUIManager.DestroyDialogListRoom();
             gameManager.StartSceneSetting()}));
         this._Buttons.Add('About',new Button("About","center",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{
-            gameUIManager.DestroyDialogListRoom();
+            // gameUIManager.DestroyDialogListRoom();
             gameManager.StartSceneAbout()}));
             // this._Buttons.Add('Setting',new Button("Cài Đặt","left",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));
           

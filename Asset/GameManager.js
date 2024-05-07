@@ -7,10 +7,11 @@ import SceneHome from "../Scene/sceneHome.js";
 import SceneSetting from "../Scene/sceneSetting.js"
 import SceneAbout from "../Scene/sceneAbout.js";
 import Dice from "./Dice.js";
+import socket from "../Config/websocket.js";
 let instance;
 class GameManager{
     static instance = null;
-
+    
     static getInstance() {
       if (!GameManager.instance) {
         GameManager.instance = new Singleton();
@@ -31,11 +32,16 @@ class GameManager{
     static idRoom;
     static turn =0;
     constructor() {
+      this.userName = this.getCookie("username");
       if (GameManager.instance) {
         throw new Error("This class is a Singleton!");
       }
       GameManager.canvas = document.getElementById('app');
       // Initialize the class properties here
+    }
+    SetDiceNumber(number1, number2){
+      GameManager.DiceNumber[0] = number1;
+      GameManager.DiceNumber[1] = number2;
     }
     Resize(){
       GameManager.canvas = document.getElementById('app');
@@ -74,7 +80,30 @@ class GameManager{
     RandomDice(){
       return Math.round(Math.random() * (6 - 1) + 1);
     }
+    
+    getCookie(name) {
+      // Split cookie string and get all individual name=value pairs in an array
+      let cookieArr = document.cookie.split(";");
+      
+      // Loop through the array elements
+      for(let i = 0; i < cookieArr.length; i++) {
+          let cookiePair = cookieArr[i].split("=");
+          
+          /* Removing whitespace at the beginning of the cookie name
+          and compare it with the given string */
+          if(name == cookiePair[0].trim()) {
+              // Decode the cookie value and return
+              return decodeURIComponent(cookiePair[1]);
+          }
+      }
+      return "";
+  }
     Roll_Dice(){
+      socket.emit('start_roll', JSON.stringify({
+        roomId: GameManager.idRoom,
+        userName: gameManager.userName,
+      }))
+      console.log([GameManager.turn])
       clearInterval(GameManager.timerwait);
       gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton();
       this.Dice_Left = gameManager.RandomDice();
@@ -88,6 +117,13 @@ class GameManager{
         GameManager.listplayer.list_[GameManager.turn].Run(i);
         listCard[i].Open(true);
         GameManager.stepcurrent[GameManager.turn] =i;
+        socket.emit("done_roll",JSON.stringify({
+          roomId: GameManager.idRoom,
+          userName: gameManager.userName,
+          number1: GameManager.DiceNumber[0],
+          number2: GameManager.DiceNumber[1],
+        }))
+        
       },GameManager.timeGame.timeroll.set*1000);
     }
     NextTurn(){
@@ -101,6 +137,7 @@ class GameManager{
     ResetDice(){
       clearInterval(GameManager.timerwait);
       clearTimeout(GameManager.timeroll);
+      // GameManager.listplayer.resetmembers();
       GameManager.turn = 0;
       GameManager.DiceNumber = [gameManager.RandomDice(),gameManager.RandomDice()];
       GameManager.sceneCurrent.diceDialog.ResetDice();

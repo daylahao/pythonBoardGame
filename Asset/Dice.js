@@ -1,3 +1,4 @@
+import socket from "../Config/websocket.js";
 import { Button,Buttons } from "./Button.js";
 import gameManager from "./GameManager.js";
 import soundManager from "./SoundManager.js";
@@ -18,6 +19,9 @@ class Dice{
         this.show = false;
         this.btnRoll = new Button("Thả","center",this.position.x-this.dicesize.width/4,this.position.y+this.dicesize.height+this.paddingoffset,150,50,'white','black',gameManager.Roll_Dice);
         this.frame = 3;
+        socket.on("on_user_start_roll", (data)=>{
+            this.btnRoll.HideButton()
+        });
     }
     AnimationRoll(){
             let dice_rand = Math.round(Math.random() * (6 - 1) + 1);

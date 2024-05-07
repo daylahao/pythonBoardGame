@@ -17,12 +17,20 @@ function addText(cavnass,content=String,x,y){
 class SceneGame extends Scene{
     constructor(){
         super()
+        socket.emit("join_room", JSON.stringify({
+            roomId: gameManager.GetIdRoom(),
+            userName: this.getCookie("username")
+          }))
         socket.on('on_user_join_room',(data)=>{
-            console.log(data.userName + ' has joined the room');
+            socket.emit('users_rooms',JSON.stringify({
+                roomId:gameManager.GetIdRoom()
+            }));
         })
         socket.on("on_user_leave_room",(data)=>{
-                
             console.log(data.userName + ' has leaved the room');
+        })
+        socket.on("on_user_done_roll",(data)=>{
+            gameManager.SetDiceNumber(data.number1,data.number2);
         })
         gameUIManager.DestroyDialogListRoom()
         this._Buttons.Add("Back",new ButtonIcon(gameUIManager.GetIconImage('backDefault'),gameUIManager.GetIconImage('backHover'),"","center",50,50,80,50,'white','black',()=>{
@@ -34,18 +42,39 @@ class SceneGame extends Scene{
             }))
             
         }));
+        
         this.roomId = gameManager.GetIdRoom()
         this.board_= new Board(8*4);
         this.diceDialog = new Dice(this.context,this.board_.rectBoardPosx-this.board_.tileWidth/2,this.board_.rectBoardPosy,this.board_.rectBoardGame.width,this.board_.rectBoardGame.height,this.toggleDice);
         this.diceDialog.show=true;
         this._Buttons.Add('btnDice',this.diceDialog.btnRoll);
         gameManager.CreateListPlayer();
-        for(var i=0;i<4;i++){
-            // console.log(listCard[0].playerslot[i].x);
-            gameManager.GetListPlayer().addMember(new Player(i,"Player"+i,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
-        }
+        socket.emit('users_rooms',JSON.stringify({
+            roomId:gameManager.GetIdRoom()
+        }));
+        socket.on('res_users_rooms',(data)=>{
+            console.log(data);
+            
+            data.users.forEach(user => {
+                console.log(data);
+            this.createPlayer(user);
+            console.log(gameManager.GetListPlayer())
+            });
+        });
+        
         gameManager.NextTurn();
+        
     }
+    createPlayer(user){
+        var i= gameManager.GetListPlayer().getMember();
+        console.log(i);
+        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.full_name,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
+
+    }
+    addplayer(){
+        var i= gameManager.GetListPlayer().getMember();
+        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.full_name,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
+    };
     getCookie(name) {
         // Split cookie string and get all individual name=value pairs in an array
         let cookieArr = document.cookie.split(";");

@@ -13,7 +13,13 @@ class ListPlayer{
         this.list_ = [];
     }
     getMember(){
-        return  this.members;
+        if(this.list_.length<0)
+            return 0;
+        else
+        return  this.list_.length;
+    }
+    resetmembers(){
+        this.list_ = [];
     }
     getPlayer(name_){
         return this.list_.find(({ name }) => name === name_);
@@ -32,7 +38,7 @@ class ListPlayer{
     }
     DrawUI(){
         for (let i = 0; i < this.list_.length; i++) {
-        this.list_[i].DrawUI();
+            this.list_[i].DrawUI();
         }
     }
 }
