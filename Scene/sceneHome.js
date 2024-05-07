@@ -10,21 +10,26 @@ class SceneHome extends Scene{
         super();
         this.logo = new Image();
         this.logo.src = './Image/Icon/Logo.png';
-        this._Buttons.Add('CreateRoom',new Button("Tạo phòng","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100,150,40,'white','black',this.ClickStartGame));
-        this._Buttons.Add('JoinRoom',new Button("Vào phòng","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+100+60,150,40,'white','black',this.ClickShowListGame));
-        this._Buttons.Add('Setting',new Button("Cài Đặt","center",this.CANVAS_WIDTH/2-75,this.CANVAS_HEIGHT/2+120+100,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));
+        this._Buttons.Add('CreateRoom',new Button("Tạo phòng","left",240,this.CANVAS_HEIGHT/2+10,150,40,'white','black',this.ClickStartGame));
+        this._Buttons.Add('JoinRoom',new Button("Vào phòng","left",240,this.CANVAS_HEIGHT/2+80,150,40,'white','black',this.ClickShowListGame));
+        this._Buttons.Add('Setting',new Button("Cài Đặt","left",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));
           
         this.loginForm = new LoginForm();  
+        
+        this.ClickShowListGame();
         this.Start()
     }
 
     ClickStartGame(){
         gameUIManager.ShowDialog(InputIdRoom);
+        
     }
     ClickShowListGame(){
         gameUIManager.ShowDialog(ListRoomDialog);
     }
     Start(){
+       
+        this.ClickShowListGame();
         gameUIManager.ShowDialog(LoginForm);
     }
     Update(){
@@ -40,7 +45,8 @@ class SceneHome extends Scene{
                 this.logo.width = this.CANVAS_HEIGHT/2;
                 this.logo.height = this.CANVAS_HEIGHT/2;
             }
-        this.context.drawImage(this.logo,this.CANVAS_WIDTH/2-this.logo.width/2,this.CANVAS_HEIGHT/2-this.logo.height/1.2,this.logo.width,this.logo.height);
+            this.context.drawImage(this.logo, 120, this.CANVAS_HEIGHT / 2-180 - this.logo.height / 2, this.logo.width, this.logo.height);
+            
     }
 }
 export default SceneHome;

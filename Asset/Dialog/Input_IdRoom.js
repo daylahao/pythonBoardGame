@@ -56,7 +56,7 @@ class InputIdRoom extends Dialog{
             socket.emit("create_room", JSON.stringify({
                 userName: this.userName,
                 roomName: name,
-                userPW: this.userPW,
+                //userPW: this.userPW,
             })) 
             // console.log(JSON.stringify({
             //     userName: this.userName,

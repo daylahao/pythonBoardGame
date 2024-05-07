@@ -115,6 +115,7 @@ class GameManager{
     ChangeData(id){
       // alert(id);
       // gameUIManager.GetDialog().UpdateList();
+      this.StartSceneGame();
     }
     CountDown(){
       GameManager.timeGame.timeanswer.set--;
