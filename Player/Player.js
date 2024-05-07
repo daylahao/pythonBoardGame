@@ -10,29 +10,35 @@ class ListPlayer{
     Maxmembers = 4;
     list_ = [];
     constructor(){
-        this.list_ = [];
+        ListPlayer.list_ = [];
     }
     getMember(){
-        return  this.members;
+        if(ListPlayer.list_.length<0)
+            return 0;
+        else
+        return  ListPlayer.list_.length;
+    }
+    resetmembers(){
+        ListPlayer.list_ = [];
     }
     getPlayer(name_){
-        return this.list_.find(({ name }) => name === name_);
+        return ListPlayer.list_.find(({ name }) => name === name_);
     }
     addMember(player){
-        this.list_.push(player);
+        ListPlayer.list_.push(player);
         this.members++;
     }
     removeMember(){
         this.members--;
     }
     Draw(){
-        for (let i = 0; i < this.list_.length; i++) {
-            this.list_[i].Draw();
+        for (let i = 0; i < ListPlayer.list_.length; i++) {
+            ListPlayer.list_[i].Draw();
         }
     }
     DrawUI(){
-        for (let i = 0; i < this.list_.length; i++) {
-        this.list_[i].DrawUI();
+        for (let i = 0; i < ListPlayer.list_.length; i++) {
+        ListPlayer.list_[i].DrawUI();
         }
     }
 }

@@ -101,6 +101,7 @@ class GameManager{
     ResetDice(){
       clearInterval(GameManager.timerwait);
       clearTimeout(GameManager.timeroll);
+      GameManager.listplayer.resetmembers();
       GameManager.turn = 0;
       GameManager.DiceNumber = [gameManager.RandomDice(),gameManager.RandomDice()];
       GameManager.sceneCurrent.diceDialog.ResetDice();

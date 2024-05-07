@@ -47,9 +47,11 @@ class ListRoomDialog extends Dialog {
     socket.emit('get_rooms');
     console.log('get_rooms');
     socket.on('rooms', (rooms) => {
+    console.log(rooms);
+      this.listroom.innerHTML = '';
     rooms.forEach(room => {
       // console.log(room.creator);
-        let itemRoom = new ItemRoom(room.room_id, room.users.length, room.room_name, room.creator);
+        var itemRoom = new ItemRoom(room.room_id, room.users.length, room.room_name, room.creator);
         this.listroom.appendChild(itemRoom);
     });
 });
@@ -101,15 +103,9 @@ class ItemRoom {
       return "";
   }
     Click(){
-      if(this.mem<4){
         soundManager.PlaySFX('ButtonClick');
         gameManager.SetIdRoom(this.id)
-        gameUIManager.DestroyDialogListRoom();
-        socket.emit("join_room", JSON.stringify({
-          roomId: this.id,
-          userName: this.getCookie("username")
-        }))
-      }
+        // gameUIManager.DestroyDialogListRoom();
         // console.log(JSON.stringify({
         //   roomId: this.id,
         //   userName: this.getCookie("username"),
