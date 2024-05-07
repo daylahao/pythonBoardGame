@@ -17,7 +17,9 @@ class GameManager{
   
       return GameManager.instance;
     }
-    static timeanswer=5;
+    static timeGame ={timeanswer:{set:10,default:10},
+                  timewaitturn:{set:5,default:5},
+                  timeroll:{set:1,default:5}};
     static timeroll;
     static sceneCurrent;
     static canvas;
@@ -77,7 +79,7 @@ class GameManager{
         GameManager.listplayer.list_[GameManager.turn].Run(i);
         listCard[i].Open(true);
         GameManager.stepcurrent[GameManager.turn] =i;
-      },5000);
+      },GameManager.timeGame.timeroll.set*1000);
     }
     NextTurn(){
       if(GameManager.turn==3){
@@ -115,15 +117,16 @@ class GameManager{
       // gameUIManager.GetDialog().UpdateList();
     }
     CountDown(){
-      GameManager.timeanswer--;
+      GameManager.timeGame.timeanswer.set--;
     }
     SetTimeAnswer(){
      let time = setInterval(()=>{gameManager.CountDown();  
-      console.log(GameManager.timeanswer);
-      if(GameManager.timeanswer==0){
-        GameManager.timeanswer=5;
+      console.log(GameManager.timeGame.timeanswer.set);
+      if(GameManager.timeGame.timeanswer.set==0){
+        GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
         clearInterval(time);
         this.NextTurn();
+        gameUIManager.DestroyDialog();
         gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
       }},1000);
     }
@@ -131,7 +134,7 @@ class GameManager{
       return GameManager.turn;
     }
     GetTimeAnswer(){
-      return GameManager.timeanswer;
+      return GameManager.timeGame.timeanswer;
     }
 }
 const gameManager = Object.freeze(new GameManager());

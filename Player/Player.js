@@ -4,6 +4,7 @@ import gameUIManager from "../Asset/GameUIManager.js";
 import soundManager from "../Asset/SoundManager.js";
 import Sprites from "./SpritesConfig.js";
 import { addText } from "../Asset/Button.js";
+import AnswerForm from "../Asset/Dialog/AnswerForm.js";
 class ListPlayer{
     members = 0;
     Maxmembers = 4;
@@ -148,6 +149,9 @@ class Player{
                     this.state = 'idle';
                     this.flip = this.sprite.flip;
                     gameManager.SetTimeAnswer();
+                    if(gameManager.GetTurn()==this.id){
+                        gameUIManager.ShowDialog(AnswerForm);
+                    }
                 }
             }
     }}
@@ -184,26 +188,33 @@ class Player{
         this.sizeUI  = {w:this.CANVAS_WIDTH/7,h:50};
         var margin_bottom = 100,padding=10,margintag =80;
         this.positionUI = {x:30,y:100+margintag*(this.id+1)};
-        this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-(this.sizeUI.w/100),this.sizeUI.h,0);
+        this.context.save();
+        this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-(this.sizeUI.w/100),this.sizeUI.h,10);
         this.context.fillStyle = '#808080';
         this.context.fill();
+        this.context.lineWidth = 1;
+        this.context.strokeStyle = "black";
+        this.context.stroke();
+        this.context.clip();
         this.context.beginPath();
+
         this.context.fillStyle = '#808080';
         if(gameManager.GetTurn()==this.id){
-            if(gameManager.GetTimeAnswer()>5/2){
+            if(gameManager.GetTimeAnswer().set>gameManager.GetTimeAnswer().default/2){
                 this.context.fillStyle = 'green';
             }
-            else if(gameManager.GetTimeAnswer()>5/4){
+            else if(gameManager.GetTimeAnswer()>gameManager.GetTimeAnswer().default/4){
                 this.context.fillStyle = 'yellow';
             }else{
                 this.context.fillStyle = 'red';
             }
-            this.context.roundRect(this.positionUI.x,this.positionUI.y+2,((100/5)*gameManager.GetTimeAnswer())*(this.sizeUI.w/100),this.sizeUI.h,0);
+            this.context.roundRect(this.positionUI.x,this.positionUI.y+2,((100/gameManager.GetTimeAnswer().default)*gameManager.GetTimeAnswer().set)*(this.sizeUI.w/100),this.sizeUI.h,0);
         }
         else
             this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-((this.sizeUI.w/100)),this.sizeUI.h,0);
         this.context.fill();
-        this.context.drawImage(tagnameimage,this.positionUI.x-20,this.positionUI.y-10,this.sizeUI.w*1.2,this.sizeUI.h*1.5);
+        this.context.restore();
+        // this.context.drawImage(tagnameimage,this.positionUI.x-20,this.positionUI.y-10,this.sizeUI.w*1.2,this.sizeUI.h*1.5);
         var avatar  ={x:this.positionUI.x+padding*2,
                     y:this.positionUI.y+padding,
                     w:this.sizeUI.h-padding*2,
@@ -212,9 +223,9 @@ class Player{
         this.context.closePath();
         this.context.beginPath();
         // this.context.roundRect(avatar.x,avatar.y,avatar.w,avatar.h,100);
-        this.context.lineWidth = 1;
-        this.context.strokeStyle = "black";
-        this.context.stroke();
+        // this.context.lineWidth = 1;
+        // this.context.strokeStyle = "black";
+        // this.context.stroke();
         if(gameManager.GetTurn()==this.id)
             this.context.fillStyle = '#00FF00';
         else
