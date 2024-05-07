@@ -5,6 +5,7 @@ import Board from "./Board.js";
 import SceneGame from "../Scene/scenGame.js";
 import SceneHome from "../Scene/sceneHome.js";
 import SceneSetting from "../Scene/sceneSetting.js"
+import SceneAbout from "../Scene/sceneAbout.js";
 import Dice from "./Dice.js";
 let instance;
 class GameManager{
@@ -18,9 +19,10 @@ class GameManager{
       return GameManager.instance;
     }
     static timeGame ={timeanswer:{set:10,default:10},
-                  timewaitturn:{set:5,default:5},
+                  waitturn:{set:5,default:5},
                   timeroll:{set:1,default:5}};
     static timeroll;
+    static timerwait;
     static sceneCurrent;
     static canvas;
     static DiceNumber = [1,5];
@@ -54,19 +56,26 @@ class GameManager{
       return GameManager.listplayer;
     }
     StartSceneGame(){
+      GameManager.turn = -1;
+      GameManager.timeGame.timeanswer.set = GameManager.timeGame.timeanswer.default;
+      GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
       GameManager.sceneCurrent = new SceneGame();
       // gameUIManager.SetButtonScene(GameManager.sceneCurrent.GetButtons());
     }
     StartSceneHome(){
       GameManager.sceneCurrent = new SceneHome();
     }
-    StartSceenSetting(){
+    StartSceneSetting(){
       GameManager.sceneCurrent = new SceneSetting();
+    }
+    StartSceneAbout(){
+      GameManager.sceneCurrent = new SceneAbout();
     }
     RandomDice(){
       return Math.round(Math.random() * (6 - 1) + 1);
     }
     Roll_Dice(){
+      clearInterval(GameManager.timerwait);
       gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton();
       this.Dice_Left = gameManager.RandomDice();
       this.Dice_right = gameManager.RandomDice();
@@ -82,12 +91,15 @@ class GameManager{
       },GameManager.timeGame.timeroll.set*1000);
     }
     NextTurn(){
+      GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
       if(GameManager.turn==3){
         GameManager.turn = 0;
       }else
         GameManager.turn++;
+      this.WaitTurn();
     }
     ResetDice(){
+      clearInterval(GameManager.timerwait);
       clearTimeout(GameManager.timeroll);
       GameManager.turn = 0;
       GameManager.DiceNumber = [gameManager.RandomDice(),gameManager.RandomDice()];
@@ -122,7 +134,7 @@ class GameManager{
     }
     SetTimeAnswer(){
      let time = setInterval(()=>{gameManager.CountDown();  
-      console.log(GameManager.timeGame.timeanswer.set);
+      // console.log(GameManager.timeGame.timeanswer.set);
       if(GameManager.timeGame.timeanswer.set==0){
         GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
         clearInterval(time);
@@ -136,6 +148,19 @@ class GameManager{
     }
     GetTimeAnswer(){
       return GameManager.timeGame.timeanswer;
+    }
+    GetTimeWait(){
+      return GameManager.timeGame.waitturn;
+    }
+    WaitTurn(){
+      GameManager.timerwait = setInterval(()=>{
+        GameManager.timeGame.waitturn.set--;
+        if(GameManager.timeGame.waitturn.set==0){
+          GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
+          clearInterval(GameManager.timerwait);
+          this.NextTurn();
+        }
+      },1000);
     }
 }
 const gameManager = Object.freeze(new GameManager());

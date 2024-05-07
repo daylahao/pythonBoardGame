@@ -1,5 +1,5 @@
 import {Scene} from "./scenebase.js";
-import {Button} from "../Asset/Button.js"
+import {Button, addText} from "../Asset/Button.js"
 import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
 import InputIdRoom from '../Asset/Dialog/Input_IdRoom.js';
@@ -10,13 +10,19 @@ class SceneHome extends Scene{
         super();
         this.logo = new Image();
         this.logo.src = './Image/Icon/Logo.png';
-        this._Buttons.Add('CreateRoom',new Button("Tạo phòng","left",240,this.CANVAS_HEIGHT/2+10,150,40,'white','black',this.ClickStartGame));
-        this._Buttons.Add('JoinRoom',new Button("Vào phòng","left",240,this.CANVAS_HEIGHT/2+80,150,40,'white','black',this.ClickShowListGame));
-        this._Buttons.Add('Setting',new Button("Cài Đặt","left",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));
+        this._Buttons.Add('CreateRoom',new Button("Tạo phòng","center",240,this.CANVAS_HEIGHT/2+10,150,40,'white','black',this.ClickStartGame));
+        // this._Buttons.Add('JoinRoom',new Button("Vào phòng","left",240,this.CANVAS_HEIGHT/2+80,150,40,'white','black',this.ClickShowListGame));
+        this._Buttons.Add('Setting',new Button("Cài Đặt","center",240,this.CANVAS_HEIGHT/2+80,150,40,'white','black',()=>{
+            gameUIManager.DestroyDialogListRoom();
+            gameManager.StartSceneSetting()}));
+        this._Buttons.Add('About',new Button("About","center",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{
+            gameUIManager.DestroyDialogListRoom();
+            gameManager.StartSceneAbout()}));
+            // this._Buttons.Add('Setting',new Button("Cài Đặt","left",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));
           
         this.loginForm = new LoginForm();  
         
-        this.ClickShowListGame();
+        // this.ClickShowListGame();
         this.Start()
     }
 
@@ -45,8 +51,7 @@ class SceneHome extends Scene{
                 this.logo.width = this.CANVAS_HEIGHT/2;
                 this.logo.height = this.CANVAS_HEIGHT/2;
             }
-            this.context.drawImage(this.logo, 120, this.CANVAS_HEIGHT / 2-180 - this.logo.height / 2, this.logo.width, this.logo.height);
-            
+            this.context.drawImage(this.logo, 120, this.CANVAS_HEIGHT / 2-180 - this.logo.height / 2, this.logo.width, this.logo.height);      
     }
 }
 export default SceneHome;

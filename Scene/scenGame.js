@@ -18,7 +18,6 @@ class SceneGame extends Scene{
     constructor(){
         super()
         socket.on('on_user_join_room',(data)=>{
-            
             console.log(data.userName + ' has joined the room');
         })
         socket.on("on_user_leave_room",(data)=>{
@@ -42,10 +41,10 @@ class SceneGame extends Scene{
         this._Buttons.Add('btnDice',this.diceDialog.btnRoll);
         gameManager.CreateListPlayer();
         for(var i=0;i<4;i++){
-            console.log(listCard[0].playerslot[i].x);
-            gameManager.GetListPlayer().addMember(new Player(i,"Player"+i,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y,"white"));
+            // console.log(listCard[0].playerslot[i].x);
+            gameManager.GetListPlayer().addMember(new Player(i,"Player"+i,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
         }
-        
+        gameManager.NextTurn();
     }
     getCookie(name) {
         // Split cookie string and get all individual name=value pairs in an array
