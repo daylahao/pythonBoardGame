@@ -29,6 +29,9 @@ class SceneGame extends Scene{
         socket.on("on_user_leave_room",(data)=>{
             console.log(data.userName + ' has leaved the room');
         })
+        socket.on("on_user_done_roll",(data)=>{
+            gameManager.SetDiceNumber(data.number1,data.number2);
+        })
         gameUIManager.DestroyDialogListRoom()
         this._Buttons.Add("Back",new ButtonIcon(gameUIManager.GetIconImage('backDefault'),gameUIManager.GetIconImage('backHover'),"","center",50,50,80,50,'white','black',()=>{
             gameManager.ResetDice();
@@ -51,13 +54,16 @@ class SceneGame extends Scene{
         }));
         socket.on('res_users_rooms',(data)=>{
             console.log(data);
-            gameManager.GetListPlayer().resetmembers();
+            
             data.users.forEach(user => {
                 console.log(data);
             this.createPlayer(user);
+            console.log(gameManager.GetListPlayer())
             });
         });
+        
         gameManager.NextTurn();
+        
     }
     createPlayer(user){
         var i= gameManager.GetListPlayer().getMember();

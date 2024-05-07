@@ -44,6 +44,7 @@ class ListRoomDialog extends Dialog {
     console.log(id);
   }
   UpdateList() {
+   
     socket.emit('get_rooms');
     console.log('get_rooms');
     socket.on('rooms', (rooms) => {
@@ -79,10 +80,36 @@ class ItemRoom {
         <div class="row">
           <div class="col">`+this.name+`</div>
           <div class="col">`+ this.creator +`</div>
-          <div class="col"><p>`+this.mem+`/4</div>
+          <div id="mem" class="col"><p>`+this.mem+`/4</div>
           </div>
         </div>`;
         this.item.onclick = this.Click.bind(this);
+        socket.on('dashboard_user_join_room', (data)=>{
+          console.log(data.roomId);
+          if(data.roomId === this.id){
+            this.mem++;
+            this.item.innerHTML=`<div class="container text-center">
+            <div class="row">
+              <div class="col">`+this.name+`</div>
+              <div class="col">`+ this.creator +`</div>
+              <div id="mem" class="col"><p>`+this.mem+`/4</div>
+              </div>
+            </div>`;
+          }
+        })
+        socket.on('dashboard_user_leave_room', (data)=>{
+          console.log(data.roomId);
+          if(data.roomId === this.id){
+            this.mem--;
+            this.item.innerHTML=`<div class="container text-center">
+            <div class="row">
+              <div class="col">`+this.name+`</div>
+              <div class="col">`+ this.creator +`</div>
+              <div id="mem" class="col"><p>`+this.mem+`/4</div>
+              </div>
+            </div>`;
+          }
+        })
         return this.item;
     }
     getCookie(name) {
