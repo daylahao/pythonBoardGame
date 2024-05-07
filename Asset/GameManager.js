@@ -110,6 +110,7 @@ class GameManager{
     ChangeData(id){
       // alert(id);
       // gameUIManager.GetDialog().UpdateList();
+      this.StartSceneGame();
     }
 }
 const gameManager = Object.freeze(new GameManager());

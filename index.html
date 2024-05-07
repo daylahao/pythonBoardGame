@@ -51,6 +51,25 @@
             -webkit-backdrop-filter: blur(2px);
             border: 1px solid rgba(0, 0, 0, 0.37);
         }
+        #listroom{
+            overflow-y: auto;
+            /* display: grid; */
+            height: 100vh;width: 56vw;
+            background:gray ;
+            /* grid-template-columns: 200px 200px 200px; */
+        }
+        #ShowDialog1{
+            display: flex;
+            position: fixed;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.37);
+        }
         H2{
             color: beige;
         }
@@ -79,7 +98,22 @@ border: 1px solid rgba(255, 255, 255, 0.3);
             align-items: center;
             padding: 5px;
             border-radius: 8px;
-        } 
+        }
+        #dialog-form1{
+            /* background-color: white; */
+            /* width: 500px;
+            height: 500px; */
+            /* From https://css.glass */
+background: rgba(255, 255, 255, 0.3);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+            border-radius: 8px;
+        }  
         /*
         #dialog-form>#dialog-form-contentQ{
             height: 300px;

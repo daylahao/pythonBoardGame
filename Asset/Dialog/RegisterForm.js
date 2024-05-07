@@ -53,7 +53,9 @@ class RegisterForm extends Dialog {
                 console.log(data.success)
                 if(data.success){
                     alert(data.message)
+                    gameUIManager.ShowDialog(LoginForm)
                     super.DestroyDialog();
+                    
                 }else{
                     alert(data.message)
                 }
