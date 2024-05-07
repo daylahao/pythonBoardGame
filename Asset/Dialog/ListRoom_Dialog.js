@@ -6,7 +6,7 @@ import socket from "../../Config/websocket.js"
 class ListRoomDialog extends Dialog {
   constructor() {
     super();
-    this.content = `<form id="dialog-form1" action="" class="col-12 col-md-7 p-3 mh-100 position-fixed user-select-none"" style="right: 20px";>
+    this.content = `<form id="dialog-form1" action="" class="col-12 col-md-7 p-3 py-5 mh-100 position-fixed user-select-none"" style="right:0;height:100vh";>
     <div class="container text-center">
         <div class="row">
         <div class="col"><h2 id="titleDialog">Tên phòng</h2></div>
@@ -15,11 +15,11 @@ class ListRoomDialog extends Dialog {
         </div>
         </div>
         <div id='content' class="d-flex flex-column col-12 row-12 py-3 mh-100">
-        <div id="listroom" class="d-flex justify-content-between flex-column row-3">
+        <div id="listroom" class="d-flex justify-content-between flex-column px-1 bg-transparent">
         </div>
-        <div class="d-flex justify-content-around col-12 p-5">
+        <!--<div class="d-flex justify-content-around col-12 p-5">
         <button id="CloseDialog" type="button" class="btn btn-dark row-12 col-12">Đóng</button>
-        </div>
+        </div>--!>
         </div>
         </form>`;
     this.Container.innerHTML = this.content;
@@ -30,7 +30,7 @@ class ListRoomDialog extends Dialog {
     this.listroom = super.FindElement('#listroom');
     this.UpdateList();
     // this.listroom.innerHTML = this.Changetohtml(this.Rooms);
-    super.FindElement("#CloseDialog").onclick = this.ButtonCloseDialog;
+    // super.FindElement("#CloseDialog").onclick = this.ButtonCloseDialog;
   }
   ButtonCloseDialog() {
     super.ButtonCloseDialog();
@@ -45,6 +45,7 @@ class ListRoomDialog extends Dialog {
   }
   UpdateList() {
     socket.emit('get_rooms');
+    console.log('get_rooms');
     socket.on('rooms', (rooms) => {
     rooms.forEach(room => {
       // console.log(room.creator);

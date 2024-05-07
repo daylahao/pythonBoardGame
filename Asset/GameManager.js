@@ -5,6 +5,7 @@ import Board from "./Board.js";
 import SceneGame from "../Scene/scenGame.js";
 import SceneHome from "../Scene/sceneHome.js";
 import SceneSetting from "../Scene/sceneSetting.js"
+import SceneAbout from "../Scene/sceneAbout.js";
 import Dice from "./Dice.js";
 let instance;
 class GameManager{
@@ -56,14 +57,19 @@ class GameManager{
     }
     StartSceneGame(){
       GameManager.turn = -1;
+      GameManager.timeGame.timeanswer.set = GameManager.timeGame.timeanswer.default;
+      GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
       GameManager.sceneCurrent = new SceneGame();
       // gameUIManager.SetButtonScene(GameManager.sceneCurrent.GetButtons());
     }
     StartSceneHome(){
       GameManager.sceneCurrent = new SceneHome();
     }
-    StartSceenSetting(){
+    StartSceneSetting(){
       GameManager.sceneCurrent = new SceneSetting();
+    }
+    StartSceneAbout(){
+      GameManager.sceneCurrent = new SceneAbout();
     }
     RandomDice(){
       return Math.round(Math.random() * (6 - 1) + 1);
@@ -93,6 +99,7 @@ class GameManager{
       this.WaitTurn();
     }
     ResetDice(){
+      clearInterval(GameManager.timerwait);
       clearTimeout(GameManager.timeroll);
       GameManager.turn = 0;
       GameManager.DiceNumber = [gameManager.RandomDice(),gameManager.RandomDice()];
