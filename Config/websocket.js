@@ -1,18 +1,16 @@
-let ws = null;
+import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+const socket = io("ws://localhost:8000/");
 
-function connect() {
-    ws = new WebSocket('ws://localhost:9090');
-    ws.onmessage = message => {
-        const response = JSON.parse(message.data);
-        console.log(response);
-    }
-}
+socket.on("connect", () => {
+    console.log("Connected to server");
+    socket.emit("message", {})
+    })
 
-function getWebSocket() {
-    if (!ws) {
-        connect();
-    }
-    return ws;
-}
+socket.on("disconnect", () => {
+    console.log("Disconnected from server");
+});
+socket.on("error", (error) => {
+    console.error("Socket error:", error);
+});
 
-export default getWebSocket;
+export default socket;
