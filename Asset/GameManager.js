@@ -28,7 +28,7 @@ class GameManager{
     static stepcurrent = [0,0,0,0];
     static listplayer;
     static idRoom;
-    static turn =-1;
+    static turn =0;
     constructor() {
       if (GameManager.instance) {
         throw new Error("This class is a Singleton!");
@@ -55,6 +55,7 @@ class GameManager{
       return GameManager.listplayer;
     }
     StartSceneGame(){
+      GameManager.turn = -1;
       GameManager.sceneCurrent = new SceneGame();
       // gameUIManager.SetButtonScene(GameManager.sceneCurrent.GetButtons());
     }

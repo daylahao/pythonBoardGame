@@ -18,7 +18,6 @@ class SceneGame extends Scene{
     constructor(){
         super()
         socket.on('on_user_join_room',(data)=>{
-            
             console.log(data.userName + ' has joined the room');
         })
         socket.on("on_user_leave_room",(data)=>{

@@ -100,6 +100,7 @@ class ItemRoom {
       return "";
   }
     Click(){
+      if(this.mem<4){
         soundManager.PlaySFX('ButtonClick');
         gameManager.SetIdRoom(this.id)
         gameUIManager.DestroyDialogListRoom();
@@ -107,6 +108,7 @@ class ItemRoom {
           roomId: this.id,
           userName: this.getCookie("username")
         }))
+      }
         // console.log(JSON.stringify({
         //   roomId: this.id,
         //   userName: this.getCookie("username"),
