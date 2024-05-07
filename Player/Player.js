@@ -40,8 +40,6 @@ class Player{
     constructor(id,name='Player',px,py,color_='red'){
         this.id = id;
         this.state = 'idle';
-        this.spriteWidth = 575; //Chia chiều ngang cho số hình
-        this.spriteHeight = 523; // chia chiều dài cho số hình
         this.audio = new Audio('./Sound/move.mp3');
         this.image = new Image();
         this.canvas = gameManager.GetCanvas();
@@ -87,7 +85,7 @@ class Player{
             frames.loc.push({x:positionx,y:positiony});
         }
         this.spriteAnimations['idle'] = {...frames};
-        console.log(this.spriteAnimations['idle']);
+        // console.log(this.spriteAnimations['idle']);
         frames={loc:[],};
         for(let j=0;j<this.sprite.frame.run;j++){
             let positionx=j*this.sprite.size.w;
@@ -95,7 +93,7 @@ class Player{
             frames.loc.push({x:positionx,y:positiony});
         }
         this.spriteAnimations['run'] = {...frames};
-        console.log(this.spriteAnimations['run']);
+        // console.log(this.spriteAnimations['run']);
     }
     AnimationRun(){
         if(this.gameframe%this.frame==0){
@@ -181,6 +179,17 @@ class Player{
         // this.context.fill();
 
     }
+    UITime(timecurrent,timedefault){
+        if(timecurrent>timedefault/2){
+            this.context.fillStyle = 'green';
+        }
+        else if(timecurrent>timedefault/4){
+            this.context.fillStyle = 'yellow';
+        }else{
+            this.context.fillStyle = 'red';
+        }
+        this.context.roundRect(this.positionUI.x,this.positionUI.y+2,((100/timedefault)*timecurrent)*(this.sizeUI.w/100),this.sizeUI.h,0);
+    }
     DrawUI(){
         var tagnameimage = new Image();
         tagnameimage.src = 'Image/Icon/imageTagname.png'
@@ -200,15 +209,12 @@ class Player{
 
         this.context.fillStyle = '#808080';
         if(gameManager.GetTurn()==this.id){
-            if(gameManager.GetTimeAnswer().set>gameManager.GetTimeAnswer().default/2){
-                this.context.fillStyle = 'green';
-            }
-            else if(gameManager.GetTimeAnswer()>gameManager.GetTimeAnswer().default/4){
-                this.context.fillStyle = 'yellow';
-            }else{
-                this.context.fillStyle = 'red';
-            }
-            this.context.roundRect(this.positionUI.x,this.positionUI.y+2,((100/gameManager.GetTimeAnswer().default)*gameManager.GetTimeAnswer().set)*(this.sizeUI.w/100),this.sizeUI.h,0);
+            if(gameManager.GetTimeAnswer().set!=gameManager.GetTimeAnswer().default)
+                this.UITime(gameManager.GetTimeAnswer().set,gameManager.GetTimeAnswer().default);
+            else if(gameManager.GetTimeWait().set!=gameManager.GetTimeWait().default)
+                this.UITime(gameManager.GetTimeWait().set,gameManager.GetTimeWait().default);
+            else
+                this.UITime(100,100);
         }
         else
             this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-((this.sizeUI.w/100)),this.sizeUI.h,0);

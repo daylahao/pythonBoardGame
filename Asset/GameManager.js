@@ -18,16 +18,17 @@ class GameManager{
       return GameManager.instance;
     }
     static timeGame ={timeanswer:{set:10,default:10},
-                  timewaitturn:{set:5,default:5},
+                  waitturn:{set:5,default:5},
                   timeroll:{set:1,default:5}};
     static timeroll;
+    static timerwait;
     static sceneCurrent;
     static canvas;
     static DiceNumber = [1,5];
     static stepcurrent = [0,0,0,0];
     static listplayer;
     static idRoom;
-    static turn =0;
+    static turn =-1;
     constructor() {
       if (GameManager.instance) {
         throw new Error("This class is a Singleton!");
@@ -67,6 +68,7 @@ class GameManager{
       return Math.round(Math.random() * (6 - 1) + 1);
     }
     Roll_Dice(){
+      clearInterval(GameManager.timerwait);
       gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton();
       this.Dice_Left = gameManager.RandomDice();
       this.Dice_right = gameManager.RandomDice();
@@ -82,10 +84,12 @@ class GameManager{
       },GameManager.timeGame.timeroll.set*1000);
     }
     NextTurn(){
+      GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
       if(GameManager.turn==3){
         GameManager.turn = 0;
       }else
         GameManager.turn++;
+      this.WaitTurn();
     }
     ResetDice(){
       clearTimeout(GameManager.timeroll);
@@ -122,7 +126,7 @@ class GameManager{
     }
     SetTimeAnswer(){
      let time = setInterval(()=>{gameManager.CountDown();  
-      console.log(GameManager.timeGame.timeanswer.set);
+      // console.log(GameManager.timeGame.timeanswer.set);
       if(GameManager.timeGame.timeanswer.set==0){
         GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
         clearInterval(time);
@@ -136,6 +140,19 @@ class GameManager{
     }
     GetTimeAnswer(){
       return GameManager.timeGame.timeanswer;
+    }
+    GetTimeWait(){
+      return GameManager.timeGame.waitturn;
+    }
+    WaitTurn(){
+      GameManager.timerwait = setInterval(()=>{
+        GameManager.timeGame.waitturn.set--;
+        if(GameManager.timeGame.waitturn.set==0){
+          GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
+          clearInterval(GameManager.timerwait);
+          this.NextTurn();
+        }
+      },1000);
     }
 }
 const gameManager = Object.freeze(new GameManager());

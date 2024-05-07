@@ -6,7 +6,7 @@ import socket from "../../Config/websocket.js"
 class ListRoomDialog extends Dialog {
   constructor() {
     super();
-    this.content = `<form id="dialog-form1" action="" class="col-12 col-md-7 p-3 mh-100 position-fixed" style="right: 20px";>
+    this.content = `<form id="dialog-form1" action="" class="col-12 col-md-7 p-3 mh-100 position-fixed user-select-none"" style="right: 20px";>
     <div class="container text-center">
         <div class="row">
         <div class="col"><h2 id="titleDialog">Tên phòng</h2></div>
