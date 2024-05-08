@@ -33,13 +33,8 @@ class ListPlayer{
     }
     }
     removeMember(name_){
-        console.log( this.list_[1].name);
-        if(this.members>0){
-                console.log('Xóa: '+name_);
         this.list_ = this.list_.filter(item => item.name != name_);
-        console.log(this.list_);
-        this.members--;
-        }
+        this.members = this.list_.length;
         // console.log(this.list_.find(({ name }) => name === name_));
         // console.log(this.list_.map((o) => o.name).indexOf(name_));
     }
@@ -263,7 +258,7 @@ class Player{
         this.context.closePath();
     }
     HandleNameUI(){
-        console.log(this.name)
+        // console.log(this.name)
         if(this.name.length>8){
             return this.name.substring(0, 8)+'...';
         }else{

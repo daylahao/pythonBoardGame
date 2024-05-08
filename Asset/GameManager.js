@@ -61,6 +61,7 @@ class GameManager{
     GetListPlayer(){
       if(GameManager.listplayer==undefined)
         GameManager.listplayer = new ListPlayer();
+      // console.log(GameManager.listplayer)
       return GameManager.listplayer;
     }
     StartSceneGame(){

@@ -17,10 +17,6 @@ function addText(cavnass,content=String,x,y){
 class SceneGame extends Scene{
     constructor(){
         super()
-        socket.on('on_user_join_room',(data)=>{
-            console.log(data.userName + ' has joined the room');
-            this.addplayer(data.userName);
-        })
         socket.on("on_user_leave_room",(data)=>{
             console.log(data.userName + ' has leaved the room');
             this.deletePlayer(data.userName);
@@ -51,18 +47,18 @@ class SceneGame extends Scene{
         this._Buttons.Add('btnDice',this.diceDialog.btnRoll);
         socket.on('res_join_room',(data)=>{
             gameManager.CreateListPlayer();
+            // console.log(data);
             data.forEach(user => {
                 console.log(user);
             this.createPlayer(user.full_name);
             // console.log(gameManager.GetListPlayer())
             });
         });
-        console.log(gameManager.GetTurn());
+        // console.log(gameManager.GetTurn());
         gameManager.NextTurn();
         
     }
     createPlayer(user){
-
         var i= gameManager.GetListPlayer().getMember();
         gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
 
@@ -70,10 +66,6 @@ class SceneGame extends Scene{
     deletePlayer(username){
         gameManager.GetListPlayer().removeMember(username);
     }
-    addplayer(user){
-        var i= gameManager.GetListPlayer().getMember();
-        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
-    };
     getCookie(name) {
         // Split cookie string and get all individual name=value pairs in an array
         let cookieArr = document.cookie.split(";");
