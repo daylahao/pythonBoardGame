@@ -2,6 +2,7 @@ import gameManager from "../GameManager.js";
 import gameUIManager from "../GameUIManager.js";
 import Dialog from "./DialogBase.js";
 import socket from "../../Config/websocket.js"
+import SceneGame from "../../Scene/scenGame.js";
 class InputIdRoom extends Dialog{
     constructor(){
         super()
@@ -65,7 +66,7 @@ class InputIdRoom extends Dialog{
             // })) 
             socket.on("res_create_room", (data)=>{
                 if(data.success){
-                    gameManager.SetIdRoom(data.roomId);
+                    gameManager.SetIdRoom(data.room.roomId);
                     super.DestroyDialog();
                     alert(data.message);
                 }else{

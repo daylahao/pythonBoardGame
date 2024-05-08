@@ -19,12 +19,16 @@ class SceneGame extends Scene{
         super()
         socket.on('on_user_join_room',(data)=>{
             console.log(data.userName + ' has joined the room');
-            this.addplayer(data);
+            this.addplayer(data.userName);
         })
         socket.on("on_user_leave_room",(data)=>{
             console.log(data.userName + ' has leaved the room');
             this.deletePlayer(data.userName);
             // console.log(data);
+        })
+        socket.on("res_create_room",(data)=>{
+            console.log(data.room.creator + ' has joined the room');
+            this.addplayer(data.room.creator);
         })
         socket.on("on_user_done_roll",(data)=>{
             gameManager.SetDiceNumber(data.number1,data.number2);
@@ -48,7 +52,7 @@ class SceneGame extends Scene{
         socket.on('res_join_room',(data)=>{
             gameManager.CreateListPlayer();
             data.forEach(user => {
-            this.createPlayer(user);
+            this.createPlayer(user.fullname);
             console.log(gameManager.GetListPlayer())
             });
         });
@@ -58,7 +62,7 @@ class SceneGame extends Scene{
     }
     createPlayer(user){
         var i= gameManager.GetListPlayer().getMember();
-        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.full_name,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
+        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
 
     }
     deletePlayer(username){
@@ -66,7 +70,7 @@ class SceneGame extends Scene{
     }
     addplayer(user){
         var i= gameManager.GetListPlayer().getMember();
-        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.userName,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
+        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
     };
     getCookie(name) {
         // Split cookie string and get all individual name=value pairs in an array
