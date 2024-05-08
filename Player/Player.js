@@ -11,6 +11,8 @@ class ListPlayer{
     list_ = [];
     constructor(){
         this.list_ = [];
+        this.members=0;
+        this.Maxmembers=4;
     }
     getMember(){
         if(this.list_.length<0)
@@ -25,11 +27,21 @@ class ListPlayer{
         return this.list_.find(({ name }) => name === name_);
     }
     addMember(player){
+        if(this.members<this.Maxmembers){
         this.list_.push(player);
         this.members++;
     }
-    removeMember(){
+    }
+    removeMember(name_){
+        console.log( this.list_[1].name);
+        if(this.members>0){
+                console.log('Xóa: '+name_);
+        this.list_ = this.list_.filter(item => item.name != name_);
+        console.log(this.list_);
         this.members--;
+        }
+        // console.log(this.list_.find(({ name }) => name === name_));
+        // console.log(this.list_.map((o) => o.name).indexOf(name_));
     }
     Draw(){
         for (let i = 0; i < this.list_.length; i++) {
@@ -43,7 +55,7 @@ class ListPlayer{
     }
 }
 class Player{
-    constructor(id,name='Player',px,py,color_='red'){
+    constructor(id,name,px,py,color_='red'){
         this.id = id;
         this.state = 'idle';
         this.audio = new Audio('./Sound/move.mp3');

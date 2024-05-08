@@ -19,10 +19,12 @@ class SceneGame extends Scene{
         super()
         socket.on('on_user_join_room',(data)=>{
             console.log(data.userName + ' has joined the room');
-            // this.createPlayer(data.userName);
+            this.addplayer(data);
         })
         socket.on("on_user_leave_room",(data)=>{
             console.log(data.userName + ' has leaved the room');
+            this.deletePlayer(data.userName);
+            // console.log(data);
         })
         socket.on("on_user_done_roll",(data)=>{
             gameManager.SetDiceNumber(data.number1,data.number2);
@@ -43,28 +45,27 @@ class SceneGame extends Scene{
         this.diceDialog = new Dice(this.context,this.board_.rectBoardPosx-this.board_.tileWidth/2,this.board_.rectBoardPosy,this.board_.rectBoardGame.width,this.board_.rectBoardGame.height,this.toggleDice);
         this.diceDialog.show=true;
         this._Buttons.Add('btnDice',this.diceDialog.btnRoll);
-        gameManager.CreateListPlayer();
         socket.on('res_join_room',(data)=>{
-            console.log(data);
-            data.users.forEach(user => {
-                console.log(data);
+            gameManager.CreateListPlayer();
+            data.forEach(user => {
             this.createPlayer(user);
             console.log(gameManager.GetListPlayer())
             });
         });
-        
         gameManager.NextTurn();
         
     }
     createPlayer(user){
         var i= gameManager.GetListPlayer().getMember();
-        console.log(i);
         gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.full_name,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
 
     }
-    addplayer(){
+    deletePlayer(username){
+        gameManager.GetListPlayer().removeMember(username);
+    }
+    addplayer(user){
         var i= gameManager.GetListPlayer().getMember();
-        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.full_name,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
+        gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user.userName,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
     };
     getCookie(name) {
         // Split cookie string and get all individual name=value pairs in an array
