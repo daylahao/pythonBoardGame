@@ -52,6 +52,7 @@ class SceneGame extends Scene{
             console.log(gameManager.GetListPlayer())
             });
         });
+        console.log(gameManager.GetTurn());
         gameManager.NextTurn();
         
     }

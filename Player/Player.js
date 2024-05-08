@@ -11,8 +11,8 @@ class ListPlayer{
     list_ = [];
     constructor(){
         this.list_ = [];
-        this.members=0;
-        this.Maxmembers=4;
+        // this.members=0;
+        // this.Maxmembers=4;
     }
     getMember(){
         if(this.list_.length<0)
@@ -44,6 +44,7 @@ class ListPlayer{
         // console.log(this.list_.map((o) => o.name).indexOf(name_));
     }
     Draw(){
+        // console.log(this.list_);
         for (let i = 0; i < this.list_.length; i++) {
             this.list_[i].Draw();
         }
