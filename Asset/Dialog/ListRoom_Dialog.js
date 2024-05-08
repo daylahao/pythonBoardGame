@@ -46,9 +46,9 @@ class ListRoomDialog extends Dialog {
   UpdateList() {
    
     socket.emit('get_rooms');
-    console.log('get_rooms');
+    // console.log('get_rooms');
     socket.on('rooms', (rooms) => {
-    console.log(rooms);
+    // console.log(rooms);
       this.listroom.innerHTML = '';
     rooms.forEach(room => {
       // console.log(room.creator);
@@ -61,7 +61,7 @@ class ListRoomDialog extends Dialog {
 }
 class ItemRoom {
     constructor(id,mem, name, creator){
-        this.userName = this.getCookie("username");
+        this.userName = gameManager.getCookie("username");
         this.id = id;
         this.mem = mem;
         this.name = name;
@@ -85,7 +85,7 @@ class ItemRoom {
         </div>`;
         this.item.onclick = this.Click.bind(this);
         socket.on('dashboard_user_join_room', (data)=>{
-          console.log(data.roomId);
+          // console.log(data.roomId);
           if(data.roomId === this.id){
             this.mem++;
             this.item.innerHTML=`<div class="container text-center">
@@ -98,7 +98,7 @@ class ItemRoom {
           }
         })
         socket.on('dashboard_user_leave_room', (data)=>{
-          console.log(data.roomId);
+          // console.log(data.roomId);
           if(data.roomId === this.id){
             this.mem--;
             this.item.innerHTML=`<div class="container text-center">
@@ -112,24 +112,11 @@ class ItemRoom {
         })
         return this.item;
     }
-    getCookie(name) {
-      // Split cookie string and get all individual name=value pairs in an array
-      let cookieArr = document.cookie.split(";");
-      
-      // Loop through the array elements
-      for(let i = 0; i < cookieArr.length; i++) {
-          let cookiePair = cookieArr[i].split("=");
-          
-          /* Removing whitespace at the beginning of the cookie name
-          and compare it with the given string */
-          if(name == cookiePair[0].trim()) {
-              // Decode the cookie value and return
-              return decodeURIComponent(cookiePair[1]);
-          }
-      }
-      return "";
-  }
     Click(){
+      socket.emit("join_room", JSON.stringify({
+        roomId: this.id,
+        userName: gameManager.getCookie("username")
+      }))
         soundManager.PlaySFX('ButtonClick');
         gameManager.SetIdRoom(this.id)
         // gameUIManager.DestroyDialogListRoom();

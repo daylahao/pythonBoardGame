@@ -17,14 +17,9 @@ function addText(cavnass,content=String,x,y){
 class SceneGame extends Scene{
     constructor(){
         super()
-        socket.emit("join_room", JSON.stringify({
-            roomId: gameManager.GetIdRoom(),
-            userName: this.getCookie("username")
-          }))
         socket.on('on_user_join_room',(data)=>{
-            socket.emit('users_rooms',JSON.stringify({
-                roomId:gameManager.GetIdRoom()
-            }));
+            console.log(data.userName + ' has joined the room');
+            // this.createPlayer(data.userName);
         })
         socket.on("on_user_leave_room",(data)=>{
             console.log(data.userName + ' has leaved the room');
@@ -49,12 +44,8 @@ class SceneGame extends Scene{
         this.diceDialog.show=true;
         this._Buttons.Add('btnDice',this.diceDialog.btnRoll);
         gameManager.CreateListPlayer();
-        socket.emit('users_rooms',JSON.stringify({
-            roomId:gameManager.GetIdRoom()
-        }));
-        socket.on('res_users_rooms',(data)=>{
+        socket.on('res_join_room',(data)=>{
             console.log(data);
-            
             data.users.forEach(user => {
                 console.log(data);
             this.createPlayer(user);
