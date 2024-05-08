@@ -59,6 +59,8 @@ class GameManager{
       return GameManager.listplayer;
     }
     GetListPlayer(){
+      if(GameManager.listplayer==undefined)
+        GameManager.listplayer = new ListPlayer();
       return GameManager.listplayer;
     }
     StartSceneGame(){
@@ -128,11 +130,12 @@ class GameManager{
     }
     NextTurn(){
       GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
-      if(GameManager.turn==3){
+      if(GameManager.turn==gameManager.GetListPlayer().getMember()-1){
         GameManager.turn = 0;
       }else
         GameManager.turn++;
       this.WaitTurn();
+      console.log(GameManager.turn);
     }
     ResetDice(){
       clearInterval(GameManager.timerwait);
