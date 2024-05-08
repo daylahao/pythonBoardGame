@@ -135,7 +135,7 @@ class GameManager{
       }else
         GameManager.turn++;
       this.WaitTurn();
-      console.log(GameManager.turn);
+      // console.log(GameManager.turn);
     }
     ResetDice(){
       clearInterval(GameManager.timerwait);

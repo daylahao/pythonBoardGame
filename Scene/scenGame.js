@@ -52,8 +52,9 @@ class SceneGame extends Scene{
         socket.on('res_join_room',(data)=>{
             gameManager.CreateListPlayer();
             data.forEach(user => {
-            this.createPlayer(user.fullname);
-            console.log(gameManager.GetListPlayer())
+                console.log(user);
+            this.createPlayer(user.full_name);
+            // console.log(gameManager.GetListPlayer())
             });
         });
         console.log(gameManager.GetTurn());
@@ -61,6 +62,7 @@ class SceneGame extends Scene{
         
     }
     createPlayer(user){
+
         var i= gameManager.GetListPlayer().getMember();
         gameManager.GetListPlayer().addMember(new Player(gameManager.GetListPlayer().getMember(),user,listCard[0].playerslot[i].x,listCard[0].playerslot[i].y));
 

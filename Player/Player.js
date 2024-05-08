@@ -263,6 +263,7 @@ class Player{
         this.context.closePath();
     }
     HandleNameUI(){
+        console.log(this.name)
         if(this.name.length>8){
             return this.name.substring(0, 8)+'...';
         }else{
