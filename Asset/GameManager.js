@@ -8,6 +8,7 @@ import SceneSetting from "../Scene/sceneSetting.js"
 import SceneAbout from "../Scene/sceneAbout.js";
 import Dice from "./Dice.js";
 import socket from "../Config/websocket.js";
+import roomManager from "./RoomManager.js";
 let instance;
 class GameManager{
     static instance = null;
@@ -28,9 +29,7 @@ class GameManager{
     static canvas;
     static DiceNumber = [1,5];
     static stepcurrent = [0,0,0,0];
-    static listplayer;
     static idRoom;
-    static turn =0;
     constructor() {
       this.userName = this.getCookie("username");
       if (GameManager.instance) {
@@ -54,21 +53,26 @@ class GameManager{
     GetSceneCurrent(){
         return GameManager.sceneCurrent;
     }
-    CreateListPlayer(){
-      GameManager.listplayer = new ListPlayer();
-      return GameManager.listplayer;
-    }
-    GetListPlayer(){
-      if(GameManager.listplayer==undefined)
-        GameManager.listplayer = new ListPlayer();
-      return GameManager.listplayer;
+    JoinRoom(id,status,creator){
+      roomManager.CreateLists();
+      roomManager.SetId(id);
+      if(creator == gameManager.getCookie('username')){
+        roomManager.SetHost(true);
+      }else{
+        roomManager.SetHost(false);
+      }
+      if(status==1){
+        roomManager.SetRoomStart(true);
+      }else{
+        roomManager.SetRoomStart(false);
+      }
+      this.StartSceneGame();
     }
     StartSceneGame(){
-      GameManager.turn = -1;
+      roomManager.SetTurnCurrent(1);
       GameManager.timeGame.timeanswer.set = GameManager.timeGame.timeanswer.default;
       GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
       GameManager.sceneCurrent = new SceneGame();
-      // gameUIManager.SetButtonScene(GameManager.sceneCurrent.GetButtons());
     }
     StartSceneHome(){
       GameManager.sceneCurrent = new SceneHome();
@@ -82,7 +86,6 @@ class GameManager{
     RandomDice(){
       return Math.round(Math.random() * (6 - 1) + 1);
     }
-    
     getCookie(name) {
       // Split cookie string and get all individual name=value pairs in an array
       let cookieArr = document.cookie.split(";");
@@ -100,12 +103,15 @@ class GameManager{
       }
       return "";
   }
+  PlayerStartRoll(){
+    GameManager.DiceNumber=[];
+    clearInterval(GameManager.timerwait);
+  }
     Roll_Dice(){
       socket.emit('start_roll', JSON.stringify({
-        roomId: GameManager.idRoom,
-        userName: gameManager.userName,
+        roomId: roomManager.GetId(),
+        userName: gameManager.getCookie('username'),
       }))
-      console.log([GameManager.turn])
       clearInterval(GameManager.timerwait);
       gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton();
       this.Dice_Left = gameManager.RandomDice();
@@ -113,35 +119,38 @@ class GameManager{
       GameManager.DiceNumber =[];
       GameManager.timeroll = setTimeout(()=>{
         GameManager.DiceNumber = [this.Dice_Left,this.Dice_right];
-
         var i = GameManager.DiceNumber[0]+GameManager.DiceNumber[1];
-
-        GameManager.listplayer.list_[GameManager.turn].Run(i);
-        listCard[i].Open(true);
-        GameManager.stepcurrent[GameManager.turn] =i;
         socket.emit("done_roll",JSON.stringify({
-          roomId: GameManager.idRoom,
-          userName: gameManager.userName,
+          roomId: roomManager.GetId(),
+          userName: gameManager.getCookie('username'),
           number1: GameManager.DiceNumber[0],
           number2: GameManager.DiceNumber[1],
         }))
-        
+        gameManager.SetPlayerMove();
+        listCard[i].Open(true);
+        GameManager.stepcurrent[roomManager.GetTurnCurrent()] =i;
       },GameManager.timeGame.timeroll.set*1000);
+    }
+    SetPlayerMove(){
+      var i = GameManager.DiceNumber[0]+GameManager.DiceNumber[1];
+      roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).Run(i);
     }
     NextTurn(){
       GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
-      if(GameManager.turn==gameManager.GetListPlayer().getMember()-1){
-        GameManager.turn = 0;
+      console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
+      if(roomManager.GetTurnCurrent()==roomManager.GetRoomListPlayerOnBoard().getMember()){
+        roomManager.SetTurnCurrent(1);
       }else
-        GameManager.turn++;
-      this.WaitTurn();
+        roomManager.SetTurnCurrent(roomManager.GetTurnCurrent()+1);
+      roomManager.GetTurnCurrent()
+        this.WaitTurn();
       // console.log(GameManager.turn);
     }
     ResetDice(){
       clearInterval(GameManager.timerwait);
       clearTimeout(GameManager.timeroll);
       // GameManager.listplayer.resetmembers();
-      GameManager.turn = 0;
+      roomManager.SetTurnCurrent(1);
       GameManager.DiceNumber = [gameManager.RandomDice(),gameManager.RandomDice()];
       GameManager.sceneCurrent.diceDialog.ResetDice();
     }
@@ -150,10 +159,6 @@ class GameManager{
     }
     GetIdRoom(){
       return GameManager.idRoom;
-    }
-    SetIdRoom(id){
-      GameManager.idRoom = id;
-      this.StartSceneGame();
     }
     GetDataRoom(){
       var Rooms=[];
@@ -178,13 +183,10 @@ class GameManager{
       if(GameManager.timeGame.timeanswer.set==0){
         GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
         clearInterval(time);
+        if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn)
+          gameUIManager.DestroyDialog();
         this.NextTurn();
-        gameUIManager.DestroyDialog();
-        gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].ShowButton();
       }},1000);
-    }
-    GetTurn(){
-      return GameManager.turn;
     }
     GetTimeAnswer(){
       return GameManager.timeGame.timeanswer;

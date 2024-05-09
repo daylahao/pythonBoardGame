@@ -5,6 +5,7 @@ import soundManager from "../Asset/SoundManager.js";
 import Sprites from "./SpritesConfig.js";
 import { addText } from "../Asset/Button.js";
 import AnswerForm from "../Asset/Dialog/AnswerForm.js";
+import roomManager from "../Asset/RoomManager.js";
 class ListPlayer{
     members = 0;
     Maxmembers = 4;
@@ -15,16 +16,23 @@ class ListPlayer{
         // this.Maxmembers=4;
     }
     getMember(){
-        if(this.list_.length<0)
+        if(this.list_.length<=0||this.list_==undefined||this.list_==null)
             return 0;
         else
         return  this.list_.length;
     }
     resetmembers(){
         this.list_ = [];
+        this.members = 0;
     }
     getPlayer(name_){
         return this.list_.find(({ name }) => name === name_);
+    }
+    getPlayerById(id_){
+        return this.list_.find(({ id }) => id === id_);
+    }
+    getPlayerByTurn(turn){
+        return this.list_.find(({ turnInlist }) => turnInlist === turn);
     }
     addMember(player){
         if(this.members<this.Maxmembers){
@@ -33,13 +41,9 @@ class ListPlayer{
     }
     }
     removeMember(name_){
-        console.log( this.list_[1].name);
-        if(this.members>0){
-                console.log('Xóa: '+name_);
+        // console.log(this.list_);
         this.list_ = this.list_.filter(item => item.name != name_);
-        console.log(this.list_);
-        this.members--;
-        }
+        this.members = this.list_.length;
         // console.log(this.list_.find(({ name }) => name === name_));
         // console.log(this.list_.map((o) => o.name).indexOf(name_));
     }
@@ -54,10 +58,22 @@ class ListPlayer{
             this.list_[i].DrawUI();
         }
     }
+    SetMaxMembers(max){
+        this.Maxmembers = max;
+    }
 }
 class Player{
-    constructor(id,name,px,py,color_='red'){
-        this.id = id;
+    constructor(user){
+        this.id = user.user_id;
+        this.Steped = 0;
+        // console.log(user.full_name);
+        this.name = user.full_name;
+        this.point = user.point;
+        this.turnInlist = user.turn;
+        this.position = {
+            x:listCard[user.position].playerslot[this.turnInlist].x,
+            y:listCard[user.position].playerslot[this.turnInlist].y
+        };
         this.state = 'idle';
         this.audio = new Audio('./Sound/move.mp3');
         this.image = new Image();
@@ -65,12 +81,8 @@ class Player{
         this.context = this.canvas.getContext("2d");
         this.CANVAS_WIDTH = this.canvas.width = this.canvas.offsetWidth;
         this.CANVAS_HEIGHT = this.canvas.height = this.canvas.offsetHeight;
-        this.name = name;
-        this.scorce = 0;
-        this.position = {x:px,y:py};
-        this.sprite=Sprites[this.id];
+        this.sprite=Sprites[this.turnInlist];
         this.image.src = this.sprite.path;
-        this.colorPlayer= color_;
         this.turn = false;
         this.stepcurrent = 0;
         this.spriteAnimations = [];
@@ -89,6 +101,12 @@ class Player{
     }
     update(){
 
+    }
+    SetPosition(step){
+        this.position = {
+            x:listCard[step].playerslot[this.turnInlist].x,
+            y:listCard[step].playerslot[this.turnInlist].y
+        }
     }
     Run(step){
         this.turn = false;
@@ -125,26 +143,26 @@ class Player{
                     }
                     this.next = false;
                 }
-                var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.id].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.id].y - this.position.y, 2));
+                var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.turnInlist].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.turnInlist].y - this.position.y, 2));
                 if(this.stepcurrent>16){
                     this.flip = !this.sprite.flip;
                 }else{
                     this.flip = this.sprite.flip;
                 }
                 if(Distance<10){
-                    this.position = {...listCard[this.stepcurrent].playerslot[this.id]};
+                    this.position = {...listCard[this.stepcurrent].playerslot[this.turnInlist]};
                     this.next = true;
                     if(soundManager.GetStatusSFX()){
                         this.audio.play();}
                 }else{
-                    if(this.position.x<listCard[this.stepcurrent].playerslot[this.id].x){
+                    if(this.position.x<listCard[this.stepcurrent].playerslot[this.turnInlist].x){
                         this.position.x+=10;
-                    }else if(this.position.x>listCard[this.stepcurrent].playerslot[this.id].x){
+                    }else if(this.position.x>listCard[this.stepcurrent].playerslot[this.turnInlist].x){
                             this.position.x-=10;
                     }   
-                    if(this.position.y<listCard[this.stepcurrent].playerslot[this.id].y){
+                    if(this.position.y<listCard[this.stepcurrent].playerslot[this.turnInlist].y){
                         this.position.y+=10 ;
-                    }else  if(this.position.y>listCard[this.stepcurrent].playerslot[this.id].y){
+                    }else  if(this.position.y>listCard[this.stepcurrent].playerslot[this.turnInlist].y){
                         this.position.y-=10 ;
                     }
                     if(this.size.w<Distance)
@@ -166,7 +184,7 @@ class Player{
                     this.state = 'idle';
                     this.flip = this.sprite.flip;
                     gameManager.SetTimeAnswer();
-                    if(gameManager.GetTurn()==this.id){
+                    if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn){
                         gameUIManager.ShowDialog(AnswerForm);
                     }
                 }
@@ -215,7 +233,7 @@ class Player{
         this.context.beginPath();
         this.sizeUI  = {w:this.CANVAS_WIDTH/7,h:50};
         var margin_bottom = 100,padding=10,margintag =80;
-        this.positionUI = {x:30,y:100+margintag*(this.id+1)};
+        this.positionUI = {x:30,y:100+margintag*(this.turnInlist+1)};
         this.context.save();
         this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-(this.sizeUI.w/100),this.sizeUI.h,10);
         this.context.fillStyle = '#808080';
@@ -227,7 +245,7 @@ class Player{
         this.context.beginPath();
 
         this.context.fillStyle = '#808080';
-        if(gameManager.GetTurn()==this.id){
+        if(roomManager.GetTurnCurrent()==this.turnInlist){
             if(gameManager.GetTimeAnswer().set!=gameManager.GetTimeAnswer().default)
                 this.UITime(gameManager.GetTimeAnswer().set,gameManager.GetTimeAnswer().default);
             else if(gameManager.GetTimeWait().set!=gameManager.GetTimeWait().default)
@@ -251,7 +269,7 @@ class Player{
         // this.context.lineWidth = 1;
         // this.context.strokeStyle = "black";
         // this.context.stroke();
-        if(gameManager.GetTurn()==this.id)
+        if(roomManager.GetTurnCurrent()==this.turnInlist)
             this.context.fillStyle = '#00FF00';
         else
             this.context.fillStyle = '#FFFFFF';
@@ -263,7 +281,7 @@ class Player{
         this.context.closePath();
     }
     HandleNameUI(){
-        console.log(this.name)
+        // console.log(this.name)
         if(this.name.length>8){
             return this.name.substring(0, 8)+'...';
         }else{
@@ -271,10 +289,10 @@ class Player{
         }
     }
     HandleScoreUI(){
-        if(this.scorce.toString().length>8){
-            return this.scorce.toString().substring(0, 8)+'...';
+        if(this.point.toString().length>8){
+            return this.point.toString().substring(0, 8)+'...';
         }else{
-            return this.scorce;
+            return this.point;
         }
     }
 }
