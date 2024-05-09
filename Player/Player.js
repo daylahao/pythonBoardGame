@@ -196,6 +196,7 @@ class Player{
             if(this.state!='run'){
                 this.state = 'run';
             }
+            gameUIManager.GetButtonName('btnDice').HideButton();
             this.AnimationRun();
         }
         var position_ = Math.floor(this.gameframe/this.frame)%this.spriteAnimations[this.state].loc.length;
