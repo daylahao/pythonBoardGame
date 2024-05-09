@@ -43,23 +43,11 @@ class RegisterForm extends Dialog {
         if(username.length < 1 || password.length < 1) {
             return 0;
         } else {
-            super.DestroyDialog();
             socket.emit("register", JSON.stringify({
                 username: username,
                 fullName: fullName,
                 password: password
         }))
-            socket.on("res_register", (data) => {
-                console.log(data.success)
-                if(data.success){
-                    alert(data.message)
-                    gameUIManager.ShowDialog(LoginForm)
-                    super.DestroyDialog();
-                    
-                }else{
-                    alert(data.message)
-                }
-            })
         }
     }
 }

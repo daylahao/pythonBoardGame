@@ -59,13 +59,6 @@ class InputIdRoom extends Dialog{
                 roomName: name,
                 //userPW: this.userPW,
             })) 
-            // console.log(JSON.stringify({
-            //     userName: this.userName,
-            //     roomName: name,
-            //     userPW: this.userPW,
-            // })) 
-
-            
         }
     }
 }

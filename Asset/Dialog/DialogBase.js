@@ -35,5 +35,8 @@ class Dialog{
     DestroyDialog(){
         gameUIManager.DestroyDialog();
     }
+    DestroyToastDialog(){
+        gameUIManager.DestroyToastDialog();
+    }
 }
 export default Dialog;

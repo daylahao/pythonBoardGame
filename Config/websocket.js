@@ -1,9 +1,14 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+
+
+const socket = io("ws://localhost:8000/");
 import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
 import roomManager from "../Asset/RoomManager.js";
+import ToastNotification from "../Asset/Dialog/ToastNotification.js";
 import soundManager from "../Asset/SoundManager.js";
-const socket = io("ws://192.168.126.106:8000/");
+import LoginForm from "../Asset/Dialog/LoginForm.js";
+let toast = new ToastNotification("");
 
 socket.on("connect", () => {
     console.log("Connected to server");
@@ -16,6 +21,30 @@ socket.on("disconnect", () => {
 socket.on("error", (error) => {
     console.error("Socket error:", error);
 });
+socket.on("res_register", (data) => {
+    if(data.success){
+        toast = new ToastNotification(data.message);
+        toast.Show();   
+        gameUIManager.ShowDialog(LoginForm)
+        gameUIManager.DestroyDialog();
+    }else{
+        toast = new ToastNotification(data.message);
+        toast.Show(); 
+    }
+})
+socket.on("res_login", (data) => {
+    if(data.success){
+        const user = data.user;
+        toast = new ToastNotification(data.message);
+        toast.Show(); 
+        gameUIManager.DestroyDialog();
+        document.cookie = "username=" + user.user_name + "; path=/";
+        document.cookie = "password=" + user.password + "; path=/";
+    }else{
+        toast = new ToastNotification(data.message);
+        toast.Show(); 
+    }
+})
 socket.on('on_user_join_room',(data)=>{
     console.log(data.userName + ' has joined the room');
     roomManager.SetRoomList( data.list_user);
@@ -30,12 +59,16 @@ socket.on("on_user_leave_room",(data)=>{
 })
 // Tạo phòng
 socket.on("res_create_room",(data)=>{
-    // console.log(data.room.creator + ' has joined the room');
-    console.log(data);
-    // roomManager.AddPlayerInRoom(data);
+  if(data.success){
+    toast = new ToastNotification(data.message);
+    toast.Show(); 
     gameManager.JoinRoom(data.room.roomId);
     socket.emit('get_rooms');
     gameUIManager.DestroyDialog();
+  }else{
+    toast = new ToastNotification(data.message);
+        toast.Show(); 
+    }
 })
 socket.on('rooms',(data)=>{
     // console.log(data);
@@ -85,5 +118,4 @@ socket.on("res_start_game",(data)=>{
         soundManager.PlayLoopMusic('BG');
     }
 })
-
 export default socket;
