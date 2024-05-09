@@ -75,19 +75,6 @@ class LoginForm extends Dialog {
                 username: username,
                 password: password
             }))
-            socket.on("res_login", (data) => {
-                console.log(data.success)
-                if(data.success){
-                    const user = data.user;
-                    console.log(user)
-                    alert(data.message)
-                    super.DestroyDialog();
-                    document.cookie = "username=" + user.user_name + "; path=/";
-                    document.cookie = "password=" + user.password + "; path=/";
-                }else{
-                    alert(data.message)
-                }
-            })
         }
     }
 }

@@ -64,18 +64,6 @@ class InputIdRoom extends Dialog{
             //     roomName: name,
             //     userPW: this.userPW,
             // })) 
-            socket.on("res_create_room", (data)=>{
-                if(data.success){
-                    gameManager.SetIdRoom(data.room.roomId);
-                    super.DestroyDialog();
-                    alert(data.message);
-                }else{
-                    alert(data.message)
-                }
-            })
-            
-            
-            
         }
     }
 }

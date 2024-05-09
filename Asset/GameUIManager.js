@@ -55,6 +55,10 @@ class GameUIManager{
       GameUIManager.dialogForm = document.getElementById('ShowDialog1');
       GameUIManager.dialogForm.remove();
     }
+    DestroyToastDialog(){
+      GameUIManager.dialogForm = document.getElementById('ShowDialog2');
+      GameUIManager.dialogForm.remove();
+    }
     // Opendialog(content){
     //   GameUIManager.dialogForm  = document.createElement("div");
     //   GameUIManager.dialogForm.id = "ShowDialog";
