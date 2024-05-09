@@ -6,7 +6,7 @@ class ToastNotification extends Dialog {
         super();
         this.message = message;
         this.content = `
-        <div id="dialog-form1" class="toast align-items-center text-white bg-primary border-0 position-fixed top-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="dialog-form1" class="user-select-none toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     ${this.message}

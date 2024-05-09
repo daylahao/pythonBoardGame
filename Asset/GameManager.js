@@ -25,6 +25,7 @@ class GameManager{
                   timeroll:{set:1,default:5}};
     static timeroll;
     static timerwait;
+    static timeranswer;
     static sceneCurrent;
     static canvas;
     static DiceNumber = [1,5];
@@ -135,16 +136,22 @@ class GameManager{
       var i = GameManager.DiceNumber[0]+GameManager.DiceNumber[1];
       roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).Run(i);
     }
-    NextTurn(){
-      GameManager.timeGame.waitturn.set = GameManager.timeGame.waitturn.default;
-      console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
-      if(roomManager.GetTurnCurrent()==roomManager.GetRoomListPlayerOnBoard().getMember()){
+    NextTurn(name,position){
+      clearInterval(GameManager.timerwait);
+      clearInterval(GameManager.timeranswer);
+      GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
+      GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
+      // roomManager.GetRoomListPlayerOnBoard().getPlayer(name).SetPosition(position);
+      roomManager.SetTurnCurrent(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
+      console.log(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
+      // console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
+      var i = roomManager.GetTurnCurrent();
+      if(i==roomManager.GetRoomListPlayerOnBoard().getMember()){
         roomManager.SetTurnCurrent(1);
-      }else
-        roomManager.SetTurnCurrent(roomManager.GetTurnCurrent()+1);
-      roomManager.GetTurnCurrent()
+      }else{
+        roomManager.SetTurnCurrent(i+1);}
+        // GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
         this.WaitTurn();
-      // console.log(GameManager.turn);
     }
     ResetDice(){
       clearInterval(GameManager.timerwait);
@@ -178,15 +185,28 @@ class GameManager{
       GameManager.timeGame.timeanswer.set--;
     }
     SetTimeAnswer(){
-     let time = setInterval(()=>{gameManager.CountDown();  
+      // console.log(GameManager.timeGame.timeanswer.set);
+      GameManager.timeranswer = setInterval(()=>{gameManager.CountDown();  
       // console.log(GameManager.timeGame.timeanswer.set);
       if(GameManager.timeGame.timeanswer.set==0){
-        GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
-        clearInterval(time);
+        // GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
+        // GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
         if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn)
-          gameUIManager.DestroyDialog();
-        this.NextTurn();
+          {
+            gameUIManager.DestroyDialog();
+            gameManager.UserDoneMove();
+          }
       }},1000);
+    }
+    UserDoneMove(){
+      // console.log(roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).stepcurrent); 
+      clearInterval(GameManager.timerwait);
+      clearInterval(GameManager.timeranswer);
+      socket.emit('user_done_move',JSON.stringify({
+          roomId: roomManager.GetId(),
+          userName: roomManager.GetUser().full_name,
+          position: roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).stepcurrent,
+        }))
     }
     GetTimeAnswer(){
       return GameManager.timeGame.timeanswer;
@@ -196,11 +216,14 @@ class GameManager{
     }
     WaitTurn(){
       GameManager.timerwait = setInterval(()=>{
-        GameManager.timeGame.waitturn.set--;
+        // console.log('Turn '+roomManager.GetTurnCurrent()+":"+GameManager.timeGame.waitturn.set);
         if(GameManager.timeGame.waitturn.set==0){
-          GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
-          clearInterval(GameManager.timerwait);
-          this.NextTurn();
+          // GameManager.timeGame.waitturn.set==-1;
+          // GameManager.timeGame.waitturn.set==GameManager.timeGame.waitturn.default;
+          if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn)
+            gameManager.UserDoneMove();
+        }else{
+          GameManager.timeGame.waitturn.set--;
         }
       },1000);
     }

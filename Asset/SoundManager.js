@@ -2,7 +2,9 @@ let instance
 const ListMusic_={'BG':"Sound/BG_Music_Cartoon.mp3",
                   'ButtonClick':"Sound/button_Click.mp3",
                   'DiceRoll':"Sound/roll_ball.mp3",
-                  'Move':"Sound/move.mp3",};
+                  'Move':"Sound/move.mp3",
+                  'DoorBell':"Sound/doorbell.mp3",
+                  };
 class SoundManager{
     static sfxSound;
     static musicSound;

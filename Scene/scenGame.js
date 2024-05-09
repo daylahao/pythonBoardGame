@@ -1,20 +1,14 @@
-import { Button,ButtonIcon } from "../Asset/Button.js";
+import {addText,Button,ButtonIcon } from "../Asset/Button.js";
 import gameManager from "../Asset/GameManager.js";
 import {Scene} from "./scenebase.js";
 import Board from "../Asset/Board.js";
 import Dice from "../Asset/Dice.js";
 import gameUIManager from "../Asset/GameUIManager.js";
+import soundManager from "../Asset/SoundManager.js";
 import { ListPlayer, Player } from "../Player/Player.js";
 import { listCard } from "../Asset/Card.js";
 import socket from "../Config/websocket.js";
 import roomManager from "../Asset/RoomManager.js";
-function addText(cavnass,content=String,x,y){
-    const ctx = cavnass.getContext("2d");
-    ctx.font = "50px Arial";
-    ctx.textAlign = "center";
-    ctx.fillStyle = 'white';
-    ctx.fillText(content,x,y);
-}
 class SceneGame extends Scene{
     constructor(){
         super()
@@ -36,6 +30,7 @@ class SceneGame extends Scene{
         gameUIManager.GetButtonName('btnStart').HideButton();
         // console.log(gameManager.GetTurn());
         // gameManager.NextTurn();
+        soundManager.PlaySFX('DoorBell');
     }
     StartGame(){
         socket.emit('start_game',JSON.stringify({
@@ -54,18 +49,22 @@ class SceneGame extends Scene{
         
     }
     Draw(){
+        this.board_.Draw();
         if(!roomManager.IsHost()||roomManager.IsRoomStart()){
             gameUIManager.GetButtonName('btnStart').HideButton();
             this.diceDialog.show = true;
-            if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn){
+            if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn && gameManager.GetDiceNumber().length!=0){
                 this.diceDialog.btnRoll.ShowButton();
             }else{
                 this.diceDialog.btnRoll.HideButton();
             }
+            if(!roomManager.IsRoomStart()){
+                addText('Vui lòng đợi chủ phòng bắt đầu game',this.CANVAS_WIDTH/2,this.CANVAS_HEIGHT/2,'30px');
+            }
         }else{
             gameUIManager.GetButtonName('btnStart').ShowButton();
         } 
-        this.board_.Draw();
+
         this._Buttons.Draw();
         if(roomManager.IsRoomStart()){
             // console.log('Start Game');

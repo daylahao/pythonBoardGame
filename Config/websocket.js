@@ -2,6 +2,7 @@ import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 
 
 const socket = io("ws://localhost:8000/");
+
 import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
 import roomManager from "../Asset/RoomManager.js";
@@ -46,13 +47,20 @@ socket.on("res_login", (data) => {
     }
 })
 socket.on('on_user_join_room',(data)=>{
-    console.log(data.userName + ' has joined the room');
+    soundManager.PlaySFX('DoorBell');
+    // console.log(data.userName + ' has joined the room');
+    var text = 'Người chơi '+data.userName+' đã Vào Phòng';
+    toast = new ToastNotification(text);
+    toast.Show(); 
     roomManager.SetRoomList( data.list_user);
     // console.log(data);
     // console.log(roomManager.GetListInRoom());
 })
 socket.on("on_user_leave_room",(data)=>{
-    console.log(data.userName + ' has leaved the room');
+    // console.log(data.userName + ' has leaved the room');
+    var text ='Người chơi '+data.userName+' đã Cút';
+    toast = new ToastNotification(text);
+    toast.Show(); 
     // gameManager.GetSceneCurrent().deletePlayer(data.userName);
     roomManager.RemovePlayerInRoom(data.userName);
     // console.log(roomManager.GetListInRoom());
@@ -108,14 +116,19 @@ socket.on("on_user_done_roll",(data)=>{
     gameManager.SetDiceNumber(data.number1,data.number2);
     gameManager.SetPlayerMove();
 })
+socket.on("on_user_done_move",(data)=>{
+    console.log(data);
+    gameManager.NextTurn(data.userName,data.position);
+})
 //Bắt đầu game
 socket.on("res_start_game",(data)=>{
     if(data.success){
+        console.log('GAmeRun');
         roomManager.SetRoomListPlayerOnBoard(data.data);
         roomManager.SetRoomStart(true);
         roomManager.SetTurnCurrent(1);
-        gameManager.WaitTurn();
         soundManager.PlayLoopMusic('BG');
+        gameManager.WaitTurn();
     }
 })
 export default socket;
