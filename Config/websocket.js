@@ -67,7 +67,7 @@ socket.on("res_create_room",(data)=>{
     gameUIManager.DestroyDialog();
   }else{
     toast = new ToastNotification(data.message);
-        toast.Show(); 
+    toast.Show(); 
     }
 })
 socket.on('rooms',(data)=>{
@@ -118,4 +118,15 @@ socket.on("res_start_game",(data)=>{
         soundManager.PlayLoopMusic('BG');
     }
 })
+//chat manager
+socket.on("res_send_message", (data)=>{
+    if(data.success){
+        let newMessage = document.createElement('div');
+        newMessage.classList.add('list-group-item');
+        newMessage.textContent = data.user_name + ': ' + data.message;
+        chatList.appendChild(newMessage);
+        document.querySelector("#message").value = "";
+    }
+})
+
 export default socket;
