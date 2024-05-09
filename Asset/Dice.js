@@ -23,9 +23,6 @@ class Dice{
         this.show = false;
         this.btnRoll = new Button("Thả","center",this.position.x-this.dicesize.width/4,this.position.y+this.dicesize.height+this.paddingoffset,150,50,'white','black',gameManager.Roll_Dice);
         this.frame = 1;
-        socket.on("on_user_start_roll", (data)=>{
-            this.btnRoll.HideButton()
-        });
         this.LoadAnimationSprite();
     }
     LoadAnimationSprite(){
@@ -61,9 +58,12 @@ class Dice{
                 this.gameframe = 0;
             this.framex =  [Math.round(Math.random() * (6 - 1) + 1),Math.round(Math.random() * (6 - 1) + 1)];
         }
-            if(this.show){
+        if(this.show){
+            // this.btnRoll.ShowButton();
             this.context.drawImage(this.image,this.animationsprite.loc[this.framex[0]-1].x,0,DiceSprite.w,DiceSprite.h,this.position.x-this.dicesize.width,this.position.y,this.dicesize.width,this.dicesize.height);
             this.context.drawImage(this.image,this.animationsprite.loc[this.framex[1]-1].x,0,DiceSprite.w,DiceSprite.h,this.position.x,this.position.y,this.dicesize.width,this.dicesize.height);
+        }else{
+            this.btnRoll.HideButton();
         }
         this.gameframe++;
     }
