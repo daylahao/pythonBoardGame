@@ -46,14 +46,13 @@ class ListRoomDialog extends Dialog {
   UpdateList() {
    
     socket.emit('get_rooms');
-    // console.log('get_rooms');
     socket.on('rooms', (rooms) => {
-    // console.log(rooms);
       this.listroom.innerHTML = '';
     rooms.forEach(room => {
-      // console.log(room.creator);
+      if(room.users.length > 0) { 
         var itemRoom = new ItemRoom(room.room_id, room.users.length, room.room_name, room.creator,room.playing_status);
         this.listroom.appendChild(itemRoom);
+      }
     });
 });
                 
@@ -70,21 +69,21 @@ class ItemRoom {
         this.item = document.createElement('buton');
         this.item.id = id;
         this.item.name = name;
-        if(this.mem<3)
-        this.item.classList = "ItemRoom btn col-12 d-flex justify-content-between border border-dange my-1 p-2 btn-light";
+        if(this.mem<3){
+          this.item.classList = "ItemRoom btn col-12 d-flex justify-content-between border border-dange my-1 p-2 btn-light";}
         else if(this.mem==3)
-        this.item.classList = "ItemRoom btn col-12 d-flex justify-content-between border border-dange my-1 p-2 btn-success";
+          this.item.classList = "ItemRoom btn col-12 d-flex justify-content-between border border-dange my-1 p-2 btn-success";
         else
-        this.item.classList = "ItemRoom btn col-12 d-flex justify-content-between border border-dange my-1 p-2 btn-danger";
-        this.item.type = 'button';
-        this.item.innerHTML=`<div class="container text-center">
-        <div class="row">
-          <div class="col">`+this.name+`</div>
-          <div class="col">`+ this.creator +`</div>
-          <div id="mem" class="col"><p>`+this.mem+`/4</div>
-          </div>
-        </div>`;
-        this.item.onclick = this.Click.bind(this);
+          this.item.classList = "ItemRoom btn col-12 d-flex justify-content-between border border-dange my-1 p-2 btn-danger";
+          this.item.type = 'button';
+          this.item.innerHTML=`<div class="container text-center">
+          <div class="row">
+            <div class="col">`+this.name+`</div>
+            <div class="col">`+ this.creator +`</div>
+            <div id="mem" class="col"><p>`+this.mem+`/4</div>
+            </div>
+          </div>`;
+          this.item.onclick = this.Click.bind(this);
         socket.on('dashboard_user_join_room', (data)=>{
           // console.log(data.roomId);
           if(data.roomId === this.id){
@@ -99,17 +98,22 @@ class ItemRoom {
             </div>`;
           }
         })
+        
         socket.on('dashboard_user_leave_room', (data)=>{
           // console.log(data.roomId);
           if(data.roomId === this.id){
             this.mem--;
-            this.item.innerHTML=`<div class="container text-center">
-            <div class="row">
-              <div class="col">`+this.name+`</div>
-              <div class="col">`+ this.creator +`</div>
-              <div id="mem" class="col"><p>`+this.mem+`/4</div>
-              </div>
-            </div>`;
+            if(this.mem>0){
+              this.item.innerHTML=`<div class="container text-center">
+              <div class="row">
+                <div class="col">`+this.name+`</div>
+                <div class="col">`+ this.creator +`</div>
+                <div id="mem" class="col"><p>`+this.mem+`/4</div>
+                </div>
+              </div>`;
+            }else {
+              this.item.remove();
+            }
           }
         })
         return this.item;
