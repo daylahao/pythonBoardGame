@@ -22,7 +22,7 @@ class SceneGame extends Scene{
         this._Buttons.Add("Back",new ButtonIcon(gameUIManager.GetIconImage('backDefault'),gameUIManager.GetIconImage('backHover'),"","center",50,50,80,50,'white','black',()=>{
             gameManager.ResetDice();
             gameManager.StartSceneHome();
-            gameUIManager.DestroyToastDialog()
+            gameUIManager.DestroyChatBox()
             socket.emit('leave_room',JSON.stringify({
                 roomId: roomManager.GetId(),
                 userName: gameManager.getCookie('username'),

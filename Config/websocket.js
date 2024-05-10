@@ -135,6 +135,7 @@ socket.on("res_start_game",(data)=>{
 //chat manager
 socket.on("res_send_message", (data)=>{
     if(data.success){
+        let chatList = document.getElementById('chatList');
         let newMessage = document.createElement('div');
         newMessage.classList.add('list-group-item');
         newMessage.textContent = data.user_name + ': ' + data.message;
