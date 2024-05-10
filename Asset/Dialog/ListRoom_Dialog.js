@@ -44,12 +44,13 @@ class ListRoomDialog extends Dialog {
     console.log(id);
   }
   UpdateList() {
-   
     socket.emit('get_rooms');
     socket.on('rooms', (rooms) => {
+      console.log(rooms);
       this.listroom.innerHTML = '';
     rooms.forEach(room => {
-      if(room.users.length > 0) { 
+      // console.log(room.room_name.length);
+      if(room.room_name.length > 0&&room.room_id.length > 0) { 
         var itemRoom = new ItemRoom(room.room_id, room.users.length, room.room_name, room.creator,room.playing_status);
         this.listroom.appendChild(itemRoom);
       }
