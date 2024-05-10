@@ -12,13 +12,7 @@ import roomManager from "../Asset/RoomManager.js";
 
 
 import ChatBox from "../Asset/Dialog/ChatBox.js";
-function addText(cavnass,content=String,x,y){
-    const ctx = cavnass.getContext("2d");
-    ctx.font = "50px Arial";
-    ctx.textAlign = "center";
-    ctx.fillStyle = 'white';
-    ctx.fillText(content,x,y);
-}
+
 
 class SceneGame extends Scene{
     constructor(){

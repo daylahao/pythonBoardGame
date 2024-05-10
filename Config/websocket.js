@@ -67,6 +67,7 @@ socket.on("on_user_leave_room",(data)=>{
 })
 // Tạo phòng
 socket.on("res_create_room",(data)=>{
+
   if(data.success){
     toast = new ToastNotification(data.message);
     toast.Show(); 
@@ -79,7 +80,7 @@ socket.on("res_create_room",(data)=>{
     }
 })
 socket.on('rooms',(data)=>{
-    // console.log(data);
+    console.log(data);
     if(roomManager.GetId()!=undefined||roomManager.GetId()!=null){
         console.log(roomManager.GetId());
         data.forEach(room => {
@@ -106,18 +107,18 @@ socket.on('res_join_room',(data)=>{
 });
 //Lắc xí ngầu
 socket.on("on_user_start_roll", (data)=>{
-    console.log(data);
+    // console.log(data);
     gameManager.PlayerStartRoll();
     gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton()
 });
 socket.on("on_user_done_roll",(data)=>{
-    console.log(data);
+    // console.log(data);
     gameUIManager.GetButtons().listButton.find(({ name }) => name === "btnDice")['button'].HideButton()
     gameManager.SetDiceNumber(data.number1,data.number2);
     gameManager.SetPlayerMove();
 })
 socket.on("on_user_done_move",(data)=>{
-    console.log(data);
+    // console.log(data);
     gameManager.NextTurn(data.userName,data.position);
 })
 //Bắt đầu game
