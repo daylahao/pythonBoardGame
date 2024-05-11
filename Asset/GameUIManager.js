@@ -1,4 +1,5 @@
 import { Buttons } from "./Button.js";
+import {Card,listCard} from "./Card.js";
 import gameManager from "./GameManager.js";
 import soundManager from "./SoundManager.js";
 let instance;
@@ -46,6 +47,14 @@ class GameUIManager{
     }
     GetDialog(){
       return GameUIManager.dialogForm;
+    }
+    CreateCardBoard(Cards){
+      var i=0;
+      Cards.forEach(card=> {
+        new Card(i,card.func,card.level);
+        i++;
+      });
+     gameManager.GetSceneCurrent().board_.SetupCard();
     }
     DestroyDialog(){
       GameUIManager.dialogForm = document.getElementById('ShowDialog');

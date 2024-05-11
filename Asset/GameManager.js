@@ -137,6 +137,7 @@ class GameManager{
       roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).Run(i);
     }
     NextTurn(name,position){
+      // console.log(roomManager.GetTurnCurrent());
       clearInterval(GameManager.timerwait);
       clearInterval(GameManager.timeranswer);
       GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
@@ -145,7 +146,7 @@ class GameManager{
       roomManager.SetTurnCurrent(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
       console.log(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
       // console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
-      var i = roomManager.GetTurnCurrent();
+      var i = roomManager.GetTurnCurrent()*1;
       if(i==roomManager.GetRoomListPlayerOnBoard().getMember()){
         roomManager.SetTurnCurrent(1);
       }else{
@@ -200,6 +201,7 @@ class GameManager{
     }
     UserDoneMove(){
       // console.log(roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).stepcurrent); 
+      console.log(roomManager.GetUser().full_name);
       clearInterval(GameManager.timerwait);
       clearInterval(GameManager.timeranswer);
       socket.emit('user_done_move',JSON.stringify({
@@ -217,7 +219,11 @@ class GameManager{
     WaitTurn(){
       GameManager.timerwait = setInterval(()=>{
         // console.log('Turn '+roomManager.GetTurnCurrent()+":"+GameManager.timeGame.waitturn.set);
+        
+        console.log(GameManager.timeGame.waitturn.set);
         if(GameManager.timeGame.waitturn.set==0){
+          console.log('turn player: '+roomManager.GetUser().turn);
+          console.log('turncurrent: '+roomManager.GetTurnCurrent());
           // GameManager.timeGame.waitturn.set==-1;
           // GameManager.timeGame.waitturn.set==GameManager.timeGame.waitturn.default;
           if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn)

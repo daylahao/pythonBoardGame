@@ -96,7 +96,7 @@ socket.on('rooms',(data)=>{
 })
 //Vô phòng 
 socket.on('res_join_room',(data)=>{
-    // console.log(data);
+    console.log(data);
     data.forEach(user => {
         roomManager.AddPlayerInRoom(user);
         // console.log(gameManager.getCookie('username'));
@@ -118,12 +118,14 @@ socket.on("on_user_done_roll",(data)=>{
     gameManager.SetPlayerMove();
 })
 socket.on("on_user_done_move",(data)=>{
-    // console.log(data);
+    console.log(data);
     gameManager.NextTurn(data.userName,data.position);
 })
 //Bắt đầu game
 socket.on("res_start_game",(data)=>{
+    console.log(data);
     if(data.success){
+        gameUIManager.CreateCardBoard(data.cards);
         console.log('GAmeRun');
         roomManager.SetRoomListPlayerOnBoard(data.data);
         roomManager.SetRoomStart(true);
