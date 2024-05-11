@@ -12,6 +12,7 @@ import roomManager from "../Asset/RoomManager.js";
 
 
 import ChatBox from "../Asset/Dialog/ChatBox.js";
+import ToastNotification from "../Asset/Dialog/ToastNotification.js";
 
 
 class SceneGame extends Scene{
@@ -40,6 +41,11 @@ class SceneGame extends Scene{
         soundManager.PlaySFX('DoorBell');
     }
     StartGame(){
+        if(roomManager.GetRoomList().members < 2){
+            let toast = new ToastNotification("Bạn không thể chơi game một mình");
+            toast.Show(); 
+            return;
+        }
         console.log('Game Start');
         socket.emit('start_game',JSON.stringify({
             roomId: roomManager.GetId(),

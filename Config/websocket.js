@@ -104,7 +104,13 @@ socket.on('rooms',(data)=>{
 })
 //Vô phòng 
 socket.on('res_join_room',(data)=>{
-    console.log(data);
+    // console.log(data);
+    if(data.success== false){
+        console.log(data);
+        toast = new ToastNotification(data.message);
+        toast.Show();
+        return;
+    }
     data.forEach(user => {
     roomManager.AddPlayerInRoom(user);
         // console.log(gameManager.getCookie('username'));
@@ -119,7 +125,7 @@ socket.on('res_join_room',(data)=>{
         roomManager.AddplayerOnBoard(user);
     }
     });
-
+    
 });
 socket.on('res_get_room_cards',(data)=>{
     if(data.success){
@@ -153,6 +159,9 @@ socket.on("res_start_game",(data)=>{
         roomManager.SetTurnCurrent(1);
         soundManager.PlayLoopMusic('BG');
         gameManager.WaitTurn();
+    }else{
+        toast = new ToastNotification(data.message);
+        toast.Show(); 
     }
 })
 //chat manager
