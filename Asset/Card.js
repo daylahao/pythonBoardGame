@@ -1,18 +1,18 @@
 import gameManager from "./GameManager.js";
 import { addText } from "./Button.js";
-let listCard = Array();
+let listCard=[];
 const paddingposition = 50;
 const ImageLink = ['Image/Icon/cardFront.png','Image/Icon/card.png']
 class Card{
-    constructor(number,LinkApi,contenttext){
+    constructor(number,contenttext,level){
         this.thumb = new Image();
         this.number = number;
         this.ApiQuestion = "";
         this.context = gameManager.GetCanvas().getContext("2d");
         this.content = contenttext;
-        this.link = LinkApi;
+        // this.link = LinkApi;
         this.open=true;
-        this.level=0;
+        this.level=level;
         this.positioncard =""
         this.position = {x:0,y:0};
         this.size = {w:0,h:0};
@@ -20,7 +20,7 @@ class Card{
                          {'x':this.position.x+this.size.w,'y':this.position.y},
                          {'x':this.position.x,'y':this.position.y+this.size.h},
                          {'x':this.position.x+this.size.w,'y':this.position.y+this.size.h},]
-        listCard.push(this);
+        listCard[this.number]=this;
     }
     Open(toogle){
         this.open =toogle;
@@ -51,8 +51,8 @@ class Card{
             this.thumb.src = ImageLink[0];
             this.context.drawImage(this.thumb,this.position.x,this.position.y,this.size.w,this.size.h);
             addText(this.content,this.position.x+this.size.w/2,this.position.y+this.size.h/2);
+            this.DrawLevelCard();
         }
-        this.DrawLevelCard();
     }
     DrawLevelCard(){
         var {x,y} = this.position;

@@ -40,6 +40,7 @@ class SceneGame extends Scene{
         soundManager.PlaySFX('DoorBell');
     }
     StartGame(){
+        console.log('Game Start');
         socket.emit('start_game',JSON.stringify({
             roomId: roomManager.GetId(),
             userName: gameManager.getCookie('username'),

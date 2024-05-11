@@ -17,14 +17,9 @@ function FakeCard(count){
                       {name:'modulo()',link:''},
                       {name:'Giaithua()',link:''}]
     for(var i=0;i<count;i++){
-        if(i==0){
-            new Card(i,"Facebook",'Start');
-        }
-        else{
             var id = Math.round(Math.random() * (ListTask.length-1 - 0) + 0);
-            var C = new Card(i,"Facebook",ListTask[id].name);
-            C.level = Math.round(Math.random() * (2 - 0) + 0);
-        }
+            var c= new Card(i,ListTask[id].name,0);
+            c.open = false;
         // new Card(i,"Facebook",i);
     }
 }
@@ -55,6 +50,9 @@ class Board{
         this.rectBoardPosx=(this.CANVAS_WIDTH/2-this.rectBoardGame.width/2);
         this.rectBoardPosy=(this.CANVAS_HEIGHT/2-this.rectBoardGame.height/2);
         FakeCard(count);
+        this.SetupCard();
+    }
+    SetupCard(){
         var count_temp = 0;
         for(var i=0; i<this.LineCard;i++){
             if(i==0||i==this.LineCard-1)
