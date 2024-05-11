@@ -9,6 +9,7 @@ import roomManager from "../Asset/RoomManager.js";
 import ToastNotification from "../Asset/Dialog/ToastNotification.js";
 import soundManager from "../Asset/SoundManager.js";
 import LoginForm from "../Asset/Dialog/LoginForm.js";
+import { listCard } from "../Asset/Card.js";
 let toast = new ToastNotification("");
 
 socket.on("connect", () => {
@@ -90,6 +91,13 @@ socket.on('rooms',(data)=>{
         }
         if(room.creator==gameManager.getCookie('username')){
             roomManager.SetHost(true);
+            room.users.forEach(user => {
+                if(user.full_name==gameManager.getCookie('username'));
+                    {
+                        roomManager.SetUser(user);
+                        console.log(roomManager.GetUser());
+                    }
+            });
         }
     });
     }
@@ -98,12 +106,25 @@ socket.on('rooms',(data)=>{
 socket.on('res_join_room',(data)=>{
     console.log(data);
     data.forEach(user => {
-        roomManager.AddPlayerInRoom(user);
+    roomManager.AddPlayerInRoom(user);
         // console.log(gameManager.getCookie('username'));
-    if(user.full_name==gameManager.getCookie('username'));
+    if(user.full_name==gameManager.getCookie('username')){
         roomManager.SetUser(user);
+        socket.emit('get_room_cards',JSON.stringify({
+        roomId: user.room_id,
+        }));
+    }
+    if(user.turn!=0){
+        console.log(user);
+        roomManager.AddplayerOnBoard(user);
+    }
     });
 
+});
+socket.on('res_get_room_cards',(data)=>{
+    if(data.success){
+    console.log(data);
+    gameUIManager.CreateCardBoard(data.data);}
 });
 //Lắc xí ngầu
 socket.on("on_user_start_roll", (data)=>{

@@ -54,6 +54,7 @@ class GameUIManager{
         new Card(i,card.func,card.level);
         i++;
       });
+      console.log("Addlist");
      gameManager.GetSceneCurrent().board_.SetupCard();
     }
     DestroyDialog(){

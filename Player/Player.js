@@ -69,10 +69,14 @@ class Player{
         // console.log(user.full_name);
         this.name = user.full_name;
         this.point = user.point;
-        this.turnInlist = user.turn;
+        this.turnInRoom = user.turn;
+        if(user.turn>0)
+        this.turnInlist = user.turn; 
+        else
+        {this.turnInlist = 1}
         this.position = {
-            x:listCard[user.position].playerslot[this.turnInlist].x,
-            y:listCard[user.position].playerslot[this.turnInlist].y
+            x:listCard[user.position].playerslot[this.turnInlist-1].x,
+            y:listCard[user.position].playerslot[this.turnInlist-1].y
         };
         this.state = 'idle';
         this.audio = new Audio('./Sound/move.mp3');
@@ -81,7 +85,7 @@ class Player{
         this.context = this.canvas.getContext("2d");
         this.CANVAS_WIDTH = this.canvas.width = this.canvas.offsetWidth;
         this.CANVAS_HEIGHT = this.canvas.height = this.canvas.offsetHeight;
-        this.sprite=Sprites[this.turnInlist];
+        this.sprite=Sprites[this.turnInlist-1];
         this.image.src = this.sprite.path;
         this.turn = false;
         this.stepcurrent = 0;
@@ -104,8 +108,8 @@ class Player{
     }
     SetPosition(step){
         this.position = {
-            x:listCard[step].playerslot[this.turnInlist].x,
-            y:listCard[step].playerslot[this.turnInlist].y
+            x:listCard[step].playerslot[this.turnInlist-1].x,
+            y:listCard[step].playerslot[this.turnInlist-1].y
         }
     }
     Run(step){
@@ -143,26 +147,26 @@ class Player{
                     }
                     this.next = false;
                 }
-                var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.turnInlist].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.turnInlist].y - this.position.y, 2));
+                var Distance = Math.sqrt(Math.pow(listCard[this.stepcurrent].playerslot[this.turnInlist-1].x - this.position.x, 2) + Math.pow(listCard[this.stepcurrent].playerslot[this.turnInlist-1].y - this.position.y, 2));
                 if(this.stepcurrent>16){
                     this.flip = !this.sprite.flip;
                 }else{
                     this.flip = this.sprite.flip;
                 }
                 if(Distance<10){
-                    this.position = {...listCard[this.stepcurrent].playerslot[this.turnInlist]};
+                    this.position = {...listCard[this.stepcurrent].playerslot[this.turnInlist-1]};
                     this.next = true;
                     if(soundManager.GetStatusSFX()){
                         this.audio.play();}
                 }else{
-                    if(this.position.x<listCard[this.stepcurrent].playerslot[this.turnInlist].x){
+                    if(this.position.x<listCard[this.stepcurrent].playerslot[this.turnInlist-1].x){
                         this.position.x+=10;
-                    }else if(this.position.x>listCard[this.stepcurrent].playerslot[this.turnInlist].x){
+                    }else if(this.position.x>listCard[this.stepcurrent].playerslot[this.turnInlist-1].x){
                             this.position.x-=10;
                     }   
-                    if(this.position.y<listCard[this.stepcurrent].playerslot[this.turnInlist].y){
+                    if(this.position.y<listCard[this.stepcurrent].playerslot[this.turnInlist-1].y){
                         this.position.y+=10 ;
-                    }else  if(this.position.y>listCard[this.stepcurrent].playerslot[this.turnInlist].y){
+                    }else  if(this.position.y>listCard[this.stepcurrent].playerslot[this.turnInlist-1].y){
                         this.position.y-=10 ;
                     }
                     if(this.size.w<Distance)
