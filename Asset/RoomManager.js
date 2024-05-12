@@ -50,6 +50,9 @@ class RoomManager{
         list.forEach(user => {
             RoomManager.roomList.SetMaxMembers(RoomManager.roomList.getMember()+1);
             RoomManager.roomList.addMember(new Player(user));
+            if(user.position!=0){
+                roomManager.AddPlayerInBoard(user);
+            }
             if(user.full_name==gameManager.getCookie('username')){
                 RoomManager.user = {...user};
             }

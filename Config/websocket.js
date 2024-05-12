@@ -95,7 +95,7 @@ socket.on('rooms',(data)=>{
                 if(user.full_name==gameManager.getCookie('username'));
                     {
                         roomManager.SetUser(user);
-                        console.log(roomManager.GetUser());
+                        // console.log(roomManager.GetUser());
                     }
             });
         }
