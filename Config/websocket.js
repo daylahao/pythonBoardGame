@@ -158,6 +158,17 @@ socket.on("res_start_game",(data)=>{
         toast.Show(); 
     }
 })
+//Nhận câu hỏi trả về 
+socket.on("res_get_question",(data)=>{
+    console.log(data);
+    if(data.success){
+        // gameUIManager.ShowDialog(AnswerForm);
+        // gameUIManager.GetDialog().SetQuestion(data.question);
+    }else{
+        toast = new ToastNotification(data.message);
+        toast.Show(); 
+    }
+});
 //chat manager
 socket.on("res_send_message", (data)=>{
     if(data.success){

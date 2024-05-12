@@ -195,6 +195,7 @@ class Player{
                     this.flip = this.sprite.flip;
                     gameManager.SetTimeAnswer();
                     if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn){
+                        gameManager.GetQuestion(listCard[this.stepcurrent]);
                         gameUIManager.ShowDialog(AnswerForm);
                     }
                 }
