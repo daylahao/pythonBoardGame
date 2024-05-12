@@ -8,6 +8,8 @@ import SceneHome from './Scene/sceneHome.js';
 import SceneGame from './Scene/scenGame.js';
 import SceneSetting from './Scene/sceneSetting.js';
 import soundManager from './Asset/SoundManager.js';
+import roomManager from './Asset/RoomManager.js';
+import socket from './Config/websocket.js';
 gameManager.StartSceneHome();
 let appstart = false;
 function Apprun(){
@@ -41,5 +43,33 @@ gameManager.GetCanvas().addEventListener('click', function(event) {
   window.addEventListener("DOMContentLoaded", event => {
     soundManager.PlayLoopMusic('BG');
   });
+  window.onbeforeunload = (event) => {
+    const e = event || window.event;
+    // Cancel the event
+    e.preventDefault();
+    if (e) {
+        socket.emit('leave_room',JSON.stringify({
+    roomId: roomManager.GetId(),
+    userName: gameManager.getCookie('username'),
+    }));
+      e.returnValue = ''; // Legacy method for cross browser support
+    }
+    return ''; // Legacy method for cross browser support
+  };
+  // const pageAccessedByReload = (
+  //   (window.performance.navigation && window.performance.navigation.type === 1) ||
+  //     window.performance
+  //       .getEntriesByType('navigation')
+  //       .map((nav) => nav.type)
+  //       .includes('reload')
+  // );
+// if(pageAccessedByReload){
+//   console.log(roomManager.GetId());
+//   console.log(pageAccessedByReload);
+//   socket.emit('leave_room',JSON.stringify({
+//     roomId: roomManager.GetId(),
+//     userName: gameManager.getCookie('username'),
+// }))
+// }
 Apprun();
 

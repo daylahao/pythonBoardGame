@@ -95,7 +95,7 @@ socket.on('rooms',(data)=>{
                 if(user.full_name==gameManager.getCookie('username'));
                     {
                         roomManager.SetUser(user);
-                        console.log(roomManager.GetUser());
+                        // console.log(roomManager.GetUser());
                     }
             });
         }
@@ -153,6 +153,9 @@ socket.on("res_start_game",(data)=>{
         roomManager.SetTurnCurrent(1);
         soundManager.PlayLoopMusic('BG');
         gameManager.WaitTurn();
+    }else{
+        toast = new ToastNotification(data.message);
+        toast.Show(); 
     }
 })
 //chat manager
