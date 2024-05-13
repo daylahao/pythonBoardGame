@@ -38,13 +38,15 @@ class AnswerForm extends Dialog{
     this.Container.querySelector('#content').addEventListener('mousemove',(event)=>{
       if(changesizedown){
         questiondiv.style.height = `${event.clientY-this.Container.querySelector('#titleDialog').clientHeight-this.Container.querySelector('#changesize').clientHeight}px`;
-        console.log(questiondiv.offsetHeight);
         answerdiv.style.height = `${this.Container.querySelector('#content').clientHeight-questiondiv.offsetHeight-this.Container.querySelector('#changesize').clientHeight}px`;
       }
     })
   }
   Draw(){
     super.Draw();
+  }
+  SetQuestion(question){
+    this.Container.querySelector('#question').innerHTML = question;
   }
   ButtonCloseDialog(){
     super.ButtonCloseDialog();

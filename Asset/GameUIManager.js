@@ -73,6 +73,12 @@ class GameUIManager{
       GameUIManager.dialogForm = document.getElementById('ShowDialog3');
       GameUIManager.dialogForm.remove();
     }
+    ShowDialogAnswer(question){
+      if(question.lenght>0){
+        gameUIManager.ShowDialog(AnswerForm)
+        GameUIManager.dialogForm.SetQuestion(question);
+      }
+    }
     // Opendialog(content){
     //   GameUIManager.dialogForm  = document.createElement("div");
     //   GameUIManager.dialogForm.id = "ShowDialog";
