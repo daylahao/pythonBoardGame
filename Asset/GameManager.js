@@ -142,7 +142,8 @@ class GameManager{
       clearInterval(GameManager.timeranswer);
       GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
       GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
-      // roomManager.GetRoomListPlayerOnBoard().getPlayer(name).SetPosition(position);
+      roomManager.GetRoomListPlayerOnBoard().getPlayer(name).ClearTurn();
+      roomManager.GetRoomListPlayerOnBoard().getPlayer(name).SetPosition(position);
       roomManager.SetTurnCurrent(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
       console.log(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
       // console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
@@ -232,6 +233,17 @@ class GameManager{
           GameManager.timeGame.waitturn.set--;
         }
       },1000);
+    }
+    GetQuestion(card){
+      console.log(JSON.stringify({
+        func: card.func,
+        level: card.level,}));
+      socket.emit('get_question',JSON.stringify({
+        func: card.func,
+        level: card.level,
+        // func: 'add',
+        // level: 0,
+      }));
     }
 }
 const gameManager = Object.freeze(new GameManager());

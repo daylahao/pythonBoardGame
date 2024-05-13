@@ -136,6 +136,13 @@ class Player{
         this.spriteAnimations['run'] = {...frames};
         // console.log(this.spriteAnimations['run']);
     }
+    ClearTurn(){
+        this.next = false;
+        this.turn = false;
+        this.runanimation = false;
+        this.state = 'idle';
+        this.flip = this.sprite.flip;
+    }
     AnimationRun(){
         if(this.gameframe%this.frame==0){
             if((this.step-this.stepcurrent)>=0){
@@ -182,13 +189,13 @@ class Player{
                     }
 
                 }
-                if((this.step-this.stepcurrent)==0 && this.next==true){
-                    this.runanimation = false;
+                if((this.step-this.stepcurrent)==0 && this.next==true && this.state =='run'){
                     this.runanimation = false;
                     this.state = 'idle';
                     this.flip = this.sprite.flip;
                     gameManager.SetTimeAnswer();
                     if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn){
+                        gameManager.GetQuestion(listCard[this.stepcurrent]);
                         gameUIManager.ShowDialog(AnswerForm);
                     }
                 }
