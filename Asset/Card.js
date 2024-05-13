@@ -4,12 +4,12 @@ let listCard=[];
 const paddingposition = 50;
 const ImageLink = ['Image/Icon/cardFront.png','Image/Icon/card.png']
 class Card{
-    constructor(number,contenttext,level){
+    constructor(number,func,level){
         this.thumb = new Image();
         this.number = number;
         this.ApiQuestion = "";
         this.context = gameManager.GetCanvas().getContext("2d");
-        this.content = contenttext;
+        this.func = func;
         // this.link = LinkApi;
         this.open=true;
         this.level=level;
@@ -36,8 +36,8 @@ class Card{
         {'x':this.position.x,'y':this.position.y+this.size.h-paddingposition},
         {'x':this.position.x+this.size.w-paddingposition,'y':this.position.y+this.size.h-paddingposition},]
     }   
-    SetText(Content){
-        this.content = Content;
+    SetText(Func){
+        this.func = Func;
     }
     Draw(){
         this.context.beginPath();
@@ -50,7 +50,7 @@ class Card{
         else{
             this.thumb.src = ImageLink[0];
             this.context.drawImage(this.thumb,this.position.x,this.position.y,this.size.w,this.size.h);
-            addText(this.content,this.position.x+this.size.w/2,this.position.y+this.size.h/2);
+            addText(this.func,this.position.x+this.size.w/2,this.position.y+this.size.h/2);
             this.DrawLevelCard();
         }
     }
