@@ -168,8 +168,7 @@ socket.on("res_start_game",(data)=>{
 socket.on("res_get_question",(data)=>{
     console.log(data);
     if(data.success){
-        // gameUIManager.ShowDialog(AnswerForm);
-        // gameUIManager.GetDialog().SetQuestion(data.question);
+        gameUIManager.ShowDialogAnswer(data.question);
     }else{
         toast = new ToastNotification(data.message);
         toast.Show(); 
