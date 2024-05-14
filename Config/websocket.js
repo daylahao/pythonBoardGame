@@ -166,9 +166,9 @@ socket.on("res_start_game",(data)=>{
 })
 //Nhận câu hỏi trả về 
 socket.on("res_get_question",(data)=>{
-    console.log(data);
     if(data.success){
-        gameUIManager.ShowDialogAnswer(data.question);
+        console.log(data);
+        gameUIManager.ShowDialogAnswer(data.question.question_content);
     }else{
         toast = new ToastNotification(data.message);
         toast.Show(); 

@@ -42,10 +42,8 @@ class AnswerForm extends Dialog{
       }
     })
   }
-  Draw(){
-    super.Draw();
-  }
   SetQuestion(question){
+    console.log(question);
     this.Container.querySelector('#question').innerHTML = question;
   }
   ButtonCloseDialog(){

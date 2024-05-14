@@ -2,6 +2,7 @@ import { Buttons } from "./Button.js";
 import {Card,listCard} from "./Card.js";
 import gameManager from "./GameManager.js";
 import soundManager from "./SoundManager.js";
+import AnswerForm from "./Dialog/AnswerForm.js";
 let instance;
 class GameUIManager{
     static instance = null;
@@ -74,10 +75,9 @@ class GameUIManager{
       GameUIManager.dialogForm.remove();
     }
     ShowDialogAnswer(question){
-      if(question.lenght>0){
-        gameUIManager.ShowDialog(AnswerForm)
+        // console.log(question);
+        gameUIManager.ShowDialog(AnswerForm);
         GameUIManager.dialogForm.SetQuestion(question);
-      }
     }
     // Opendialog(content){
     //   GameUIManager.dialogForm  = document.createElement("div");
