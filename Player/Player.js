@@ -196,7 +196,7 @@ class Player{
                     gameManager.SetTimeAnswer();
                     if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn){
                         gameManager.GetQuestion(listCard[this.stepcurrent]);
-                        gameUIManager.ShowDialog(AnswerForm);
+                        // gameUIManager.ShowDialog(AnswerForm);
                     }
                 }
             }
