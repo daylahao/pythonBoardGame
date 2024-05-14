@@ -6,8 +6,10 @@ import socket from "../../Config/websocket.js"
 class ListRoomDialog extends Dialog {
   constructor() {
     super();
-    this.content = `<form id="dialog-form1" action="" class="col-12 col-md-7 p-3 py-5 mh-100 position-fixed user-select-none"" style="right:0;height:100vh";>
-    <div class="container text-center">
+    this.content = `<form id="dialog-form1" action="" class="position-relative col-7 p-3 py-5 mh-100 position-fixed user-select-none"" style="right:0;height:100vh">
+    <button id="hideDialog" type="button" class="d-block d-md-none btn rounded-circle btn-light  row-1 col top-50 translate-middle start-0 position-absolute"><i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="container text-center mw-100">
         <div class="row">
         <div class="col"><h2 id="titleDialog">Tên phòng</h2></div>
         <div class="col"><h2 id="titleDialog">Người tạo</h2></div>
@@ -15,7 +17,7 @@ class ListRoomDialog extends Dialog {
         </div>
         </div>
         <div id='content' class="d-flex flex-column col-12 row-12 py-3 mh-100">
-        <div id="listroom" class="d-flex justify-content-between flex-column px-1 bg-transparent">
+        <div id="listroom" class="d-flex justify-content-between flex-column px-1 bg-transparent  mw-100">
         </div>
         <!--<div class="d-flex justify-content-around col-12 p-5">
         <button id="CloseDialog" type="button" class="btn btn-dark row-12 col-12">Đóng</button>
@@ -29,6 +31,20 @@ class ListRoomDialog extends Dialog {
     super.Show();
     this.listroom = super.FindElement('#listroom');
     this.UpdateList();
+    let show = true;
+    this.Container.querySelector('#hideDialog').addEventListener('click', () => {
+      console.log(show);
+      if(show){
+        // console.log(this.Container.querySelector('#dialog-form1').innerHTML);
+        this.Container.querySelector('form').style.transform = `translateX(${this.Container.querySelector('form').offsetWidth-this.Container.querySelector('#hideDialog').offsetWidth+20}px)`;
+        this.Container.querySelector('#hideDialog').querySelector('i').classList = "bi bi-caret-left-fill";
+        show = false;
+      }else{
+        this.Container.querySelector('form').style.transform = 'translateX(0)';
+          this.Container.querySelector('#hideDialog').querySelector('i').classList = "bi bi-caret-right-fill";
+          show = true;
+      }
+    });
     // this.listroom.innerHTML = this.Changetohtml(this.Rooms);
     // super.FindElement("#CloseDialog").onclick = this.ButtonCloseDialog;
   }
