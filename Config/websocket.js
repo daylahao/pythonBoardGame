@@ -1,7 +1,10 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 
 
-const socket = io("ws://localhost:8000/");
+const socket = io("ws://localhost:8000/", {
+    transports: ['websocket'],
+    upgrade: false,
+});
 
 import gameManager from "../Asset/GameManager.js";
 import gameUIManager from "../Asset/GameUIManager.js";
@@ -185,5 +188,16 @@ socket.on("res_send_message", (data)=>{
         document.querySelector("#message").value = "";
     }
 })
+//voice chat
+socket.on('res_receive_audio', (audioData) => {
+    var newData = audioData.split(';');
+    newData[0] = 'data:audio/ogg;';
+    newData = newData[0] + newData[1];
 
+    var audio = new Audio(newData);
+    if (!audio || document.hidden) {
+        return;
+    }
+    audio.play();
+});
 export default socket;
