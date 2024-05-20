@@ -239,10 +239,10 @@ class GameManager{
       //   func: card.func,
       //   level: card.level,}));
       socket.emit('get_question',JSON.stringify({
-        // func: card.func,
-        // level: card.level,
-        func: 'add',
-        level: 0,
+        func: card.func,
+        level: card.level,
+        // func: 'add',
+        // level: 0,
       }));
     }
 }
