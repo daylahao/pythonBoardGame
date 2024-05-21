@@ -55,17 +55,6 @@ class SceneGame extends Scene{
     }
     VoiceChat(){
         requirePermission();
-        socket.on('res_receive_audio', (audioData) => {
-            var newData = audioData.split(';');
-            newData[0] = 'data:audio/ogg;';
-            newData = newData[0] + newData[1];
-        
-            var audio = new Audio(newData);
-            if (!audio || document.hidden) {
-                return;
-            }
-            audio.play();
-        });
     }
     createPlayer(user){
         var i= gameManager.GetListPlayer().getMember();
