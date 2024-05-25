@@ -242,7 +242,7 @@ class GameManager{
         // func: card.func,
         // level: card.level,
         func: 'add',
-        level: 0,
+        level: 1,
       }));
     }
     SendValidatePython(code,question){
@@ -253,7 +253,7 @@ class GameManager{
           userName: gameManager.getCookie('username'),
           questionId: question.question_id,
           func: question.func,
-          exam: question.level,
+          exam: question.exam,
           })
       );
       socket.emit('validate_python',JSON.stringify({
@@ -262,7 +262,7 @@ class GameManager{
     userName: gameManager.getCookie('username'),
     questionId: question.question_id,
     func: question.func,
-    exam: question.level,
+    exam: question.exam,
     }));
     }
 }
