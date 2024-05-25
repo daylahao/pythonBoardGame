@@ -221,10 +221,10 @@ class GameManager{
       GameManager.timerwait = setInterval(()=>{
         // console.log('Turn '+roomManager.GetTurnCurrent()+":"+GameManager.timeGame.waitturn.set);
         
-        console.log(GameManager.timeGame.waitturn.set);
+        // console.log(GameManager.timeGame.waitturn.set);
         if(GameManager.timeGame.waitturn.set==0){
-          console.log('turn player: '+roomManager.GetUser().turn);
-          console.log('turncurrent: '+roomManager.GetTurnCurrent());
+          // console.log('turn player: '+roomManager.GetUser().turn);
+          // console.log('turncurrent: '+roomManager.GetTurnCurrent());
           // GameManager.timeGame.waitturn.set==-1;
           // GameManager.timeGame.waitturn.set==GameManager.timeGame.waitturn.default;
           if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn)
@@ -239,11 +239,31 @@ class GameManager{
       //   func: card.func,
       //   level: card.level,}));
       socket.emit('get_question',JSON.stringify({
-        func: card.func,
-        level: card.level,
-        // func: 'add',
-        // level: 0,
+        // func: card.func,
+        // level: card.level,
+        func: 'add',
+        level: 0,
       }));
+    }
+    SendValidatePython(code,question){
+      console.log(
+        JSON.stringify({
+          code_text: code,
+          roomId: roomManager.GetId(),
+          userName: gameManager.getCookie('username'),
+          questionId: question.question_id,
+          func: question.func,
+          exam: question.level,
+          })
+      );
+      socket.emit('validate_python',JSON.stringify({
+    code_text: code,
+    roomId: roomManager.GetId(),
+    userName: gameManager.getCookie('username'),
+    questionId: question.question_id,
+    func: question.func,
+    exam: question.level,
+    }));
     }
 }
 const gameManager = Object.freeze(new GameManager());

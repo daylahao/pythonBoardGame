@@ -168,10 +168,11 @@ socket.on("res_start_game",(data)=>{
 socket.on("res_get_question",(data)=>{
     if(data.success){
         console.log(data);
-        gameUIManager.ShowDialogAnswer(data.question.question_content);
+        gameUIManager.ShowDialogAnswer(data.question);
     }else{
         toast = new ToastNotification(data.message);
         toast.Show(); 
+        gameManager.UserDoneMove();
     }
 });
 //chat manager
@@ -185,5 +186,22 @@ socket.on("res_send_message", (data)=>{
         document.querySelector("#message").value = "";
     }
 })
+// socket.emit('validate_python',JSON.stringify({
+//     code_text: "print('Hello World')",
+//     roomId: "1",
+//     userName: gameManager.getCookie('username'),
+//     questionId: "1",
 
+// }));
+socket.on("res_validate_python",(data)=>{
+    console.log(data);
+    if(data.success){
+        toast = new ToastNotification(data.message);
+        toast.Show();
+        console.log(data.user_room);
+    }else{
+        toast = new ToastNotification(data.message);
+        toast.Show();
+    }
+})
 export default socket;
