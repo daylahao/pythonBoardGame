@@ -18,6 +18,8 @@ class AnswerForm extends Dialog{
           <button type="button" id="send" class="m-2 p-2">Xác nhận<i class="fas fa-times"></i></button>
         </form>`;
         this.Container.innerHTML = this.content;
+        this.question;
+        this.code;
   }
   Show(){
     super.Show();
@@ -43,13 +45,20 @@ class AnswerForm extends Dialog{
     })
   }
   SetQuestion(question){
-    console.log(question);
-    this.Container.querySelector('#question').innerHTML = question;
+    this.question = question;
+    // console.log(question);
+    this.Container.querySelector('#question').innerHTML = question.question_content;
   }
   ButtonCloseDialog(){
+    this.GetCode();
     super.ButtonCloseDialog();
     super.DestroyDialog();
     gameManager.UserDoneMove();
+  }
+  GetCode(){
+    this.code = this.Container.querySelector('#answer').value;
+    // console.log(this.code);
+    gameManager.SendValidatePython(this.code,this.question);
   }
 }
 export default AnswerForm;
