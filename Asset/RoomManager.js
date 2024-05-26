@@ -11,6 +11,7 @@ class RoomManager{
     static roomListViewer;
     static roomStart = false;
     static turncurrent = 0;
+    static maxpoint = 10;
     constructor() {   
         if (instance) {
             throw new Error("New instance cannot be created!!");
@@ -123,6 +124,12 @@ class RoomManager{
     }
     GetTurnCurrent(){
         return RoomManager.turncurrent;
+    }
+    GetMaxPoint(){
+        return RoomManager.maxpoint;
+    }
+    SetPoint(user,point){
+        RoomManager.roomListPlayerOnBoard.getPlayerById(user.user_id).point = point;
     }
 }
 const roomManager = Object.freeze(new RoomManager());

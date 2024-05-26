@@ -199,10 +199,11 @@ socket.on("res_send_message", (data)=>{
 // }));
 socket.on("res_validate_python",(data)=>{
     console.log(data);
-    if(data.success){
+    if(data.success=="true"){
         toast = new ToastNotification(data.message);
         toast.Show();
         console.log(data.user_room);
+        gameManager.setPointUser(data.user_room);
     }else{
         toast = new ToastNotification(data.message);
         toast.Show();

@@ -3,6 +3,7 @@ import {Card,listCard} from "./Card.js";
 import gameManager from "./GameManager.js";
 import soundManager from "./SoundManager.js";
 import AnswerForm from "./Dialog/AnswerForm.js";
+import socket from "../Config/websocket.js";
 let instance;
 class GameUIManager{
     static instance = null;
@@ -78,6 +79,15 @@ class GameUIManager{
         // console.log(question);
         gameUIManager.ShowDialog(AnswerForm);
         GameUIManager.dialogForm.SetQuestion(question);
+    }
+    SceneGameToHome(){
+      gameManager.ResetDice();
+      gameManager.StartSceneHome();
+      gameUIManager.DestroyChatBox()
+      socket.emit('leave_room',JSON.stringify({
+          roomId: roomManager.GetId(),
+          userName: gameManager.getCookie('username'),
+      }))
     }
     // Opendialog(content){
     //   GameUIManager.dialogForm  = document.createElement("div");

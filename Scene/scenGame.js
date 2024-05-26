@@ -21,13 +21,7 @@ class SceneGame extends Scene{
         gameUIManager.ShowDialog(ChatBox)
         gameUIManager.DestroyDialogListRoom()
         this._Buttons.Add("Back",new ButtonIcon(gameUIManager.GetIconImage('backDefault'),gameUIManager.GetIconImage('backHover'),"","center",50,50,80,50,'white','black',()=>{
-            gameManager.ResetDice();
-            gameManager.StartSceneHome();
-            gameUIManager.DestroyChatBox()
-            socket.emit('leave_room',JSON.stringify({
-                roomId: roomManager.GetId(),
-                userName: gameManager.getCookie('username'),
-            }))
+            gameUIManager.SceneGameToHome();
         }));
         this.roomId = gameManager.GetIdRoom()
         this.board_= new Board(8*4);
