@@ -27,6 +27,7 @@ class GameManager{
     static timerwait;
     static timeranswer;
     static sceneCurrent;
+    static pausegame = false;
     static canvas;
     static DiceNumber = [1,5];
     static stepcurrent = [0,0,0,0];
@@ -201,6 +202,7 @@ class GameManager{
       }},1000);
     }
     UserDoneMove(){
+      // roomManager.SetPoint(roomManager.GetUser(),10);
       // console.log(roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).stepcurrent); 
       console.log(roomManager.GetUser().full_name);
       clearInterval(GameManager.timerwait);
@@ -242,7 +244,7 @@ class GameManager{
         // func: card.func,
         // level: card.level,
         func: 'add',
-        level: 0,
+        level: 1,
       }));
     }
     SendValidatePython(code,question){
@@ -253,7 +255,7 @@ class GameManager{
           userName: gameManager.getCookie('username'),
           questionId: question.question_id,
           func: question.func,
-          exam: question.level,
+          exam: question.exam,
           })
       );
       socket.emit('validate_python',JSON.stringify({
@@ -262,9 +264,31 @@ class GameManager{
     userName: gameManager.getCookie('username'),
     questionId: question.question_id,
     func: question.func,
-    exam: question.level,
+    exam: question.exam,
     }));
     }
+    setPointUser(user_room){
+      roomManager.SetPoint(user_room.user.user_id,user_room.point);
+      if(user_room.point>=roomManager.GetMaxPoint()){
+        GameManager.EndGame();
+      }
+    }
+    PauseGame(){
+      GameManager.pausegame = true;
+    }
+    EndGame(){
+      gameManager.pausegame();
+      setTimeout(()=>{
+      gameUIManager.SceneGameToHome();
+    },5000);
+    }
+    GetGameState(){
+      if(!GameManager.pausegame)
+        return 0
+      else
+        return 1;
+    }
+
 }
 const gameManager = Object.freeze(new GameManager());
 export default gameManager;
