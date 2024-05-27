@@ -20,7 +20,7 @@ class GameManager{
   
       return GameManager.instance;
     }
-    static timeGame ={timeanswer:{set:10,default:10},
+    static timeGame ={timeanswer:{set:50,default:50},
                   waitturn:{set:5,default:5},
                   timeroll:{set:1,default:5}};
     static timeroll;
@@ -241,10 +241,10 @@ class GameManager{
       //   func: card.func,
       //   level: card.level,}));
       socket.emit('get_question',JSON.stringify({
-        // func: card.func,
-        // level: card.level,
-        func: 'add',
-        level: 1,
+        func: card.func,
+        level: card.level,
+        // func: 'while',
+        // level: 2,
       }));
     }
     SendValidatePython(code,question){

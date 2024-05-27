@@ -4,6 +4,7 @@ import gameManager from "./GameManager.js";
 import soundManager from "./SoundManager.js";
 import AnswerForm from "./Dialog/AnswerForm.js";
 import socket from "../Config/websocket.js";
+import roomManager from "./RoomManager.js";
 let instance;
 class GameUIManager{
     static instance = null;

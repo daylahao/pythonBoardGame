@@ -241,7 +241,7 @@ class Player{
     }
     DrawUI(){
         var tagnameimage = new Image();
-        tagnameimage.src = 'Image/Icon/imageTagname.png'
+        tagnameimage.src = './Image/Icon/imageTagname.png'
         this.context.beginPath();
         this.sizeUI  = {w:this.CANVAS_WIDTH/7,h:50};
         var margin_bottom = 100,padding=10,margintag =80;
@@ -269,7 +269,7 @@ class Player{
             this.context.roundRect(this.positionUI.x,this.positionUI.y+2,this.sizeUI.w-((this.sizeUI.w/100)),this.sizeUI.h,0);
         this.context.fill();
         this.context.restore();
-        // this.context.drawImage(tagnameimage,this.positionUI.x-20,this.positionUI.y-10,this.sizeUI.w*1.2,this.sizeUI.h*1.5);
+        this.context.drawImage(tagnameimage,this.positionUI.x-20,this.positionUI.y-10,this.sizeUI.w*1.2,this.sizeUI.h*1.5);
         var avatar  ={x:this.positionUI.x+padding*2,
                     y:this.positionUI.y+padding,
                     w:this.sizeUI.h-padding*2,
