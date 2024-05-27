@@ -68,8 +68,10 @@ class RoomManager{
         let temp;
         list.forEach(user => {
             id=user.user_id;
+            console.log(id);
             temp = RoomManager.roomList.getPlayerById(id);
-            user.full_name = temp.name;
+            console.log(temp);
+            user.full_name = temp.id;
             RoomManager.roomListPlayerOnBoard.addMember(new Player(user));
             if(user.user_id==RoomManager.user.user_id){
                 RoomManager.user.turn = user.turn;
