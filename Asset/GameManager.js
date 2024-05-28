@@ -268,19 +268,21 @@ class GameManager{
     }));
     }
     setPointUser(user_room){
-      roomManager.SetPoint(user_room.user.user_id,user_room.point);
-      if(user_room.point>=roomManager.GetMaxPoint()){
-        GameManager.EndGame();
+      roomManager.SetPoint(user_room.user_id,user_room.point);
+      if(user_room.point*1>=roomManager.GetMaxPoint()){
+        console.log(roomManager.GetMaxPoint());
+        gameManager.EndGame();
       }
     }
     PauseGame(){
       GameManager.pausegame = true;
     }
     EndGame(){
-      gameManager.pausegame();
-      setTimeout(()=>{
+      // gameManager.pausegame();
       gameUIManager.SceneGameToHome();
-    },5000);
+    //   setTimeout(()=>{
+    //   gameUIManager.SceneGameToHome();
+    // },5000);
     }
     GetGameState(){
       if(!GameManager.pausegame)

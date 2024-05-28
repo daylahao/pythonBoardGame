@@ -199,7 +199,7 @@ socket.on("res_send_message", (data)=>{
 // }));
 socket.on("res_validate_python",(data)=>{
     console.log(data);
-    if(data.success=="true"){
+    if(data.success){
         toast = new ToastNotification(data.message);
         toast.Show();
         console.log(data.user_room);

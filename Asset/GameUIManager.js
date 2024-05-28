@@ -89,6 +89,7 @@ class GameUIManager{
           roomId: roomManager.GetId(),
           userName: gameManager.getCookie('username'),
       }))
+      console.log('Leave Room');
     }
     // Opendialog(content){
     //   GameUIManager.dialogForm  = document.createElement("div");
