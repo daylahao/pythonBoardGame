@@ -131,7 +131,8 @@ class RoomManager{
         return RoomManager.maxpoint;
     }
     SetPoint(user,point){
-        RoomManager.roomListPlayerOnBoard.getPlayerById(user.user_id).point = point;
+        console.log(user+'p'+point);
+        RoomManager.roomListPlayerOnBoard.getPlayerById(user).point = point;
     }
 }
 const roomManager = Object.freeze(new RoomManager());
