@@ -270,7 +270,7 @@ class GameManager{
     setPointUser(user_room){
       roomManager.SetPoint(user_room.user_id,user_room.point);
       if(user_room.point*1>=roomManager.GetMaxPoint()){
-        console.log(roomManager.GetMaxPoint());
+        // console.log(roomManager.GetMaxPoint());
         gameManager.EndGame();
       }
     }

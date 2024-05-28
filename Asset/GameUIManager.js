@@ -13,7 +13,6 @@ class GameUIManager{
       if (!GameUIManager.instance) {
         GameUIManager.instance = new Singleton();
       }
-  
       return GameUIManager.instance;
     }
     static listbuttons = [];
