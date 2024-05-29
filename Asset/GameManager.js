@@ -270,26 +270,36 @@ class GameManager{
     setPointUser(user_room){
       roomManager.SetPoint(user_room.user_id,user_room.point);
       if(user_room.point*1>=roomManager.GetMaxPoint()){
-        // console.log(roomManager.GetMaxPoint());
-        gameManager.EndGame();
+        console.log(roomManager.GetMaxPoint());
+        gameManager.EndGame(user_room.user_id);
       }
     }
     PauseGame(){
       GameManager.pausegame = true;
     }
-    EndGame(){
+    EndGame(winnerName){
       // gameManager.pausegame();
-      gameUIManager.SceneGameToHome();
-    //   setTimeout(()=>{
-    //   gameUIManager.SceneGameToHome();
-    // },5000);
-    }
-    GetGameState(){
-      if(!GameManager.pausegame)
-        return 0
-      else
-        return 1;
-    }
+      // gameUIManager.SceneGameToHome();
+      let winnerDialog = Swal.fire({
+        title: `Chúc mừng ${winnerName} đã chiến thắng!`,
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        background: "#fff",
+        backdrop: `
+            rgba(0,0,123,0.4)
+            url("/Image/Icon/giphy.gif")
+            center
+        `
+    });
+      setTimeout(() => {
+        console.log(winnerName);
+        winnerDialog.close();
+    }, 5000);
+
+    // Transition the game scene to home
+    // gameUIManager.SceneGameToHome();
+}
 
 }
 const gameManager = Object.freeze(new GameManager());
