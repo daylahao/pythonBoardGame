@@ -54,6 +54,18 @@ class LoginForm extends Dialog {
             super.FindElement('#RegisterForm').onclick = this.ButtonRegisterForm;
             super.FindElement('#Login').onclick = this.ButtonLogin;
             this.Container = document.getElementById('ShowDialog');
+            super.FindElement('#Username').addEventListener('keydown', (events)=>{
+                if (events.key === 'Enter') {
+                    this.KeyLogin();
+                    events.preventDefault();
+                }
+            });
+            super.FindElement('#Password').addEventListener('keydown', (events)=>{
+                if (events.key === 'Enter') {
+                    this.KeyLogin();
+                    events.preventDefault();
+                }
+            });
         }
     }
     ButtonRegisterForm(){
@@ -67,7 +79,20 @@ class LoginForm extends Dialog {
     ButtonLogin() {
         super.ButtonEnterDialog();
         var username = this.offsetParent.querySelector("#Username").value;
-        var password = this.offsetParent.querySelector("#Password").value;
+        var password = this.offsetParent.querySelector("#Password").value
+        if(username.length < 1 || password.length < 1) {
+            return 0;
+        } else {
+            socket.emit("login", JSON.stringify({
+                username: username,
+                password: password
+            }))
+        }
+    }
+    KeyLogin() {
+        super.ButtonEnterDialog();
+        var username = super.FindElement('#Username').value;
+        var password = super.FindElement('#Password').value;
         if(username.length < 1 || password.length < 1) {
             return 0;
         } else {

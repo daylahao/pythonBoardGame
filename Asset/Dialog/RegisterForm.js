@@ -26,6 +26,24 @@ class RegisterForm extends Dialog {
         super.FindElement('#LoginForm').onclick = this.ButtonLoginForm;
         super.FindElement('#Register').onclick = this.ButtonRegister;
         this.Container = document.getElementById('ShowDialog');
+        super.FindElement('#Username').addEventListener('keydown', (events)=>{
+            if (events.key === 'Enter') {
+                this.KeyRegister();
+                events.preventDefault();
+            }
+        });
+        super.FindElement('#Name').addEventListener('keydown', (events)=>{
+            if (events.key === 'Enter') {
+                this.KeyRegister();
+                events.preventDefault();
+            }
+        });
+        super.FindElement('#Password').addEventListener('keydown', (events)=>{
+            if (events.key === 'Enter') {
+                this.KeyRegister();
+                events.preventDefault();
+            }
+        });
     }
     ButtonLoginForm(){
         super.DestroyDialog()
@@ -40,7 +58,22 @@ class RegisterForm extends Dialog {
         var username = this.offsetParent.querySelector("#Username").value;
         var fullName = this.offsetParent.querySelector("#Name").value;
         var password = this.offsetParent.querySelector("#Password").value;
-        if(username.length < 1 || password.length < 1) {
+        if(username.length < 1 || password.length < 1 || fullName.length < 1) {
+            return 0;
+        } else {
+            socket.emit("register", JSON.stringify({
+                username: username,
+                fullName: fullName,
+                password: password
+        }))
+        }
+    }
+    KeyRegister(){
+        super.ButtonEnterDialog();
+        var username = super.FindElement('#Username').value;
+        var fullName = super.FindElement('#Name').value;
+        var password = super.FindElement('#Password').value;
+        if(username.length < 1 || password.length < 1 || fullName.length < 1) {
             return 0;
         } else {
             socket.emit("register", JSON.stringify({

@@ -43,6 +43,17 @@ class AnswerForm extends Dialog{
         answerdiv.style.height = `${this.Container.querySelector('#content').clientHeight-questiondiv.offsetHeight-this.Container.querySelector('#changesize').clientHeight}px`;
       }
     })
+    this.Container.querySelector('#answer').addEventListener('keydown', function(e) {
+      if (e.key == 'Tab') {
+          e.preventDefault();
+          var start = this.selectionStart;
+          var end = this.selectionEnd;
+  
+          this.value = this.value.substring(0, start) +
+              "    " + this.value.substring(end);
+          this.selectionStart = this.selectionEnd = start + 4;
+      }
+  });
   }
   SetQuestion(question){
     this.question = question;

@@ -282,23 +282,16 @@ class GameManager{
       // gameUIManager.SceneGameToHome();
       let winnerDialog = Swal.fire({
         title: `Chúc mừng ${winnerName} đã chiến thắng!`,
-        width: 600,
-        padding: "3em",
-        color: "#716add",
-        background: "#fff",
-        backdrop: `
-            rgba(0,0,123,0.4)
-            url("/Image/Icon/giphy.gif")
-            center
-        `
-    });
+        imageUrl: "/Image/Icon/DyQrKMpqkAhNHZ1iWe.webp",
+        imageWidth: 480,
+        imageHeight: 480,
+        imageAlt: "Custom image"
+      });
       setTimeout(() => {
-        console.log(winnerName);
         winnerDialog.close();
+        gameUIManager.SceneGameToHome();
     }, 5000);
-
-    // Transition the game scene to home
-    // gameUIManager.SceneGameToHome();
+    
 }
 
 }
