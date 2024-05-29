@@ -89,7 +89,6 @@ socket.on("res_create_room",(data)=>{
     toast = new ToastNotification(data.message);
     toast.Show(); 
     gameManager.JoinRoom(data.room.roomId);
-    socket.emit('get_rooms');
     gameUIManager.DestroyDialog();
   }else{
     toast = new ToastNotification(data.message);
