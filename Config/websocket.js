@@ -95,6 +95,9 @@ socket.on("res_create_room",(data)=>{
     toast.Show(); 
     }
 })
+socket.on("dashboard_user_create_room",()=>{
+    socket.emit('get_rooms');
+  })
 socket.on('rooms',(data)=>{
     console.log(data);
     if(roomManager.GetId()!=undefined||roomManager.GetId()!=null){

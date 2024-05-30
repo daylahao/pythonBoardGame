@@ -26,9 +26,7 @@ class ListRoomDialog extends Dialog {
         </form>`;
     this.Container.innerHTML = this.content;
     this.Container.id = "ShowDialog1";
-    socket.on("dashboard_user_create_room",()=>{
-      socket.emit('get_rooms');
-    })
+    
   }
   Show() {
     super.Show();
