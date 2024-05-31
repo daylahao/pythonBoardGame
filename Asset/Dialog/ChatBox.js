@@ -30,6 +30,16 @@ class ChatBox extends Dialog{
               event.preventDefault();
             }
           });
+          if(roomManager.GetRoomName()!=undefined) {
+            let roomName = roomManager.GetRoomName()
+            let chatList = document.getElementById('chatList');
+            if (chatList) {
+              let newMessage = document.createElement('div');
+              newMessage.classList.add('list-group-item');
+              newMessage.textContent = "Bạn đã vào phòng: " + roomName;
+              chatList.appendChild(newMessage);
+            } 
+          }
   }
   getCookie(name) {
     // Split cookie string and get all individual name=value pairs in an array

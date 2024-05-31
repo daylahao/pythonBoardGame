@@ -4,6 +4,7 @@ import { ListPlayer, Player } from "../Player/Player.js";
 let instance;
 class RoomManager{
     static Id;
+    static nameRoom;
     static user = {};
     static Host=false;
     static roomList;
@@ -133,6 +134,12 @@ class RoomManager{
     SetPoint(user,point){
         console.log(user+'p'+point);
         RoomManager.roomListPlayerOnBoard.getPlayerById(user).point = point;
+    }
+    GetRoomName(){
+        return RoomManager.nameRoom;
+    }
+    SetRoomName(nameRoom){
+        RoomManager.nameRoom = nameRoom;
     }
 }
 const roomManager = Object.freeze(new RoomManager());

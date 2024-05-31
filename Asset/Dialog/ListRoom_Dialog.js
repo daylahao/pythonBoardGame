@@ -3,6 +3,7 @@ import Dialog from "./DialogBase.js";
 import soundManager from "../SoundManager.js";
 import gameUIManager from "../GameUIManager.js";
 import socket from "../../Config/websocket.js"
+import roomManager from "../RoomManager.js";
 class ListRoomDialog extends Dialog {
   constructor() {
     super();
@@ -63,7 +64,6 @@ class ListRoomDialog extends Dialog {
   UpdateList() {
     socket.emit('get_rooms');
     socket.on('rooms', (rooms) => {
-      console.log(rooms);
       this.listroom.innerHTML = '';
     rooms.forEach(room => {
       // console.log(room.room_name.length);
@@ -141,8 +141,9 @@ class ItemRoom {
         roomId: this.id,
         userName: gameManager.getCookie("username")
       }))
-        soundManager.PlaySFX('ButtonClick');
-        gameManager.JoinRoom(this.id,this.status,this.creator)
+      roomManager.SetRoomName(this.name)
+      soundManager.PlaySFX('ButtonClick');
+      gameManager.JoinRoom(this.id,this.status,this.creator)
         // gameUIManager.DestroyDialogListRoom();
         // console.log(JSON.stringify({
         //   roomId: this.id,

@@ -285,7 +285,8 @@ class GameManager{
         imageUrl: "/Image/Icon/DyQrKMpqkAhNHZ1iWe.webp",
         imageWidth: 480,
         imageHeight: 480,
-        imageAlt: "Custom image"
+        imageAlt: "Custom image",
+        showConfirmButton: false 
       });
       setTimeout(() => {
         winnerDialog.close();
