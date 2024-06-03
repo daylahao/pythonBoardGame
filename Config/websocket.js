@@ -72,8 +72,9 @@ socket.on("on_user_leave_room",(data)=>{
     // console.log(userPlaying);
     if(userPlaying!=undefined||userPlaying!=null||userPlaying!=''){
         roomManager.RemoveplayerOnBoard(data.userName);
+        // console.log(roomManager.IsRoomStart());
         // console.log(roomManager.GetRoomListPlayerOnBoard());
-        if(roomManager.GetRoomListPlayerOnBoard().getMember()<2){
+        if(roomManager.IsRoomStart()&&roomManager.GetRoomListPlayerOnBoard().getMember()<2){
             gameUIManager.SceneGameToHome();
         }
         else if(userPlaying.turn==roomManager.GetTurnCurrent()){
@@ -123,12 +124,11 @@ socket.on('rooms',(data)=>{
 })
 //Vô phòng 
 socket.on('res_join_room',(data)=>{
-    // console.log(data);
     if(data.success== false){
         // console.log(data);
         toast = new ToastNotification(data.message);
         toast.Show();
-    
+        
         return;
     }
     data.forEach(user => {
