@@ -1,7 +1,7 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 
 
-const socket = io("ws://localhost:8000/", {
+const socket = io("ws://192.168.137.197:8000/", {
     transports: ['websocket'],
     upgrade: false,
 });
@@ -84,8 +84,9 @@ socket.on("on_user_leave_room",(data)=>{
 })
 // Tạo phòng
 socket.on("res_create_room",(data)=>{
-
+    console.log(data)
   if(data.success){
+    roomManager.SetRoomName(data.room.roomName);
     toast = new ToastNotification(data.message);
     toast.Show(); 
     gameManager.JoinRoom(data.room.roomId);
@@ -127,6 +128,7 @@ socket.on('res_join_room',(data)=>{
         // console.log(data);
         toast = new ToastNotification(data.message);
         toast.Show();
+    
         return;
     }
     data.forEach(user => {
