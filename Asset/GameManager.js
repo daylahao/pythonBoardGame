@@ -91,7 +91,7 @@ class GameManager{
     getCookie(name) {
       // Split cookie string and get all individual name=value pairs in an array
       let cookieArr = document.cookie.split(";");
-      console.log(cookieArr)
+      // console.log(cookieArr)
       // Loop through the array elements
       for(let i = 0; i < cookieArr.length; i++) {
           let cookiePair = cookieArr[i].split("=");
