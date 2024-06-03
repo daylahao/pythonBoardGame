@@ -56,7 +56,7 @@ class SoundManager{
         SoundManager.AudioMusic.play();
     }
     PlaySFX(name){
-        console.log(SoundManager.sfxSound);
+        // console.log(SoundManager.sfxSound);
         if(SoundManager.sfxSound){
         SoundManager.AudioSFX.src = ListMusic_[name];
         SoundManager.AudioMusic.loop = false;

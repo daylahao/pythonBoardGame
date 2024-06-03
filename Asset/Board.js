@@ -50,7 +50,7 @@ class Board{
         this.rectBoardPosx=(this.CANVAS_WIDTH/2-this.rectBoardGame.width/2);
         this.rectBoardPosy=(this.CANVAS_HEIGHT/2-this.rectBoardGame.height/2);
         if(listCard==null||listCard.length==0||listCard==undefined){
-        console.log("FakeList");
+        // console.log("FakeList");
         FakeCard(count);
         this.SetupCard();
         }

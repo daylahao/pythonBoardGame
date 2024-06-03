@@ -59,7 +59,7 @@ class ListRoomDialog extends Dialog {
   }
  
   ClickJoinRoom(id){
-    console.log(id);
+    // console.log(id);
   }
   UpdateList() {
     socket.emit('get_rooms');

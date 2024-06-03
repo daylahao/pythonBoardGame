@@ -12,7 +12,7 @@ class RoomManager{
     static roomListViewer;
     static roomStart = false;
     static turncurrent = 0;
-    static maxpoint = 10;
+    static maxpoint = 100;
     constructor() {   
         if (instance) {
             throw new Error("New instance cannot be created!!");
@@ -49,7 +49,7 @@ class RoomManager{
     }
     SetRoomList(list){
         RoomManager.roomList.resetmembers();
-        console.log(list);
+        // console.log(list);
         list.forEach(user => {
             RoomManager.roomList.SetMaxMembers(RoomManager.roomList.getMember()+1);
             RoomManager.roomList.addMember(new Player(user));
@@ -71,9 +71,9 @@ class RoomManager{
         let temp;
         list.forEach(user => {
             id=user.user_id;
-            console.log(id);
+            // console.log(id);
             temp = RoomManager.roomList.getPlayerById(id);
-            console.log(temp);
+            // console.log(temp);
             user.full_name = temp.name;
             RoomManager.roomListPlayerOnBoard.addMember(new Player(user));
             if(user.user_id==RoomManager.user.user_id){
@@ -134,7 +134,7 @@ class RoomManager{
         return RoomManager.maxpoint;
     }
     SetPoint(user,point){
-        console.log(user+'p'+point);
+        // console.log(user+'p'+point);
         RoomManager.roomListPlayerOnBoard.getPlayerById(user).point = point;
     }
     GetRoomName(){

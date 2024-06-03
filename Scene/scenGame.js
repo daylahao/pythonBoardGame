@@ -41,7 +41,7 @@ class SceneGame extends Scene{
             toast.Show(); 
             return;
         }
-        console.log('Game Start');
+        // console.log('Game Start');
         socket.emit('start_game',JSON.stringify({
             roomId: roomManager.GetId(),
             userName: gameManager.getCookie('username'),

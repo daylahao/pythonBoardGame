@@ -67,12 +67,12 @@ socket.on("on_user_leave_room",(data)=>{
     toast.Show(); 
     // gameManager.GetSceneCurrent().deletePlayer(data.userName);
     roomManager.RemovePlayerInRoom(data.userName);
-    console.log(roomManager.GetRoomListPlayerOnBoard());
+    // console.log(roomManager.GetRoomListPlayerOnBoard());
     var userPlaying = roomManager.GetRoomListPlayerOnBoard().getPlayer(data.userName)
-    console.log(userPlaying);
+    // console.log(userPlaying);
     if(userPlaying!=undefined||userPlaying!=null||userPlaying!=''){
         roomManager.RemoveplayerOnBoard(data.userName);
-        console.log(roomManager.GetRoomListPlayerOnBoard());
+        // console.log(roomManager.GetRoomListPlayerOnBoard());
         if(roomManager.GetRoomListPlayerOnBoard().getMember()<2){
             gameUIManager.SceneGameToHome();
         }
@@ -99,9 +99,9 @@ socket.on("dashboard_user_create_room",()=>{
     socket.emit('get_rooms');
   })
 socket.on('rooms',(data)=>{
-    console.log(data);
+    // console.log(data);
     if(roomManager.GetId()!=undefined||roomManager.GetId()!=null){
-        console.log(roomManager.GetId());
+        // console.log(roomManager.GetId());
         data.forEach(room => {
         if(roomManager.GetId()==room.room_id){
             roomManager.SetRoomList(room.users);
@@ -124,14 +124,13 @@ socket.on('rooms',(data)=>{
 socket.on('res_join_room',(data)=>{
     // console.log(data);
     if(data.success== false){
-        console.log(data);
+        // console.log(data);
         toast = new ToastNotification(data.message);
         toast.Show();
         return;
     }
     data.forEach(user => {
     roomManager.AddPlayerInRoom(user);
-        console.log(gameManager.getCookie('username'));
     if(user.user_id==gameManager.getCookie('username')){
         roomManager.SetUser(user);
         socket.emit('get_room_cards',JSON.stringify({
@@ -139,7 +138,7 @@ socket.on('res_join_room',(data)=>{
         }));
     }
     if(user.turn!=0){
-        console.log(user);
+        // console.log(user);
         roomManager.AddplayerOnBoard(user);
     }
     });
@@ -147,7 +146,7 @@ socket.on('res_join_room',(data)=>{
 });
 socket.on('res_get_room_cards',(data)=>{
     if(data.success){
-    console.log(data);
+    // console.log(data);
     gameUIManager.CreateCardBoard(data.data);}
 });
 //Lắc xí ngầu
@@ -163,15 +162,15 @@ socket.on("on_user_done_roll",(data)=>{
     gameManager.SetPlayerMove();
 })
 socket.on("on_user_done_move",(data)=>{
-    console.log(data);
+    // console.log(data);
     gameManager.NextTurn(data.userName,data.position);
 })
 //Bắt đầu game
 socket.on("res_start_game",(data)=>{
-    console.log(data);
+    // console.log(data);
     if(data.success){
         gameUIManager.CreateCardBoard(data.cards);
-        console.log('GAmeRun');
+        // console.log('GAmeRun');
         roomManager.SetRoomListPlayerOnBoard(data.data);
         roomManager.SetRoomStart(true);
         roomManager.SetTurnCurrent(1);
@@ -185,7 +184,7 @@ socket.on("res_start_game",(data)=>{
 //Nhận câu hỏi trả về 
 socket.on("res_get_question",(data)=>{
     if(data.success){
-        console.log(data);
+        // console.log(data);
         gameUIManager.ShowDialogAnswer(data.question);
     }else{
         toast = new ToastNotification(data.message);
@@ -213,11 +212,11 @@ socket.on("res_send_message", (data)=>{
 
 // }));
 socket.on("res_validate_python",(data)=>{
-    console.log(data);
+    // console.log(data);
     if(data.success){
         toast = new ToastNotification(data.message);
         toast.Show();
-        console.log(data.user_room);
+        // console.log(data.user_room);
         gameManager.setPointUser(data.user_room);
     }else{
         toast = new ToastNotification(data.message);

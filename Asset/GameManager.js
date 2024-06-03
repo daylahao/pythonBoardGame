@@ -146,7 +146,7 @@ class GameManager{
       roomManager.GetRoomListPlayerOnBoard().getPlayer(name).ClearTurn();
       roomManager.GetRoomListPlayerOnBoard().getPlayer(name).SetPosition(position);
       roomManager.SetTurnCurrent(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
-      console.log(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
+      // console.log(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
       // console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
       var i = roomManager.GetTurnCurrent()*1;
       if(i==roomManager.GetRoomListPlayerOnBoard().getMember()){
@@ -204,7 +204,7 @@ class GameManager{
     UserDoneMove(){
       // roomManager.SetPoint(roomManager.GetUser(),10);
       // console.log(roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).stepcurrent); 
-      console.log(roomManager.GetUser().full_name);
+      // console.log(roomManager.GetUser().full_name);
       clearInterval(GameManager.timerwait);
       clearInterval(GameManager.timeranswer);
       socket.emit('user_done_move',JSON.stringify({
