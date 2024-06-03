@@ -65,6 +65,7 @@ class ListPlayer{
 class Player{
     constructor(user){
         this.id = user.user_id;
+        // console.log(user.user_id);
         this.Steped = 0;
         // console.log(user.full_name);
         this.name = user.full_name;

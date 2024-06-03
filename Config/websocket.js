@@ -131,8 +131,8 @@ socket.on('res_join_room',(data)=>{
     }
     data.forEach(user => {
     roomManager.AddPlayerInRoom(user);
-        // console.log(gameManager.getCookie('username'));
-    if(user.full_name==gameManager.getCookie('username')){
+        console.log(gameManager.getCookie('username'));
+    if(user.user_id==gameManager.getCookie('username')){
         roomManager.SetUser(user);
         socket.emit('get_room_cards',JSON.stringify({
         roomId: user.room_id,

@@ -65,6 +65,7 @@ class SceneGame extends Scene{
         if(!roomManager.IsHost()||roomManager.IsRoomStart()){
             gameUIManager.GetButtonName('btnStart').HideButton();
             this.diceDialog.show = true;
+            // console.log(roomManager.GetUser());
             if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn && gameManager.GetDiceNumber().length!=0){
                 this.diceDialog.btnRoll.ShowButton();
             }else{

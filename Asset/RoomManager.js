@@ -49,13 +49,15 @@ class RoomManager{
     }
     SetRoomList(list){
         RoomManager.roomList.resetmembers();
+        console.log(list);
         list.forEach(user => {
             RoomManager.roomList.SetMaxMembers(RoomManager.roomList.getMember()+1);
             RoomManager.roomList.addMember(new Player(user));
             if(user.position!=0){
                 roomManager.AddPlayerInBoard(user);
             }
-            if(user.full_name==gameManager.getCookie('username')){
+            // console.log(gameManager.getCookie('username'))
+            if(user.user_id==gameManager.getCookie('username')){
                 RoomManager.user = {...user};
             }
         });
@@ -72,7 +74,7 @@ class RoomManager{
             console.log(id);
             temp = RoomManager.roomList.getPlayerById(id);
             console.log(temp);
-            user.full_name = temp.id;
+            user.full_name = temp.name;
             RoomManager.roomListPlayerOnBoard.addMember(new Player(user));
             if(user.user_id==RoomManager.user.user_id){
                 RoomManager.user.turn = user.turn;
