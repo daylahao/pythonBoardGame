@@ -1,7 +1,7 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 
 
-const socket = io("ws://192.168.137.197:8000/", {
+const socket = io("https://apildevmobile.com/", {
     transports: ['websocket'],
     upgrade: false,
 });
