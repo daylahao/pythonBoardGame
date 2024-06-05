@@ -54,7 +54,7 @@ class RoomManager{
             RoomManager.roomList.SetMaxMembers(RoomManager.roomList.getMember()+1);
             RoomManager.roomList.addMember(new Player(user));
             if(user.position!=0){
-                roomManager.AddPlayerOnBoard(user);
+                RoomManager.AddPlayerOnBoard(user);
             }
             // console.log(gameManager.getCookie('username'))
             if(user.user_id==gameManager.getCookie('username')){
