@@ -62,6 +62,23 @@ class SceneHome extends Scene {
                 }
             )
         );
+        this.userName = gameManager.getCookie('username');
+        // this._Buttons.Add(
+        //     'TagName',
+        //     new Button(
+        //         this.userName,
+        //         'center',
+        //         10,
+        //         10,
+        //         140,
+        //         45,
+        //         'white',
+        //         'transparent',
+        //         () => {
+        //             // gameUIManager.ShowDialog(LoginForm);
+        //         }
+        //     )
+        // );
         // this._Buttons.Add('Setting',new Button("Cài Đặt","left",240,this.CANVAS_HEIGHT/2+150,150,40,'white','black',()=>{gameManager.StartSceenSetting()}));
 
         this.loginForm = new LoginForm();
@@ -82,49 +99,35 @@ class SceneHome extends Scene {
     }
     Update() {}
     Draw() {
-        this.userName = gameManager.getCookie('username');
-        this._Buttons.Add(
-            'TagName',
-            new Button(
-                this.userName,
-                'center',
-                0,
-                this.CANVAS_HEIGHT / 6 - 130,
-                140,
-                45,
-                'white',
-                'black',
-                () => {
-                    gameUIManager.ShowDialog(LoginForm);
-                }
-            )
-        );
+        let canvas__ = gameManager.GetCanvas();
         // console.log("Draw ScenHome")
         this._Buttons.Draw();
-        this.logo.width = this.canvas.width / 2;
-        this.logo.height = this.canvas.width / 2;
-        this.tagname.width = this.canvas.width / 4;
-        this.tagname.height = this.canvas.width / 4;
-        if (this.CANVAS_WIDTH > this.CANVAS_HEIGHT) {
-            this.logo.width = this.CANVAS_HEIGHT / 2;
-            this.logo.height = this.CANVAS_HEIGHT / 2;
-            this.tagname.width = this.CANVAS_HEIGHT / 2;
-            this.tagname.height = this.CANVAS_HEIGHT / 2;
-        }
+        // this.logo.width = this.canvas.width / 2;
+        // this.logo.height = this.canvas.width / 2;
+        // this.tagname.width = this.canvas.width / 4;
+        // this.tagname.height = this.canvas.width / 4;
+        // if (this.CANVAS_WIDTH > this.CANVAS_HEIGHT) {
+            //     this.logo.width = this.CANVAS_HEIGHT / 2;
+            //     this.logo.height = this.CANVAS_HEIGHT / 2;
+            //     this.tagname.width = this.CANVAS_HEIGHT / 2;
+            //     this.tagname.height = this.CANVAS_HEIGHT / 2;
+            // }
+
         this.context.drawImage(
-            this.logo,
-            120,
-            this.CANVAS_HEIGHT / 2 - 180 - this.logo.height / 2,
-            this.logo.width,
-            this.logo.height
-        );
-        this.context.drawImage(
-            this.tagname,
-            0,
-            this.CANVAS_HEIGHT / 3 - 215 - this.tagname.height / 6,
-            this.tagname.width / 3,
-            this.tagname.height / 6
-        );
+                this.logo,
+                (canvas__.width>canvas__.height?canvas__.width/12:canvas__.width/4),
+                canvas__.height / 2 - 180 - (canvas__.width>canvas__.height?canvas__.height/2/ 2:canvas__.width/2/ 2),
+                (canvas__.width>canvas__.height?canvas__.height/2.5:canvas__.width/2),
+                (canvas__.width>canvas__.height?canvas__.height/2.5:canvas__.width/2)
+            );
+        addText("Người Chơi: "+this.userName, 10,canvas__.height -(canvas__.height / 2)/12, '20px', 'white', 'left');
+            // this.context.drawImage(
+        //     this.tagname,
+        //     0,
+        //     this.CANVAS_HEIGHT / 3 - 215 - this.tagname.height / 6,
+        //     this.tagname.width / 3,
+        //     this.tagname.height / 6
+        // );
     }
 }
 export default SceneHome;

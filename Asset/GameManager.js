@@ -29,6 +29,7 @@ class GameManager{
     static sceneCurrent;
     static pausegame = false;
     static canvas;
+    static ratioResize = {width:1,height:1}
     static DiceNumber = [1,5];
     static stepcurrent = [0,0,0,0];
     static idRoom;
@@ -45,7 +46,15 @@ class GameManager{
       GameManager.DiceNumber[1] = number2;
     }
     Resize(){
+      this.w= GameManager.canvas.width;
+      this.h= GameManager.canvas.height;
       GameManager.canvas = document.getElementById('app');
+      GameManager.ratioResize.width = GameManager.canvas.width/this.w;
+      console.log(GameManager.ratioResize.width)
+      GameManager.ratioResize.height = GameManager.canvas.height/this.h;
+    }
+    GetRatioResize(){
+      return GameManager.ratioResize;
     }
     GetCanvas(){
       GameManager.canvas.width  = window.innerWidth;

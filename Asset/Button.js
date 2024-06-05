@@ -62,6 +62,7 @@ class Buttons{
   }
 }
 class Button{
+  ///contentString: nội dung của button
   constructor(contentString,alignStyle="center",PosX,PosY,_width=0,_heigh=0,colorBackground="white",colorText='black',onClickCallback,zIndex=null){
     this.hover = false;
     this.visible = true;
