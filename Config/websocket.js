@@ -203,6 +203,7 @@ socket.on("res_send_message", (data)=>{
         newMessage.textContent = data.user_name + ': ' + data.message;
         chatList.appendChild(newMessage);
         document.querySelector("#message").value = "";
+        chatList.scrollTop = chatList.scrollHeight;
     }
 })
 

@@ -9,7 +9,6 @@ import { ListPlayer, Player } from '../Player/Player.js';
 import { listCard } from '../Asset/Card.js';
 import socket from '../Config/websocket.js';
 import roomManager from '../Asset/RoomManager.js';
-import { requirePermission } from '../Asset/VoiceChatManager.js';
 
 import ChatBox from '../Asset/Dialog/ChatBox.js';
 import ToastNotification from '../Asset/Dialog/ToastNotification.js';
@@ -69,20 +68,6 @@ class SceneGame extends Scene {
         // console.log(gameManager.GetTurn());
         // gameManager.NextTurn();
         soundManager.PlaySFX('DoorBell');
-        this._Buttons.Add(
-            'btnvoice',
-            new Button(
-                'Mở voice chat',
-                'center',
-                1450,
-                50,
-                180,
-                40,
-                'white',
-                'black',
-                this.VoiceChat
-            )
-        );
     }
     StartGame() {
         if (roomManager.GetRoomList().members < 2) {
@@ -100,9 +85,6 @@ class SceneGame extends Scene {
                 userName: gameManager.getCookie('username'),
             })
         );
-    }
-    VoiceChat() {
-        requirePermission();
     }
     createPlayer(user) {
         var i = gameManager.GetListPlayer().getMember();
