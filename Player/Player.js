@@ -42,7 +42,7 @@ class ListPlayer{
     }
     removeMember(name_){
         // console.log(this.list_);
-        this.list_ = this.list_.filter(item => item.name != name_);
+        this.list_ = this.list_.filter(item => item.id != name_);
         this.members = this.list_.length;
         // console.log(this.list_.find(({ name }) => name === name_));
         // console.log(this.list_.map((o) => o.name).indexOf(name_));

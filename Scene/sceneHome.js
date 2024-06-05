@@ -18,7 +18,7 @@ class SceneHome extends Scene {
             new Button(
                 'Tạo phòng',
                 'center',
-                240,
+                gameManager.GetCanvas().width>gameManager.GetCanvas().height?gameManager.GetCanvas().width/8:gameManager.GetCanvas().width/3,
                 this.CANVAS_HEIGHT / 2 + 10,
                 150,
                 40,
@@ -33,7 +33,7 @@ class SceneHome extends Scene {
             new Button(
                 'Cài Đặt',
                 'center',
-                240,
+                gameManager.GetCanvas().width>gameManager.GetCanvas().height?gameManager.GetCanvas().width/8:gameManager.GetCanvas().width/3,
                 this.CANVAS_HEIGHT / 2 + 80,
                 150,
                 40,
@@ -50,7 +50,7 @@ class SceneHome extends Scene {
             new Button(
                 'About',
                 'center',
-                240,
+                gameManager.GetCanvas().width>gameManager.GetCanvas().height?gameManager.GetCanvas().width/8:gameManager.GetCanvas().width/3,
                 this.CANVAS_HEIGHT / 2 + 150,
                 150,
                 40,
