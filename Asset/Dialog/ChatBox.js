@@ -61,6 +61,9 @@ class ChatBox extends Dialog{
     }
     return "";
 }
+MicButton(){
+  requirePermission();
+}
   SendButton(){
     let message = document.querySelector("#message").value.trim();
     if (message) {
