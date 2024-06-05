@@ -81,6 +81,9 @@ class GameUIManager{
         GameUIManager.dialogForm.SetQuestion(question);
     }
     SceneGameToHome(){
+      if(roomManager.GetTurnCurrent()==roomManager.GetUser().turn){
+        gameManager.UserDoneMove();
+      }
       gameManager.ResetDice();
       gameManager.StartSceneHome();
       gameUIManager.DestroyChatBox()

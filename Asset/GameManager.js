@@ -158,11 +158,21 @@ class GameManager{
       // console.log(roomManager.GetRoomListPlayerOnBoard().getPlayer(name).turnInlist);
       // console.log(roomManager.GetRoomListPlayerOnBoard().getMember());
       var i = roomManager.GetTurnCurrent()*1;
-      if(i==roomManager.GetRoomListPlayerOnBoard().getMember()){
+      // console.log(roomManager.GetRoomListPlayerOnBoard().list_);
+      var maxturn = Math.max.apply(null,
+        roomManager.GetRoomListPlayerOnBoard().list_.map(function (o) { return o.turnInRoom; }));
+        // console.log(maxturn)
+        var iafter = i==maxturn?1:i+1;
+      // console.log(roomManager.GetRoomListPlayerOnBoard().list_)
+      if(roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(iafter)==undefined){
+          i = iafter;
+      }
+      if(i>=maxturn){
         roomManager.SetTurnCurrent(1);
       }else{
-        roomManager.SetTurnCurrent(i+1);}
+        roomManager.SetTurnCurrent(i+1);
         // GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
+        }
         this.WaitTurn();
     }
     ResetDice(){
@@ -221,6 +231,10 @@ class GameManager{
           userName: roomManager.GetUser().full_name,
           position: roomManager.GetRoomListPlayerOnBoard().getPlayerByTurn(roomManager.GetTurnCurrent()).stepcurrent,
         }))
+      //   clearInterval(GameManager.timerwait);
+      //   clearInterval(GameManager.timeranswer);
+      // GameManager.timeGame.waitturn.set=GameManager.timeGame.waitturn.default;
+      // GameManager.timeGame.timeanswer.set=GameManager.timeGame.timeanswer.default;
     }
     GetTimeAnswer(){
       return GameManager.timeGame.timeanswer;
