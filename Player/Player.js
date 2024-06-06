@@ -244,6 +244,8 @@ class Player{
     DrawUI(){
         var tagnameimage = new Image();
         tagnameimage.src = './Image/Icon/imageTagname.png'
+        this.sprite=Sprites[this.turnInlist-1];
+        this.image.src = this.sprite.path;
         this.context.beginPath();
         this.sizeUI  = {w:this.CANVAS_WIDTH/7,h:50};
         var margin_bottom = 100,padding=10,margintag =80;
@@ -292,6 +294,7 @@ class Player{
         // addText(this.HandleScoreUI(),avatar.x+avatar.w+padding,avatar.y+avatar.h*8/9,'15px','black','left');//Điểm
         addText(this.HandleNameUI(),avatar.x,avatar.y+avatar.h*2/10,'15px','black','left');//Tên player
         addText(this.HandleScoreUI(),avatar.x,avatar.y+avatar.h*9/10,'15px','black','left');//Điểm
+        this.context.drawImage(this.image,0,0,this.sprite.size.w,this.sprite.size.h,avatar.x+avatar.w*5.7,avatar.y-avatar.h+15,this.sprite.size.w*1.2,this.sprite.size.h*1.2);
         this.context.closePath();
     }
     HandleNameUI(){
