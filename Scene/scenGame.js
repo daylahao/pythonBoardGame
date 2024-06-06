@@ -69,6 +69,15 @@ class SceneGame extends Scene {
         // gameManager.NextTurn();
         soundManager.PlaySFX('DoorBell');
     }
+    drawPlayerList() {
+        // Lấy danh sách người chơi từ gameManager
+        const players = roomManager.GetListInRoom().list_;
+
+        players.forEach((player, index) => {
+            const y = 400 + index * 30; // Điều chỉnh khoảng cách giữa các người chơi
+            addText(player.name, 50, y, '20px','white', 'left'); // Điều chỉnh vị trí và kích thước chữ theo ý muốn
+        });
+    }
     StartGame() {
         if (roomManager.GetRoomList().members < 2) {
             let toast = new ToastNotification(
@@ -136,8 +145,10 @@ class SceneGame extends Scene {
             roomManager.GetRoomListPlayerOnBoard().DrawUI();
         } else {
             this.diceDialog.show = false;
+            this.drawPlayerList();
         }
         this.diceDialog.Draw();
+        
         // addText(this.canvas,'SceneGame',this.CANVAS_WIDTH/2,this.CANVAS_HEIGHT/2);
     }
 }

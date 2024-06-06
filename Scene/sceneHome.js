@@ -102,6 +102,7 @@ class SceneHome extends Scene {
         let canvas__ = gameManager.GetCanvas();
         // console.log("Draw ScenHome")
         this._Buttons.Draw();
+        this.userName = gameManager.getCookie('username');
         // this.logo.width = this.canvas.width / 2;
         // this.logo.height = this.canvas.width / 2;
         // this.tagname.width = this.canvas.width / 4;
