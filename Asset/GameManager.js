@@ -305,7 +305,7 @@ class GameManager{
       // gameUIManager.SceneGameToHome();
       let winnerDialog = Swal.fire({
         title: `Chúc mừng ${winnerName} đã chiến thắng!`,
-        imageUrl: "/Image/Icon/DyQrKMpqkAhNHZ1iWe.webp",
+        imageUrl: "./Image/Icon/DyQrKMpqkAhNHZ1iWe.webp",
         imageWidth: 480,
         imageHeight: 480,
         imageAlt: "Custom image",
