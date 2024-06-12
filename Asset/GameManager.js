@@ -20,8 +20,8 @@ class GameManager{
   
       return GameManager.instance;
     }
-    static timeGame ={timeanswer:{set:50,default:50},
-                  waitturn:{set:5,default:5},
+    static timeGame ={timeanswer:{set:300,default:300},
+                  waitturn:{set:15,default:15},
                   timeroll:{set:1,default:5}};
     static timeroll;
     static timerwait;
